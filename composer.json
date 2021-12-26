@@ -1,0 +1,29 @@
+{
+  "name": "tivins/php-common",
+  "type": "library",
+  "description": "PHP common classes",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Tivins"
+    }
+  ],
+  "require": {
+    "php": ">=8.0",
+    "ext-mbstring": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Tivins\\": "src/lib/Tivins"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "TivinsTest\\": "src/test/TivinsTest"
+    }
+  }
+}
