@@ -12,6 +12,6 @@ install:
   - composer install --no-interaction
 script:
   - mkdir -p build/logs
-  - vendor/bin/phpunit tests/ --coverage-clover build/logs/clover.xml
+  - vendor/bin/phpunit src/test/TivinsTest --coverage-clover build/logs/clover.xml
 after_success:
   - travis_retry php vendor/bin/php-coveralls
