@@ -29,7 +29,7 @@ class Node implements JsonSerializable
     /**
      * Assign the given Node next to the current node.
      *
-     * @param   ?Node $new_next
+     * @param   ?Node $newNext
      *          The new node to attach to the right of the current node.
      *          A null value can be provided to unlink the next node.
      *
@@ -39,7 +39,7 @@ class Node implements JsonSerializable
      * @todo    To create unit test case.
      * @group   Tree operation
      */
-    public function set_next(?Node $new_next): ?Node
+    public function setNext(?Node $newNext): ?Node
     {
         $unlinked = null;
 
@@ -52,10 +52,10 @@ class Node implements JsonSerializable
             $unlinked = $this->next;
         }
 
-        $this->next = $new_next;
+        $this->next = $newNext;
 
         // Update properties of the next node (previous + parent).
-        if (!is_null($new_next))
+        if (!is_null($newNext))
         {
             $this->next->previous = $this;
             $this->next->parent = $this->parent;
@@ -63,11 +63,11 @@ class Node implements JsonSerializable
         return $unlinked;
     }
 
-    public function append_child(Node $new_child)
+    public function appendChild(Node $newChild)
     {
         if (is_null($this->first_child)) {
-            $this->first_child = $new_child ;
-            $new_child->parent = $this ;
+            $this->first_child = $newChild ;
+            $newChild->parent  = $this ;
         }
     }
 
@@ -84,7 +84,6 @@ class Node implements JsonSerializable
      * Insert `new_child` as the first child of the current node.
      * The value of "previous" will be turned to null.
      *
-     * @todo    To create unit test case.
      * @todo    Do return a boolean to check if node is inserted?
      */
     public function set_first_child(Node $new_child): void
@@ -183,6 +182,10 @@ class Node implements JsonSerializable
         return $removed;
     }
 
+    public function hasNext(): bool
+    {
+        return !is_null($this->next);
+    }
     public function getNext(): ?Node
     {
         return $this->next;
@@ -191,6 +194,11 @@ class Node implements JsonSerializable
     public function getPrevious(): ?Node
     {
         return $this->previous;
+    }
+
+    public function hasChildren(): bool
+    {
+        return !is_null($this->first_child);
     }
 
     public function getFirstChild(): ?Node

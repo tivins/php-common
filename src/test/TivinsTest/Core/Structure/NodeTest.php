@@ -36,5 +36,17 @@ class NodeTest extends TestCase
         ]), json_encode($newNode));
 
         $this->assertEquals($newNode, $rootNode->getFirstChild());
+        $this->assertEquals($rootNode, $newNode->getParent());
+        $this->assertTrue($rootNode->hasChildren());
+        $this->assertFalse($rootNode->hasNext());
+
+        $nextNode = new Node();
+        $newNode->setNext($nextNode);
+        $this->assertEquals(json_encode([
+            'parent' => 1,
+            'first_child' => 0,
+            'prev' => 0,
+            'next' => 3,
+        ]), json_encode($newNode));
     }
 }
