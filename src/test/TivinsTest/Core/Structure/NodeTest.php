@@ -34,5 +34,7 @@ class NodeTest extends TestCase
             'prev' => 0,
             'next' => 0,
         ]), json_encode($newNode));
+
+        $this->assertEquals($newNode, $rootNode->getFirstChild());
     }
 }

@@ -183,6 +183,28 @@ class Node implements JsonSerializable
         return $removed;
     }
 
+    public function getNext(): ?Node
+    {
+        return $this->next;
+    }
+
+    public function getPrevious(): ?Node
+    {
+        return $this->previous;
+    }
+
+    public function getFirstChild(): ?Node
+    {
+        return $this->first_child;
+    }
+
+    public function getParent(): ?Node
+    {
+        return $this->parent;
+    }
+
+
+
     public function __toString(): string
     {
         return '#' . $this->id;
