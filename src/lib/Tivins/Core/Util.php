@@ -1,6 +1,6 @@
 <?php
 
-namespace Tivins\Core\Structure;
+namespace Tivins\Core;
 
 class Util
 {

@@ -2,19 +2,29 @@
 
 namespace Tivins\Core\Structure;
 
+use JsonSerializable;
+
 /**
  * Abstract model of tree using linked-list.
  */
-class Node
+class Node implements JsonSerializable
 {
     const DIR_RIGHT = 'next';
     const DIR_LEFT  = 'previous';
     const DIR_UP    = 'parent';
 
-    public ?Node $next = null ;
-    public ?Node $previous = null ;
-    public ?Node $first_child = null ;
-    public ?Node $parent = null ;
+    private static int $counter = 1;
+
+    public readonly int $id;
+    private ?Node $next = null ;
+    private ?Node $previous = null ;
+    private ?Node $first_child = null ;
+    private ?Node $parent = null ;
+
+    public function __construct()
+    {
+        $this->id = self::$counter++;
+    }
 
     /**
      * Assign the given Node next to the current node.
@@ -77,7 +87,7 @@ class Node
      * @todo    To create unit test case.
      * @todo    Do return a boolean to check if node is inserted?
      */
-    public function set_first_child(Node $new_child)
+    public function set_first_child(Node $new_child): void
     {
         assert(is_null($new_child->previous) && is_null($new_child->next));
 
@@ -171,6 +181,21 @@ class Node
         $this->previous = $removed->previous;
 
         return $removed;
+    }
+
+    public function __toString(): string
+    {
+        return '#' . $this->id;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'parent' => (int)$this->parent?->id,
+            'first_child' => (int)$this->first_child?->id,
+            'prev' => (int)$this->previous?->id,
+            'next' => (int)$this->next?->id,
+        ];
     }
 }
 
