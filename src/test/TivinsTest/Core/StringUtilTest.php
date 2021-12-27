@@ -13,4 +13,9 @@ class StringUtilTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('this-is-1-simple-string', StringUtil::toLowerDashed('This is 1 "Simple" String'));
         $this->assertEquals('this-is-a-simple-string', StringUtil::toLowerDashed('This *is* _a_, "Simple" String !'));
     }
+
+    public function testHTML()
+    {
+        $this->assertEquals('&lt;script&gt;', StringUtil::html('<script>'));
+    }
 }

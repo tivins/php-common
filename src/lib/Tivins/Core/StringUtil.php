@@ -20,4 +20,9 @@ class StringUtil
     {
         return trim(preg_replace('~[\W_]+~', '-', trim(mb_strtolower($str))), '-');
     }
+
+    public static function html(string $str): string
+    {
+        return htmlentities($str, ENT_QUOTES, 'utf-8');
+    }
 }
