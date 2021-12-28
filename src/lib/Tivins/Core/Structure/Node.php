@@ -9,10 +9,6 @@ use JsonSerializable;
  */
 class Node implements JsonSerializable
 {
-    const DIR_RIGHT = 'next';
-    const DIR_LEFT  = 'previous';
-    const DIR_UP    = 'parent';
-
     private static int $counter = 1;
 
     public readonly int $id;
@@ -39,7 +35,7 @@ class Node implements JsonSerializable
      * @todo    To create unit test case.
      * @group   Tree operation
      */
-    public function setNext(?Node $newNext): ?Node
+    public function setNext(?self $newNext): ?static
     {
         $unlinked = null;
 
@@ -63,19 +59,26 @@ class Node implements JsonSerializable
         return $unlinked;
     }
 
-    public function appendChild(Node $newChild)
+    public function appendChild(self $newChild): static
     {
         if (is_null($this->first_child)) {
-            $this->first_child = $newChild ;
-            $newChild->parent  = $this ;
+            $this->first_child = $newChild;
+            $newChild->parent  = $this;
+            return $this;
+
         }
+        $this->first_child->getLast()->setNext($newChild);
+        return $this;
     }
 
-    public function get_last():Node
+    public function getLast():static
     {
-        $last = $this ;
+        if (! $this->hasNext()) {
+            return $this;
+        }
+        $last = $this;
         while (true) {
-            $last = $last->next ;
+            $last = $last->next;
             if (!$last->next) return $last ;
         }
     }
@@ -86,7 +89,7 @@ class Node implements JsonSerializable
      *
      * @todo    Do return a boolean to check if node is inserted?
      */
-    public function set_first_child(Node $new_child): void
+    public function set_first_child(self $new_child): void
     {
         assert(is_null($new_child->previous) && is_null($new_child->next));
 
@@ -110,7 +113,7 @@ class Node implements JsonSerializable
      * @return  ?Node the removed node or null if this node has no children.
      * @todo    To create unit test case.
      */
-    public function remove_first_child(): ?Node
+    public function remove_first_child(): ?static
     {
         // no children, skip.
         if (is_null($this->first_child)) return null;
@@ -137,10 +140,10 @@ class Node implements JsonSerializable
      *          to `<Node_Next_Next>`
      *
      * @group   Tree operation
-     * @return  ?Node Returns the removed token or null if no next.
+     * @return  ?self Returns the removed token or null if no next.
      * @todo    To create unit test case.
      */
-    public function remove_next(): ?Node
+    public function remove_next(): ?static
     {
         // no next, skip.
         if (is_null($this->next)) return null;
@@ -165,7 +168,7 @@ class Node implements JsonSerializable
      * @group   Tree operation
      * @return  ?Node Returns the removed token or null if no previous.
      */
-    public function remove_previous(): ?Node
+    public function remove_previous(): ?static
     {
         // no previous, skip.
         if (is_null($this->previous)) return null;
@@ -186,12 +189,12 @@ class Node implements JsonSerializable
     {
         return !is_null($this->next);
     }
-    public function getNext(): ?Node
+    public function getNext(): ?static
     {
         return $this->next;
     }
 
-    public function getPrevious(): ?Node
+    public function getPrevious(): ?static
     {
         return $this->previous;
     }
@@ -201,12 +204,17 @@ class Node implements JsonSerializable
         return !is_null($this->first_child);
     }
 
-    public function getFirstChild(): ?Node
+    public function getFirstChild(): ?static
     {
         return $this->first_child;
     }
 
-    public function getParent(): ?Node
+    public function hasParent(): bool
+    {
+        return !is_null($this->parent);
+    }
+
+    public function getParent(): ?static
     {
         return $this->parent;
     }
@@ -218,7 +226,7 @@ class Node implements JsonSerializable
         return '#' . $this->id;
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return [
             'parent' => (int)$this->parent?->id,

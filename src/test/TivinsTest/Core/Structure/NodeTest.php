@@ -5,6 +5,10 @@ namespace TivinsTest\Core\Structure;
 use PHPUnit\Framework\TestCase;
 use Tivins\Core\Structure\Node;
 
+class NodeItem extends Node {
+    public function uniqueFunction(): string { return 'test1'; }
+}
+
 class NodeTest extends TestCase
 {
     public function testGeneral()
@@ -39,6 +43,7 @@ class NodeTest extends TestCase
         $this->assertEquals($rootNode, $newNode->getParent());
         $this->assertTrue($rootNode->hasChildren());
         $this->assertFalse($rootNode->hasNext());
+        $this->assertFalse($rootNode->hasParent());
 
         $nextNode = new Node();
         $newNode->setNext($nextNode);
@@ -48,5 +53,21 @@ class NodeTest extends TestCase
             'prev' => 0,
             'next' => 3,
         ]), json_encode($newNode));
+    }
+
+    public function testExtends()
+    {
+        $root = new NodeItem();
+        $child = new NodeItem();
+        $anotherNode = new Node();
+        $root->appendChild($anotherNode);
+        $root->appendChild($child);
+        $this->assertTrue($root->hasChildren());
+        $this->assertTrue($anotherNode->hasParent());
+        $this->assertTrue($child->hasParent());
+        $this->assertEquals($child, $anotherNode->getNext());
+        $this->assertEquals('test1', $child->uniqueFunction());
+        $this->expectError();
+        $this->assertEquals('test1', $anotherNode->uniqueFunction());
     }
 }
