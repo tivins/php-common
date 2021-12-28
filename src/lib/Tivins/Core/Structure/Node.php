@@ -12,10 +12,10 @@ class Node implements JsonSerializable
     private static int $counter = 1;
 
     public readonly int $id;
-    private ?Node $next = null ;
-    private ?Node $previous = null ;
-    private ?Node $first_child = null ;
-    private ?Node $parent = null ;
+    protected ?self $next = null ;
+    protected ?self $previous = null ;
+    protected ?self $first_child = null ;
+    protected ?self $parent = null ;
 
     public function __construct()
     {
@@ -25,11 +25,11 @@ class Node implements JsonSerializable
     /**
      * Assign the given Node next to the current node.
      *
-     * @param   ?Node $newNext
+     * @param   ?self $newNext
      *          The new node to attach to the right of the current node.
      *          A null value can be provided to unlink the next node.
      *
-     * @return  ?Node
+     * @return  ?static
      *          Returns the current next node if exists or null otherwise.
      *
      * @todo    To create unit test case.
@@ -71,6 +71,11 @@ class Node implements JsonSerializable
         return $this;
     }
 
+    /**
+     * Get the last token on the right.
+     *
+     * @return static
+     */
     public function getLast():static
     {
         if (! $this->hasNext()) {
