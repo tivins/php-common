@@ -3,24 +3,18 @@
 namespace Tivins\Core\Structure;
 
 use JsonSerializable;
+use Tivins\Core\Code\Countable;
 
 /**
  * Abstract model of tree using linked-list.
  */
-class Node implements JsonSerializable
+class Node extends Countable implements JsonSerializable
 {
-    private static int $counter = 1;
+    private ?self $next = null ;
+    private ?self $previous = null ;
+    private ?self $first_child = null ;
+    private ?self $parent = null ;
 
-    public readonly int $id;
-    protected ?self $next = null ;
-    protected ?self $previous = null ;
-    protected ?self $first_child = null ;
-    protected ?self $parent = null ;
-
-    public function __construct()
-    {
-        $this->id = self::$counter++;
-    }
 
     /**
      * Assign the given Node next to the current node.
@@ -231,6 +225,7 @@ class Node implements JsonSerializable
         return '#' . $this->id;
     }
 
+    /** @noinspection PhpArrayShapeAttributeCanBeAddedInspection */
     public function jsonSerialize(): array
     {
         return [
