@@ -6,9 +6,9 @@ abstract class Logger
 {
     private Level $level = Level::DANGER;
 
-    abstract  public function write(Level $level, string $message, object|null $data);
+    abstract  public function write(Level $level, string $message, mixed ...$data);
 
-    final public function log(Level $level, string $message, mixed $data = null)
+    final public function log(Level $level, string $message, mixed ...$data)
     {
         if ($level->value > $this->level->value) {
             return;

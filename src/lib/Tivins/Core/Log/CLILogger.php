@@ -11,6 +11,14 @@ class CLILogger extends Logger
         if (! $this->decorate) {
             return $str;
         }
+        return self::decorate($level, $str);
+    }
+
+    public static function decorateSuccess(string $str): string { return self::decorate(Level::SUCCESS, $str); }
+    public static function decorateDanger(string $str): string { return self::decorate(Level::DANGER, $str); }
+
+    public static function decorate(Level $level, string $str): string
+    {
         return match ($level) {
             Level::DANGER   => "\033[31m$str\033[0m",
             Level::SUCCESS  => "\033[32m$str\033[0m",
@@ -21,10 +29,10 @@ class CLILogger extends Logger
         };
     }
 
-    public function write(Level $level, string $message, mixed $data = null)
+    public function write(Level $level, string $message, mixed ...$data)
     {
         echo $this->colorLog($level, sprintf("[ %-9s ] [ %s ] - %s\n", $level->name, date('c'), json_encode($message)));
-        if (!is_null($data)) echo " └─ " . json_encode($data) . PHP_EOL;
+        if (! empty(array_filter($data))) echo "\e[90m" . " └─ " . json_encode($data) . "\e[0m" . PHP_EOL;
     }
 
     public function isDecorate(): bool
