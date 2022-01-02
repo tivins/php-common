@@ -50,8 +50,7 @@ class OptionsArgs
     {
         $short = '';
         $longs = [];
-        foreach ($this->args as $arg)
-        {
+        foreach ($this->args as $arg) {
             $short .= $arg->getShort() . ($arg->requireValue() ? ':' : '');
             if ($arg->getLong()) {
                 $longs[] = $arg->getLong() . ($arg->requireValue() ? ':' : '');
