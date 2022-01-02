@@ -52,12 +52,9 @@ class OptionsArgs
         $longs = [];
         foreach ($this->args as $arg)
         {
-            $short .= $arg->getShort();
-            if ($arg->requireValue()) {
-                $short .= ':';
-            }
+            $short .= $arg->getShort() . ($arg->requireValue() ? ':' : '');
             if ($arg->getLong()) {
-                $longs[] = $arg->getLong();
+                $longs[] = $arg->getLong() . ($arg->requireValue() ? ':' : '');
             }
         }
         $opts = getopt($short, $longs);
@@ -66,11 +63,9 @@ class OptionsArgs
             if (!$arg->getLong()) {
                 continue;
             }
-            if (isset($opts[$arg->getLong()])) {
-                $opts[$arg->getShort()] = $opts[$arg->getLong()];
-            }
-            elseif (isset($opts[$arg->getShort()])) {
+            if (isset($opts[$arg->getShort()])) {
                 $opts[$arg->getLong()] = $opts[$arg->getShort()];
+                unset($opts[$arg->getShort()]);
             }
         }
 

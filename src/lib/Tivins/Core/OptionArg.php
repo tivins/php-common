@@ -21,7 +21,7 @@ class OptionArg
         return $this->needValue;
     }
 
-    public function getLong(): string
+    public function getLong(): ?string
     {
         return $this->long;
     }
