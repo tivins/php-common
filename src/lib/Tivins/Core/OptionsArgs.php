@@ -37,16 +37,23 @@ class OptionsArgs
      */
     public function add(OptionArg ...$args): self
     {
-        $this->args = array_merge($this->args, $args);
+        // $this->args = array_merge($this->args, $args);
+        foreach ($args as $arg) {
+            $this->args[$arg->getId()] = $arg;
+        }
         return $this;
     }
 
     /**
      * Get the parsed options.
      *
-     * @return array|bool
+     * @param array|null $data The data source to parse.
+     *      If $data is null, `getopt()` will be used.
+     *      If $data is an array, this will be the source of input.
+     *
+     * @return array
      */
-    public function parse(): array|bool
+    public function parse(array|null $data = null): array
     {
         $short = '';
         $longs = [];
@@ -56,18 +63,31 @@ class OptionsArgs
                 $longs[] = $arg->getLong() . ($arg->requireValue() ? ':' : '');
             }
         }
-        $opts = getopt($short, $longs);
 
-        foreach ($this->args as $arg) {
+        $opts = is_null($data) ? getopt($short, $longs) : $data;
+
+        foreach ($this->args as $arg)
+        {
             if (!$arg->getLong()) {
                 continue;
             }
+            // copy value to long and remove short.
             if (isset($opts[$arg->getShort()])) {
                 $opts[$arg->getLong()] = $opts[$arg->getShort()];
                 unset($opts[$arg->getShort()]);
             }
         }
 
-        return $opts;
+        return $opts ?: [];
     }
+    /*
+    private function getOpts(string $shortOrLong): ?OptionArg {
+        foreach ($this->args as $id => $arg) {
+            if (in_array($shortOrLong, [$arg->getShort(),$arg->getLong()])) {
+                return $arg;
+            }
+        }
+        return null;
+    }
+    */
 }
