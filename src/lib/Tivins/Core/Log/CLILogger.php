@@ -2,6 +2,8 @@
 
 namespace Tivins\Core\Log;
 
+use Tivins\Core\System\Terminal;
+
 class CLILogger extends Logger
 {
     private bool $decorate = true;
@@ -11,23 +13,9 @@ class CLILogger extends Logger
         if (! $this->decorate) {
             return $str;
         }
-        return self::decorate($level, $str);
+        return Terminal::decorate($level, $str);
     }
 
-    public static function decorateSuccess(string $str): string { return self::decorate(Level::SUCCESS, $str); }
-    public static function decorateDanger(string $str): string { return self::decorate(Level::DANGER, $str); }
-
-    public static function decorate(Level $level, string $str): string
-    {
-        return match ($level) {
-            Level::DANGER   => "\033[31m$str\033[0m",
-            Level::SUCCESS  => "\033[32m$str\033[0m",
-            Level::WARNING  => "\033[33m$str\033[0m",
-            Level::INFO     => "\033[36m$str\033[0m",
-            Level::DEBUG    => "\033[37m$str\033[0m",
-            default         => $str,
-        };
-    }
 
     public function write(Level $level, string $message, mixed ...$data)
     {

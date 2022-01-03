@@ -14,9 +14,11 @@ class Proc
 
     /**
      * @param Command $command
-     * @return Proc
+     * @param ProcHooks|null $hooks
+     * @param int $callbackFrequency In microseconds
+     * @return Proc|null
      */
-    public static function run(Command $command): Proc
+    public static function run(Command $command, ProcHooks|null $hooks = null, ): Proc|null
     {
         $resource = proc_open($command->get(), [
             ['pipe', 'r'], // stdin
@@ -24,14 +26,27 @@ class Proc
             ['pipe', 'w'], // stderr
         ], $pipes);
 
-        $proc          = new Proc();
+        if ($resource === false) {
+            return null;
+        }
+
+        $proc = new Proc();
+        $hooks?->setProc($proc);
+        $hooks?->onStart();
         $proc->command = $command->get();
         $proc->started = microtime(true);
+        if ($hooks) {
+            while (($proc->status = proc_get_status($resource))['running']) {
+                $hooks->onUpdate();
+                usleep($hooks->getCallbackFrequency());
+            }
+        }
         $proc->stdout  = stream_get_contents($pipes[1]);
         $proc->stderr  = stream_get_contents($pipes[2]);
         $proc->status  = proc_get_status($resource);
         $proc->close   = proc_close($resource);
         $proc->ended   = microtime(true);
+        $hooks?->onFinished();
         return $proc;
     }
 
