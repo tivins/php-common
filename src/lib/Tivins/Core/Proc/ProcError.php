@@ -6,7 +6,7 @@ use Exception;
 
 class ProcError extends Exception
 {
-    public function __construct(public Proc $proc, string $message = '')
+    public function __construct(public ProcInfo $proc, string $message = '')
     {
         parent::__construct($message);
     }

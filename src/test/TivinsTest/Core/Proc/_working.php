@@ -1,11 +1,9 @@
 #!/usr/bin/env php
 <?php
 
-$duration = 3;//$argv[1] ?? 3;
+$duration = 3;
 
-if (rand(0,10)<5) {
-    file_put_contents('php://stderr', "plop plop plop plop plop plop plop plop plop plop plop plop plop plop \n");
-}
+file_put_contents('php://stderr', "plop1 plop1 plop1 plop1 plop1 plop1 plop2 plop2 plop2 plop2 plop2 plop2 plop2 plop2 \n");
 
 while ($duration--)
 {
