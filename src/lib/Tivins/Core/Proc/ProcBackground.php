@@ -24,28 +24,6 @@ class ProcBackground extends Process
         $this->len        = mb_strlen($this->str);
     }
 
-    public function onStart()
-    {
-        // stream_set_blocking($this->proc->pipes[1], false);
-        // stream_set_blocking($this->proc->pipes[2], false);
-    }
-
-    public function wrapPartialContent(int $fd): string
-    {
-        $pos = strrpos($this->buffers[$fd], "\n");
-        $out = substr($this->buffers[$fd], 0, $pos + 1);
-        $this->buffers[$fd] = substr($this->buffers[$fd], $pos + 1);
-        return $out;
-    }
-
-    private function getLoaderChar(): string
-    {
-        static $counter;
-        if (!isset($counter)) $counter = $this->proc->started;
-        $pos = round((microtime(true)-$this->proc->started)*10) % $this->len;
-        return mb_substr($this->str, $pos, 1);
-    }
-
     public function onUpdate(array $status, array $received)
     {
         $this->buffers[self::STDOUT] .= $received[self::STDOUT];
@@ -85,7 +63,7 @@ class ProcBackground extends Process
      */
     public function setShowStderr(bool $showStderr): ProcBackground
     {
-        $this->showStderr = $showStderr;
+        $this->display[self::STDERR] = $showStderr;
         return $this;
     }
 
@@ -98,4 +76,21 @@ class ProcBackground extends Process
         $this->display[self::STDOUT] = $showStdout;
         return $this;
     }
+
+    private function wrapPartialContent(int $fd): string
+    {
+        $pos = strrpos($this->buffers[$fd], "\n");
+        $out = substr($this->buffers[$fd], 0, $pos + 1);
+        $this->buffers[$fd] = substr($this->buffers[$fd], $pos + 1);
+        return $out;
+    }
+
+    private function getLoaderChar(): string
+    {
+        static $counter;
+        if (!isset($counter)) $counter = $this->proc->started;
+        $pos = round((microtime(true)-$this->proc->started)*10) % $this->len;
+        return mb_substr($this->str, $pos, 1);
+    }
+
 }
