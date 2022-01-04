@@ -2,8 +2,6 @@
 
 namespace Tivins\Core\Proc;
 
-use Tivins\Core\System\Terminal;
-
 class Process
 {
     public const STDIN  = 0;
@@ -76,28 +74,30 @@ class Process
             stream_set_blocking($this->pipes[self::STDOUT], false);
             stream_set_blocking($this->pipes[self::STDERR], false);
             while (($status = proc_get_status($resource))['running']) {
-                $received = [
-                    self::STDOUT => stream_get_contents($this->pipes[self::STDOUT]),
-                    self::STDERR => stream_get_contents($this->pipes[self::STDERR]),
-                ];
-                $this->proc->stdout .= $received[self::STDOUT];
-                $this->proc->stderr .= $received[self::STDERR];
+                $received = $this->getDataFromStreams();
                 $this->onUpdate($status, $received);
                 usleep($asyncFreq);
             }
         }
-        $received = [
-            self::STDOUT => stream_get_contents($this->pipes[self::STDOUT]),
-            self::STDERR => stream_get_contents($this->pipes[self::STDERR]),
-        ];
-        $this->proc->stdout .= stream_get_contents($this->pipes[self::STDOUT]);
-        $this->proc->stderr .= stream_get_contents($this->pipes[self::STDERR]);
-        $this->onUpdate($status, $received); // Last status
+        $received = $this->getDataFromStreams();
+        $status = proc_get_status($resource);
+        $this->onUpdate($status, $received);
 
         $this->proc->close  = proc_close($resource);
         $this->proc->ended  = microtime(true);
         $this->onFinish();
         return $this->proc;
+    }
+
+    private function getDataFromStreams(): array
+    {
+        $received = [
+            self::STDOUT => stream_get_contents($this->pipes[self::STDOUT]),
+            self::STDERR => stream_get_contents($this->pipes[self::STDERR]),
+        ];
+        $this->proc->stdout .= $received[self::STDOUT];
+        $this->proc->stderr .= $received[self::STDERR];
+        return $received;
     }
 
     /**

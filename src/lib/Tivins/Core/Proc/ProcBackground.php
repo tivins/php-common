@@ -9,18 +9,19 @@ class ProcBackground extends Process
 {
     private string  $str      = '⠉⠛⠿⣿⣶⣤⣀⣤⣶⣿⠿⠛';
     private int     $len;
-    private int     $start;
     private string  $message;
     private ?string $endMessage;
+    private ?string $failMessage;
 
-    private array $buffers = [self::STDOUT=>'',self::STDERR=>''];
+    private array $display = [self::STDOUT => false, self::STDERR => true];
+    private array $buffers = [self::STDOUT => '', self::STDERR => ''];
 
-    public function __construct(string $message, ?string $endMessage = null)
+    public function __construct(string $message, ?string $endMessage = null, ?string $failMessage = null)
     {
         $this->message    = $message;
         $this->endMessage = $endMessage;
+        $this->failMessage = $failMessage;
         $this->len        = mb_strlen($this->str);
-        $this->start      = microtime(true);
     }
 
     public function onStart()
@@ -29,20 +30,20 @@ class ProcBackground extends Process
         // stream_set_blocking($this->proc->pipes[2], false);
     }
 
-    public function wrapPartialContent(string &$str): string
+    public function wrapPartialContent(int $fd): string
     {
-        $pos = strrpos($str, "\n");
-        $out = substr($str, 0, $pos + 1);
-        $str = substr($str, $pos + 1);
+        $pos = strrpos($this->buffers[$fd], "\n");
+        $out = substr($this->buffers[$fd], 0, $pos + 1);
+        $this->buffers[$fd] = substr($this->buffers[$fd], $pos + 1);
         return $out;
     }
 
     private function getLoaderChar(): string
     {
         static $counter;
-        if (!isset($counter)) $counter = 0;
-        if ($counter++ == $this->len - 1) $counter = 0;
-        return mb_substr($this->str, $counter, 1);
+        if (!isset($counter)) $counter = $this->proc->started;
+        $pos = round((microtime(true)-$this->proc->started)*10) % $this->len;
+        return mb_substr($this->str, $pos, 1);
     }
 
     public function onUpdate(array $status, array $received)
@@ -50,25 +51,18 @@ class ProcBackground extends Process
         $this->buffers[self::STDOUT] .= $received[self::STDOUT];
         $this->buffers[self::STDERR] .= $received[self::STDERR];
 
-        $stdout = $this->wrapPartialContent($this->proc->stdout);
-        $stderr = $this->wrapPartialContent($this->proc->stderr);
+        $stdout = $this->wrapPartialContent(self::STDOUT);
+        $stderr = $this->wrapPartialContent(self::STDERR);
 
         echo Terminal::getClearLine();
-        echo Terminal::decorateInfo($stdout);
-        echo Terminal::decorateDanger($stderr);
+        if ($this->display[self::STDOUT]) echo Terminal::decorateInfo($stdout);
+        if ($this->display[self::STDERR]) echo Terminal::decorateDanger($stderr);
 
         $loader = $this->getLoaderChar()
-            . ' [' . number_format(microtime(true) - $this->start, 1) . 's] '
+            . ' [' . number_format(microtime(true) - $this->proc->started, 1) . 's] '
             ;
 
         echo "\r" . Terminal::decorateSuccess($loader) . $this->message . "…";
-
-        // $nb = 1;
-        // if ($stdout) { echo Terminal::decorate(Level::DEBUG, "  ⏵ " . $stdout) . "\n"; $nb++; }
-        // if ($stderr) { echo Terminal::decorate(Level::DANGER, "  ⏵ " . $stderr) . "\n"; $nb++; }
-        // echo "\033[{$nb}F\033[" . Terminal::getWidth() . "C";
-
-        usleep(200000);
     }
 
     public function onFinish()
@@ -77,10 +71,31 @@ class ProcBackground extends Process
 
         $err = $this->proc->hasError();
         $loadChar = $err ? 'x' : '✓'; // mb_substr($this->str, $this->full, 1);
-        $timeStr  = ' in [' . number_format(microtime(true) - $this->start, 3) . 's]';
+        $message = $err && $this->failMessage ? $this->failMessage : ($this->endMessage ?? $this->message);
+        $timeStr  = ' in [' . number_format(microtime(true) - $this->proc->started, 3) . 's]';
 
         echo Terminal::getClearLine(); // Erase line width animation
         echo Terminal::decorate($err ? Level::DANGER : Level::INFO,
-                $loadChar . ' ' . ($this->endMessage ?: $this->message)) . $timeStr . ".\n";
+                $loadChar . ' ' . $message) . $timeStr . ".\n";
+    }
+
+    /**
+     * @param bool $showStderr
+     * @return ProcBackground
+     */
+    public function setShowStderr(bool $showStderr): ProcBackground
+    {
+        $this->showStderr = $showStderr;
+        return $this;
+    }
+
+    /**
+     * @param bool $showStdout
+     * @return ProcBackground
+     */
+    public function setShowStdout(bool $showStdout): ProcBackground
+    {
+        $this->display[self::STDOUT] = $showStdout;
+        return $this;
     }
 }
