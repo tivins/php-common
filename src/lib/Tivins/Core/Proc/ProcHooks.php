@@ -5,7 +5,7 @@ namespace Tivins\Core\Proc;
 abstract class ProcHooks
 {
     protected Proc $proc;
-    protected int $callbackFrequency = 200000;
+    protected int  $callbackFrequency = 200000;
 
     public function setProc(Proc $proc): void { $this->proc = $proc; }
     public function getProc(): Proc { return $this->proc; }
