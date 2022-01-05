@@ -2,8 +2,6 @@
 
 namespace Tivins\Core\Proc;
 
-use Iterator;
-
 class Command
 {
     private array $cmd = [];

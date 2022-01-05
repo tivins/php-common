@@ -65,7 +65,6 @@ class Process
             fclose($this->pipes[self::STDIN]);
         }
 
-        $status = [];
         $this->proc = new ProcInfo();
         $this->onStart();
         $this->proc->command = $command->get();

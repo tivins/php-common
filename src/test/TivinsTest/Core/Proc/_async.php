@@ -6,7 +6,7 @@ use Tivins\Core\Proc\ProcBackground;
 require 'vendor/autoload.php';
 $commands = [
     new Command(
-        'git','clone', '-q',
+        'git','clone', '--progress',
         'e2:/srv/git/carnet',
         '/tmp/clone_'.time()
     ),
@@ -22,6 +22,7 @@ foreach ($commands as $i => $command) {
     );
 
     $proc->setShowStderr(true);
+    $proc->setShowStdout(true);
     $proc = $proc->run($command, 100000);
 }
 echo "Done.\n";

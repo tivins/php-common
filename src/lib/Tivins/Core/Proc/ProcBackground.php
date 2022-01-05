@@ -24,6 +24,17 @@ class ProcBackground extends Process
         $this->len        = mb_strlen($this->str);
     }
 
+    private function displayLines(string $logs): string
+    {
+        $lines = array_filter(explode("\n", $logs)?:[]);
+        if (empty($logs)) return '';
+        $out=[];
+        foreach ($lines as $line) {
+            $out[]= " ->> " . $line;
+        }
+        return join("\n", $out)."\n";
+    }
+
     public function onUpdate(array $status, array $received)
     {
         $this->buffers[self::STDOUT] .= $received[self::STDOUT];
@@ -33,8 +44,8 @@ class ProcBackground extends Process
         $stderr = $this->wrapPartialContent(self::STDERR);
 
         echo Terminal::getClearLine();
-        if ($this->display[self::STDOUT]) echo Terminal::decorateInfo($stdout);
-        if ($this->display[self::STDERR]) echo Terminal::decorateDanger($stderr);
+        if ($this->display[self::STDOUT]) echo Terminal::decorateInfo($this->displayLines($stdout));
+        if ($this->display[self::STDERR]) echo Terminal::decorateDanger($this->displayLines($stderr));
 
         $loader = $this->getLoaderChar()
             . ' [' . number_format(microtime(true) - $this->proc->started, 1) . 's] '
@@ -89,8 +100,15 @@ class ProcBackground extends Process
     {
         static $counter;
         if (!isset($counter)) $counter = $this->proc->started;
-        $pos = round((microtime(true)-$this->proc->started)*10) % $this->len;
+        $pos = round($this->getElapsed() * 10) % $this->len;
         return mb_substr($this->str, $pos, 1);
     }
 
+    /**
+     * @return float
+     */
+    private function getElapsed(): float
+    {
+        return microtime(true) - $this->proc->started;
+    }
 }
