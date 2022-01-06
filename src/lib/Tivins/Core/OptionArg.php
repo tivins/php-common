@@ -19,7 +19,7 @@ class OptionArg
         return ($this->long ?? '') . '|' . ($this->short ?? '');
     }
 
-    public function getShort(): string
+    public function getShort(): ?string
     {
         return $this->short;
     }
