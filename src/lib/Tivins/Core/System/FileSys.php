@@ -16,4 +16,10 @@ class FileSys
     {
         return self::mkdir(dirname($filename), $permissions);
     }
+
+    public static function writeFile(string $filename, mixed $data, bool $createDirs = true): bool
+    {
+        self::mkdirFile($filename);
+        return file_put_contents($filename, $data) !== false;
+    }
 }
