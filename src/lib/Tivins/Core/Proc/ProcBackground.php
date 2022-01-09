@@ -30,7 +30,12 @@ class ProcBackground extends Process
         if (empty($logs)) return '';
         $out=[];
         foreach ($lines as $line) {
-            $out[]= " ->> " . $line;
+            $write = $line;
+            if (strlen($line) > Terminal::getWidth() - 10) {
+                $partLen = floor((Terminal::getWidth() - 10 - 3)/2);
+                $write = substr($line,0, $partLen) .'...'.substr($line,-$partLen);
+            }
+            $out[] = "  | " . $write;
         }
         return join("\n", $out)."\n";
     }

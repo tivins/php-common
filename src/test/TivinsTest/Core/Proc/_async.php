@@ -11,7 +11,7 @@ $commands = [
         '/tmp/clone_'.time()
     ),
     new Command(__dir__ . '/_working.php'),
-    new Command('composer','u','--no-interaction'),
+    new Command('composer', 'u', '--no-interaction'),
 ];
 foreach ($commands as $i => $command) {
 
