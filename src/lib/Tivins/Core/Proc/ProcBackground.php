@@ -44,6 +44,7 @@ class ProcBackground extends Process
     {
         $this->buffers[self::STDOUT] .= $received[self::STDOUT];
         $this->buffers[self::STDERR] .= $received[self::STDERR];
+        // $lines = array_map(fn($info) => new Line($info[0], substr($proc->stderr, $info[1] - 1, 1)), $lines);
 
         $stdout = $this->wrapPartialContent(self::STDOUT);
         $stderr = $this->wrapPartialContent(self::STDERR);
@@ -63,9 +64,9 @@ class ProcBackground extends Process
     {
         echo Terminal::getClearLine();
 
-        $err = $this->proc->hasError();
+        $err      = $this->proc->hasError();
         $loadChar = $err ? 'x' : '✓'; // mb_substr($this->str, $this->full, 1);
-        $message = $err && $this->failMessage ? $this->failMessage : ($this->endMessage ?? $this->message);
+        $message  = $err && ($this->failMessage ? $this->failMessage: ($this->endMessage ?? $this->message));
         $timeStr  = ' in [' . number_format(microtime(true) - $this->proc->started, 3) . 's]';
 
         echo Terminal::getClearLine(); // Erase line width animation

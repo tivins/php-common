@@ -9,7 +9,7 @@ class Process
     public const STDERR = 2;
 
     public const FEED_MEMORY = 'pipe';
-    public const FEED_FILE = 'file';
+    public const FEED_FILE   = 'file';
 
     protected ProcInfo|null $proc = null;
 
@@ -45,11 +45,13 @@ class Process
      *
      * @param string|null $stdin Data to give to process through stdin.
      *      This could be used to pass secrets to the process.
-     *
-     * @return ProcInfo|null Return null if the proc cannot be opened.
      */
-    public function run(Command $command, int $asyncFreq = 0, ?string $stdin = null): ProcInfo|null
+    public function run(Command $command, int $asyncFreq = 0, ?string $stdin = null): ProcInfo
     {
+        $this->proc = new ProcInfo();
+        $this->proc->command = $command->get();
+        $this->proc->started = microtime(true);
+
         $resource = proc_open(
             $command->get(),
             $this->descriptors,
@@ -57,22 +59,25 @@ class Process
             $this->workingDir,
             $this->envVars
         );
-        if (! is_resource($resource)) {
-            return null;
+
+        if (!$resource) {
+            $this->proc->status = false;
+            return $this->proc;
         }
+
         if ($stdin !== null) {
             fwrite($this->pipes[self::STDIN], $stdin);
             fclose($this->pipes[self::STDIN]);
         }
 
-        $this->proc = new ProcInfo();
         $this->onStart();
-        $this->proc->command = $command->get();
-        $this->proc->started = microtime(true);
-        if ($asyncFreq > 0) {
+        if ($asyncFreq > 0)
+        {
             stream_set_blocking($this->pipes[self::STDOUT], false);
             stream_set_blocking($this->pipes[self::STDERR], false);
-            while (($status = proc_get_status($resource))['running']) {
+
+            while (($status = proc_get_status($resource))['running'])
+            {
                 $received = $this->getDataFromStreams();
                 $this->onUpdate($status, $received);
                 usleep($asyncFreq);
@@ -94,9 +99,14 @@ class Process
             self::STDOUT => stream_get_contents($this->pipes[self::STDOUT]),
             self::STDERR => stream_get_contents($this->pipes[self::STDERR]),
         ];
-        $this->proc->stdout .= $received[self::STDOUT];
-        $this->proc->stderr .= $received[self::STDERR];
+        $this->proc->stdout .= $received[self::STDOUT] ?: '';
+        $this->proc->stderr .= $received[self::STDERR] ?: '';
         return $received;
+    }
+
+    public function setEnvVars(array $vars)
+    {
+        $this->envVars = $vars;
     }
 
     /**

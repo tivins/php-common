@@ -5,7 +5,8 @@ namespace Tivins\Core\Proc;
 class ProcInfo
 {
     public array  $command = [];
-    public int    $close   = -1;
+    public bool   $status  = true;
+    public int    $close   = -1; // exitCode
     public string $stdout  = '';
     public string $stderr  = '';
     public float  $started = 0;
