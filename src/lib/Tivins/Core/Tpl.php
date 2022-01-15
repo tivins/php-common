@@ -77,6 +77,23 @@ class Tpl
     private array $includeDirs = [];
 
     /**
+     * @var string[]
+     */
+    private array $allowedFunctions = [
+        'ucfirst' => 'ucfirst',
+        'lowercase' => 'tolowercase',
+        'uppercase' => 'touppercase',
+        'number_format' => 'number_format',
+        'round' => 'round',
+        'floor' => 'floor',
+        'abs' => 'abs',
+        ];
+
+    public function addFunction($name, callable $callback) {
+        $this->allowedFunctions[$name]=$callback;
+    }
+
+    /**
      *
      */
     public function __construct(string $body = '')
@@ -166,8 +183,8 @@ class Tpl
         $str = preg_replace_callback('~{{\s?([a-zA-Z0-9]*)\s?\|?\s?([a-zA-Z0-9_,]+)?\s?}}~',
             function($matches) use ($vars) {
                 $base = $vars[$matches[1]] ?? $matches[1];
-                if (isset($matches[2]) && in_array($matches[2], ['ucfirst','number_format','time_short'])) {
-                    $base = call_user_func($matches[2], $base);
+                if (isset($matches[2]) && isset($this->allowedFunctions[$matches[2]])) {
+                    $base = call_user_func($this->allowedFunctions[$matches[2]], $base);
                 }
                 return StringUtil::html($base);
             },
