@@ -2,6 +2,13 @@
 
 namespace Tivins\Core;
 
+/**
+ * Usage:
+ *
+ * $chrono = (new Chrono)->start();
+ * // do some stuff
+ * $duration = $chrono->step();
+ */
 class Chrono
 {
     private float $tick;
