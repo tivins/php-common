@@ -11,6 +11,7 @@ class Terminal
 {
     public static function decorateSuccess(string $str): string { return self::decorate(Level::SUCCESS, $str); }
     public static function decorateDanger(string $str): string { return self::decorate(Level::DANGER, $str); }
+    public static function decorateWarning(string $str): string { return self::decorate(Level::WARNING, $str); }
     public static function decorateInfo(string $str): string { return self::decorate(Level::INFO, $str); }
 
     public static function decorate(Level $level, string $str): string
