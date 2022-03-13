@@ -16,7 +16,6 @@ class CLILogger extends Logger
         return Terminal::decorate($level, $str);
     }
 
-
     public function write(Level $level, string $message, mixed ...$data)
     {
         echo $this->colorLog($level, sprintf("[ %-9s ] [ %s ] - %s\n", $level->name, date('c'), json_encode($message)));
