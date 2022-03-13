@@ -8,12 +8,14 @@ class Msg
     public const Warning = 'warning';
     public const Success = 'success';
 
+    private string $group = 'default';
+
     /**
      * Push a new message.
      */
     public function push(string $msg, string $type) : void
     {
-        $_SESSION['msg'][] = [$msg, $type];
+        $_SESSION['msg'][$this->group][] = [$msg, $type];
     }
 
     /**
@@ -21,9 +23,9 @@ class Msg
      */
     public function get() : string
     {
-        if (empty($_SESSION['msg'])) return '';
-        $messages = $_SESSION['msg'];
-        $_SESSION['msg'] = [];
+        if (empty($_SESSION['msg'][$this->group])) return '';
+        $messages = $_SESSION['msg'][$this->group];
+        $_SESSION['msg'][$this->group] = [];
 
         return $this->wrap( // customize wrapper
             implode( // convert String[] to String
