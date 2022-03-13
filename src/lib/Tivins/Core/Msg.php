@@ -8,7 +8,9 @@ class Msg
     public const Warning = 'warning';
     public const Success = 'success';
 
-    private string $group = 'default';
+    public function __construct(private string $group = 'default')
+    {
+    }
 
     /**
      * Push a new message.
