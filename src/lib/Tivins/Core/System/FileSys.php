@@ -22,4 +22,10 @@ class FileSys
         self::mkdirFile($filename);
         return file_put_contents($filename, $data) !== false;
     }
+
+    public static function appendFile(string $filename, mixed $data, bool $createDirs = true): bool
+    {
+        self::mkdirFile($filename);
+        return file_put_contents($filename, $data, FILE_APPEND) !== false;
+    }
 }
