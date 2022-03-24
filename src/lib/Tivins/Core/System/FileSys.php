@@ -17,6 +17,9 @@ class FileSys
         return self::mkdir(dirname($filename), $permissions);
     }
 
+    /**
+     * @todo Remove $createDirs
+     */
     public static function writeFile(string $filename, mixed $data, bool $createDirs = true, bool $append = false): bool
     {
         self::mkdirFile($filename);

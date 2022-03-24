@@ -18,4 +18,24 @@ class HTTP
         header('Location: ' . $url);
         exit(0);
     }
+
+    /**
+     * @param string $content The body
+     * @param string $type Content Type (eg: application/json, ...)
+     * @param Status $status HTTP Response status
+     * @return never
+     */
+    public static function send(string $content, string $type = 'text/html', Status $status = Status::OK): never
+    {
+        http_response_code($status->value);
+        header('Content-Type: ' . $type . '; charset=utf-8');
+        echo $content;
+        exit;
+    }
+
+    public static function sendJSON(mixed $content, Status $status = Status::OK): never
+    {
+        self::send(json_encode($content), 'application/json', $status);
+    }
+
 }
