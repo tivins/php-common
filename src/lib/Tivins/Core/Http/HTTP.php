@@ -19,6 +19,11 @@ class HTTP
         exit(0);
     }
 
+    public static function sendResponse(Response $response): never
+    {
+        self::send($response->getBody(), $response->getContentType(), $response->getStatus());
+    }
+
     /**
      * @param string $content The body
      * @param ContentType $type
@@ -31,11 +36,6 @@ class HTTP
         header('Content-Type: ' . $type->value . '; charset=utf-8');
         echo $content;
         exit;
-    }
-
-    public static function sendResponse(Response $response): never
-    {
-        self::send($response->getBody(), $response->getContentType(), $response->getStatus());
     }
 
     public static function sendJSON(mixed $content, Status $status = Status::OK): never
