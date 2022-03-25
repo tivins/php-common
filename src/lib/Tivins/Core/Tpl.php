@@ -3,6 +3,8 @@
 namespace Tivins\Core;
 
 
+use Tivins\I18n\I18n;
+
 /**
  * Simple Template Engine
  *
@@ -88,6 +90,8 @@ class Tpl
         'floor' => 'floor',
         'abs' => 'abs',
     ];
+
+    private ?I18n $i18nModule = null;
 
     /**
      *
@@ -259,25 +263,37 @@ class Tpl
             $str
         );
 
-        $str = preg_replace_callback('~{!\s?(.*)\s?!}~U',
-            fn($matches) => ($vars[$matches[1]] ?? $matches[1]),
+        $str = preg_replace_callback('~{!\s*(.*?)\s*!}~',
+            fn($matches) => ($vars[$matches[1]] ?? ''),
             $str
         );
 
-        /**
-         * @todo Implement translation
-         */
-        // $str = preg_replace_callback('~{\$\s?(.*)\s?\$}~U',
-        //     fn($matches) => StringUtil::html(I18n::get($vars[$matches[1]] ?? $matches[1])),
-        //     $str);
+        if ($this->i18nModule) {
+            $str = preg_replace_callback('~{\$\s*(.*?)\s*\$}~',
+                 fn($matches) => StringUtil::html($this->i18nModule->get($matches[1])),
+                 $str);
+        }
 
         return $str;
     }
 
     /**
-     *
+     * @param I18n|null $i18nModule
+     * @return Tpl
      */
-    public function replaceBlocks(string $str): string
+    public function setI18nModule(?I18n $i18nModule): static
+    {
+        $this->i18nModule = $i18nModule;
+        return $this;
+    }
+
+
+
+    /**
+     * Replace stored processed blocks in the given string.
+     * @see storage
+     */
+    private function replaceBlocks(string $str): string
     {
         foreach ($this->storage as $name => $data) {
             $str = str_replace('<!-- tpl(' . sha1($name) . ') -->', $data['processed'], $str);

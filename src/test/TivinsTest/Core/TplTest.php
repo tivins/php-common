@@ -4,6 +4,7 @@ namespace TivinsTest\Core;
 
 use PHPUnit\Framework\TestCase;
 use Tivins\Core\Tpl;
+use Tivins\I18n\I18n;
 
 class TplTest extends TestCase
 {
@@ -12,7 +13,7 @@ class TplTest extends TestCase
         $tpl = new Tpl('test');
         $this->assertEquals('test', (string)$tpl);
 
-        $tpl = Tpl::fromFile(__dir__ . '/TplTest.tpl1.html');
+        $tpl = Tpl::fromFile(__dir__ . '/../../testFiles/TplTest.tpl1.html');
         $this->assertEmpty(trim($tpl));
 
         $tpl->block('blockName', ['variable' => 'hello1']);
@@ -33,6 +34,18 @@ class TplTest extends TestCase
             . '<div>3</div>'
             ,
             trim($tpl));
+    }
 
+    public function testTpl2()
+    {
+        $i18n = (new I18n)->add('hello', 'Bonjour');
+
+        $tpl = Tpl::fromFile(__dir__ . '/../../testFiles/replacements.html');
+        $tpl->setI18nModule($i18n);
+        $tpl->setVars([
+            'var1' => 'Template!',
+            'html' => '<html>',
+        ]);
+        self::assertEquals("var1=Template!\nhtml=<html>\nhello=Bonjour", (string)$tpl);
     }
 }
