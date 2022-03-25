@@ -21,21 +21,26 @@ class HTTP
 
     /**
      * @param string $content The body
-     * @param string $type Content Type (eg: application/json, ...)
+     * @param ContentType $type
      * @param Status $status HTTP Response status
      * @return never
      */
-    public static function send(string $content, string $type = 'text/html', Status $status = Status::OK): never
+    public static function send(string $content, ContentType $type = ContentType::HTML, Status $status = Status::OK): never
     {
         http_response_code($status->value);
-        header('Content-Type: ' . $type . '; charset=utf-8');
+        header('Content-Type: ' . $type->value . '; charset=utf-8');
         echo $content;
         exit;
     }
 
+    public static function sendResponse(Response $response): never
+    {
+        self::send($response->body, $response->type, $response->status);
+    }
+
     public static function sendJSON(mixed $content, Status $status = Status::OK): never
     {
-        self::send(json_encode($content), 'application/json', $status);
+        self::send(json_encode($content), ContentType::JSON, $status);
     }
 
 }

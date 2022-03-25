@@ -5,9 +5,17 @@ namespace Tivins\Core;
 /**
  * Usage:
  *
+ * ```php
  * $chrono = (new Chrono)->start();
- * // do some stuff
- * $duration = $chrono->step();
+ * sleep(1);
+ * $duration = $chrono->get(); // ~1.0
+ * sleep(1);
+ * $duration = $chrono->get(); // ~2.0
+ * sleep(1);
+ * $duration = $chrono->getReset(); // ~3.0
+ * sleep(1);
+ * $duration = $chrono->get(); // ~1.0
+ * ```
  */
 class Chrono
 {
@@ -19,8 +27,15 @@ class Chrono
         return $this;
     }
 
-    public function step(): float
+    public function get(): float
     {
         return microtime(true) - $this->tick;
+    }
+
+    public function getReset(): float
+    {
+        $duration = $this->get();
+        $this->start();
+        return $duration;
     }
 }
