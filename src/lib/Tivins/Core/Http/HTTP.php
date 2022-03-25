@@ -35,7 +35,7 @@ class HTTP
 
     public static function sendResponse(Response $response): never
     {
-        self::send($response->body, $response->type, $response->status);
+        self::send($response->getBody(), $response->getContentType(), $response->getStatus());
     }
 
     public static function sendJSON(mixed $content, Status $status = Status::OK): never

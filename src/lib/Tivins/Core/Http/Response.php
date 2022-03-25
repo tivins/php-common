@@ -11,4 +11,17 @@ class Response
     )
     {
     }
+
+    public function getBody(): string {
+        return $this->body;
+    }
+
+    public function getStatus(): Status {
+        return $this->status;
+    }
+
+    public function getContentType(): ContentType {
+        return $this->type;
+    }
+
 }
