@@ -39,6 +39,16 @@ class Response
     }
 
     /**
+     * @param Status $status
+     * @return $this
+     */
+    public function setStatus(Status $status): static
+    {
+        $this->$status = $status;
+        return $this;
+    }
+
+    /**
      * @return Status
      */
     public function getStatus(): Status
@@ -47,28 +57,20 @@ class Response
     }
 
     /**
+     * @param ContentType $type
+     * @return $this
+     */
+    public function setContentType(ContentType $type): static
+    {
+        $this->type = $type;
+        return $this;
+    }
+
+    /**
      * @return ContentType
      */
     public function getContentType(): ContentType
     {
         return $this->type;
-    }
-
-    /**
-     * @return ContentType
-     */
-    public function getType(): ContentType
-    {
-        return $this->type;
-    }
-
-    /**
-     * @param ContentType $type
-     * @return static
-     */
-    public function setType(ContentType $type): static
-    {
-        $this->type = $type;
-        return $this;
     }
 }
