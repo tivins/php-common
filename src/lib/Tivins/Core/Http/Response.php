@@ -44,7 +44,7 @@ class Response
      */
     public function setStatus(Status $status): static
     {
-        $this->$status = $status;
+        $this->status = $status;
         return $this;
     }
 
