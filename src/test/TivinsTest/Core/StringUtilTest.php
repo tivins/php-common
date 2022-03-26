@@ -18,4 +18,20 @@ class StringUtilTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertEquals('&lt;script&gt;', StringUtil::html('<script>'));
     }
+
+    public function testIsStrongPassword()
+    {
+        $tests = [
+            // password => is string
+            'admin' => false,
+            'admin12' => false,
+            'adm!n12' => false,
+            'superadm!n12' => false,
+            'superAdm!n12' => true,
+        ];
+        foreach ($tests as $password => $expected) {
+            self::assertEquals($expected, StringUtil::isStrongPassword($password));
+        }
+
+    }
 }

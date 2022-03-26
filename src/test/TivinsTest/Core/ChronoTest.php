@@ -12,12 +12,12 @@ class ChronoTest extends TestCase
         $chrono = new Chrono();
         $chrono->start();
         foreach (range(0, 100) as &$id) $id = md5($id);
-        $this->assertGreaterThan(0, $chrono->step());
+        $this->assertGreaterThan(0, $chrono->get());
     }
     public function testChrono2()
     {
         $chrono = (new Chrono())->start();
         foreach (range(0, 100) as &$id) $id = md5($id);
-        $this->assertGreaterThan(0, $chrono->step());
+        $this->assertGreaterThan(0, $chrono->get());
     }
 }

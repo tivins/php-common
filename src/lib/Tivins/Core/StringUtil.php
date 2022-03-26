@@ -25,4 +25,14 @@ class StringUtil
     {
         return htmlentities($str, ENT_QUOTES, 'utf-8');
     }
+
+    public static function isStrongPassword(string $str)
+    {
+        return mb_strlen($str) > 7                   # 8 chars or more
+            && preg_match('~\d~', $str)       # contain number
+            && preg_match('~[[:upper:]]~u', $str)  # contain upper case
+            && preg_match('~[[:lower:]]~u', $str)  # contain lower case
+            && preg_match('~[[:punct:]]~u', $str)  # contain punct
+            ;
+    }
 }
