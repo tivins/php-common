@@ -26,6 +26,11 @@ class StringUtil
         return htmlentities($str, ENT_QUOTES, 'utf-8');
     }
 
+    public static function isEmail(string $str): bool
+    {
+        return filter_var($str, FILTER_VALIDATE_EMAIL);
+    }
+
     public static function isStrongPassword(string $str)
     {
         return mb_strlen($str) > 7                   # 8 chars or more
