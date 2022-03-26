@@ -6,17 +6,22 @@ class I18n
 {
     private array $data = [];
 
-    public function add(string $key, string $value): static
+    public function __construct(array $collection = [])
     {
-        $this->data[$key] = $value;
-        return $this;
+        $this->addList($collection);
     }
 
     public function addList(array $collection): static
     {
-        foreach ($collection as $key => $value) {
-            $this->data[$key] = $value;
+        if (!empty($collection)) {
+            $this->data = $collection + $this->data;
         }
+        return $this;
+    }
+
+    public function add(string $key, string $value): static
+    {
+        $this->data[$key] = $value;
         return $this;
     }
 
