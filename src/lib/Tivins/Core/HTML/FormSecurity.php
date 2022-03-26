@@ -1,6 +1,6 @@
 <?php
 
-namespace TivinsTest\Core\HTML;
+namespace Tivins\Core\HTML;
 
 use Exception;
 
