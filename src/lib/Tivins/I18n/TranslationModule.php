@@ -20,7 +20,8 @@ abstract class TranslationModule
     public function get(string $lang): array
     {
         $data = $this->getAll();
-        return array_combine(array_keys($data), array_column($data, $lang));
+        $default = array_column($data, 'en');
+        return array_combine(array_keys($data), array_column($data, $lang) + $default);
     }
 
     /**
