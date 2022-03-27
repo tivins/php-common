@@ -27,6 +27,11 @@ abstract class TranslationModule
         return $combined;
     }
 
+    public function createI18n(string $lang): I18n
+    {
+        return new I18n($this->get($lang));
+    }
+
     /**
      * @return string[][]
      */
