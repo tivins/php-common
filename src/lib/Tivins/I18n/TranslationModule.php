@@ -20,8 +20,11 @@ abstract class TranslationModule
     public function get(string $lang): array
     {
         $data = $this->getAll();
-        $default = array_column($data, 'en');
-        return array_combine(array_keys($data), array_column($data, $lang) + $default);
+        $combined = [];
+        foreach ($data as $key => $values) {
+            $combined[$key] = $values[$lang] ?? $values['en'] ?? '';
+        }
+        return $combined;
     }
 
     /**
