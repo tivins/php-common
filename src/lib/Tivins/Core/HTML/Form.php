@@ -13,6 +13,7 @@ class Form
     public static function form(string $formId, string $formAction, string $formContent, string $method = "post"): string
     {
         return '<form method="' . $method . '" action="' . $formAction . '">'
+            . self::hidden('form-id', $formId)
             . self::hidden('hash', FormSecurity::getPublicToken($formId))
             . $formContent
             . '</form>';
@@ -30,9 +31,9 @@ class Form
         ];
         $attrs = '';
         if ($opts['class']) {
-            $attrs .= ' class="' . $opts['class'] . '"';
+            $attrs .= ' class="' . Str::html($opts['class']) . '"';
         }
-        $html = '<select name="' . $name . '"' . $attrs . '>';
+        $html = '<select name="' . Str::html($name) . '"' . $attrs . '>';
         foreach ($options as $key => $value) {
             $attrs = in_array($key, $selected) ? ' selected' : '';
             $html  .= '<option value="' . Str::html($key) . '"' . $attrs . '>' . Str::html($value) . '</option>';
