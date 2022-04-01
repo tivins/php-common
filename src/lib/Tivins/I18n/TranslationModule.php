@@ -27,7 +27,7 @@ abstract class TranslationModule
         return $combined;
     }
 
-    public function createI18n(Language $lang, Language $fallbackLang): I18n
+    public function createI18n(Language $lang, Language $fallbackLang = Language::English): I18n
     {
         return new I18n($this->get($lang, $fallbackLang));
     }
