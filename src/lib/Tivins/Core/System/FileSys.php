@@ -6,7 +6,7 @@ class FileSys
 {
     public static function mkdir(string $dir, int $permissions = 0755): bool
     {
-        if (! is_dir($dir)) {
+        if (!is_dir($dir)) {
             mkdir($dir, $permissions, true);
         }
         return is_dir($dir);
@@ -32,5 +32,15 @@ class FileSys
             return false;
         }
         return file_get_contents($file);
+    }
+
+    public static function isReadable(string $file): bool
+    {
+        return is_readable($file);
+    }
+
+    public static function delete(string $file): bool
+    {
+        return unlink($file);
     }
 }

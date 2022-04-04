@@ -31,13 +31,13 @@ class StringUtil
         return filter_var($str, FILTER_VALIDATE_EMAIL);
     }
 
-    public static function isStrongPassword(string $str)
+    public static function isStrongPassword(string $str): bool
     {
         return mb_strlen($str) > 7                   # 8 chars or more
             && preg_match('~\d~', $str)       # contain number
             && preg_match('~[[:upper:]]~u', $str)  # contain upper case
             && preg_match('~[[:lower:]]~u', $str)  # contain lower case
-            && preg_match('~[[:punct:]]~u', $str)  # contain punct
+            && preg_match('~[[:punct:]]~u', $str)  # contain punctuation
             ;
     }
 }
