@@ -23,4 +23,14 @@ class QueryString
     {
         return self::$query[$index] ?? '';
     }
+
+    public static function all(): string
+    {
+        return join('/', self::$query);
+    }
+
+    public static function join(string ...$paths): string
+    {
+        return '/' . join('/', array_map(fn($s) => trim($s, '/'), $paths));
+    }
 }

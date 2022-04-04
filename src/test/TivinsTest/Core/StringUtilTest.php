@@ -2,6 +2,7 @@
 
 namespace TivinsTest\Core;
 
+use Tivins\Core\Http\QueryString;
 use Tivins\Core\StringUtil;
 
 class StringUtilTest extends \PHPUnit\Framework\TestCase
@@ -33,5 +34,13 @@ class StringUtilTest extends \PHPUnit\Framework\TestCase
             self::assertEquals($expected, StringUtil::isStrongPassword($password));
         }
 
+    }
+
+    public function testQSJoin()
+    {
+        $p1 = '/path/';
+        $p2 = '/sub/path/';
+        $pout = QueryString::join($p1,$p2);
+        self::assertEquals('/path/sub/path', $pout);
     }
 }
