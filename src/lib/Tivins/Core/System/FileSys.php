@@ -25,4 +25,12 @@ class FileSys
         self::mkdirFile($filename);
         return file_put_contents($filename, $data, $append ? FILE_APPEND : 0) !== false;
     }
+
+    public static function loadFile(string $file): string|false
+    {
+        if (!is_readable($file)) {
+            return false;
+        }
+        return file_get_contents($file);
+    }
 }
