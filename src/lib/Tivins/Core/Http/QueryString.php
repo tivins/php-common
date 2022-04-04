@@ -15,6 +15,7 @@ class QueryString
 
     public static function shift(): string
     {
+        if (empty(self::$query)) return '';
         return array_shift(self::$query);
     }
 
