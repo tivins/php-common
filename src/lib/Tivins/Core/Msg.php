@@ -2,6 +2,8 @@
 
 namespace Tivins\Core;
 
+use Exception;
+
 class Msg
 {
     public const Error   = 'error';
@@ -18,6 +20,11 @@ class Msg
     public function push(string $msg, string $type) : void
     {
         $_SESSION['msg'][$this->group][] = [$msg, $type];
+    }
+
+    public function pushException(Exception $exception)
+    {
+        $this->push($exception->getMessage(), self::Error);
     }
 
     /**
