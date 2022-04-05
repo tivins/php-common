@@ -40,4 +40,9 @@ class StringUtil
             && preg_match('~[[:punct:]]~u', $str)  # contain punctuation
             ;
     }
+
+    public static function toUnicode(string $sequence = '\uf1d9'): string
+    {
+        return json_decode('"' . $sequence . '"');
+    }
 }
