@@ -41,7 +41,7 @@ class StringUtil
             ;
     }
 
-    public static function toUnicode(string $sequence = '\uf1d9'): string
+    public static function toUnicode(string $sequence = '\uffff'): string
     {
         return json_decode('"' . $sequence . '"');
     }
