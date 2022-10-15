@@ -2,34 +2,36 @@
 
 namespace Tivins\Core\Routing;
 
+use Tivins\Core\Http\Response;
+
 class Router
 {
     /**
      * @var string[]
      */
-    private array $pathes = [];
+    private array  $paths      = [];
     private string $last_match = '';
 
     /**
-     *
+     * @see registerPaths
      */
     public function register(string $path, string $ctrlClass): void
     {
-        $this->pathes[$path] = $ctrlClass;
+        $this->paths[$path] = $ctrlClass;
     }
 
     /**
-     *
+     * @see register
      */
     public function registerPaths(array $data): void
     {
-        $this->pathes = array_merge($this->pathes, $data);
+        $this->paths = array_merge($this->paths, $data);
     }
 
     /**
      *
      */
-    private function transformMatch($class, $args): ?\Tivins\Core\Http\Response
+    private function transformMatch($class, $args): ?Response
     {
         $instance = new $class;
         if ($instance instanceof Controller) {
@@ -40,15 +42,15 @@ class Router
     /**
      *
      */
-    public function find(string $path): ?\Tivins\Core\Http\Response
+    public function find(string $path): ?Response
     {
         // fast, complete match
-        if (isset($this->pathes[$path])) {
+        if (isset($this->paths[$path])) {
             $this->last_match = $path;
-            return $this->transformMatch($this->pathes[$path], []);
+            return $this->transformMatch($this->paths[$path], []);
         }
         // preg match
-        foreach ($this->pathes as $regexp => $data) {
+        foreach ($this->paths as $regexp => $data) {
             if (!str_contains($regexp, '(')) {
                 continue;
             }
@@ -63,5 +65,8 @@ class Router
         return null;
     }
 
-    public function getLastMatch() : string { return $this->last_match; }
+    public function getLastMatch() : string
+    {
+        return $this->last_match;
+    }
 }
