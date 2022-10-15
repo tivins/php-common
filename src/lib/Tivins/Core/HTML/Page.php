@@ -15,20 +15,17 @@ class Page {
         return join(array_map(fn($s) => '<link rel="stylesheet" type="text/css" href="'.$s.'">', self::$css));
     }
 
-    public static function render(): never {
-        $content = '<!doctype html>
-<html lang="en">
-  <head>
-    <title>'.self::$title.'</title>
-    <meta charset="utf-8">
-    '.self::getCSS().'
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <link rel="manifest" href="/site.webmanifest">
-  </head>
-  <body>
-    <div id="body"></div>
-    '.self::getScripts().'
-  </body></html>';
+    public static function render(): never
+    {
+        $content = '<!doctype html><html lang="en"><head>'
+            . '<title>' . self::$title . '</title>'
+            . '<meta charset="utf-8">'
+            . self::getCSS()
+            . '<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">'
+            . '</head><body>'
+            . '<div id="body"></div>'
+            . self::getScripts()
+            . '</body></html>';
         HTTP::send($content);
     }
 }
