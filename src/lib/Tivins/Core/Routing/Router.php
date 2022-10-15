@@ -5,7 +5,7 @@ namespace Tivins\Core\Routing;
 class Router
 {
     /**
-     * @var Route[]
+     * @var string[]
      */
     private array $pathes = [];
     private string $last_match = '';
@@ -13,9 +13,9 @@ class Router
     /**
      *
      */
-    public function register(string $path, Route $ctrl): void
+    public function register(string $path, string $ctrlClass): void
     {
-        $this->pathes[$path] = $ctrl;
+        $this->pathes[$path] = $ctrlClass;
     }
 
     /**
@@ -31,8 +31,11 @@ class Router
      */
     private function transformMatch($class, $args)
     {
-        $obj = new $class;
-        $obj->trigger();
+        $instance = new $class;
+        if ($instance instanceof Controller) {
+            return $instance->query($args);
+        }
+        return null;
     }
     /**
      *
@@ -41,8 +44,8 @@ class Router
     {
         // fast, complete match
         if (isset($this->pathes[$path])) {
-           $this->last_match = $path;
-            return $this->pathes[$path]->trigger([]);
+            $this->last_match = $path;
+            return $this->transformMatch($this->pathes[$path], []);
         }
         // preg match
         foreach ($this->pathes as $regexp => $data) {
@@ -53,7 +56,7 @@ class Router
             if (preg_match('~' . $regexp . '~', $path, $m)) {
                 array_shift($m); // remove $m[0]
                 $this->last_match = $regexp;
-                return $data->trigger($m);
+                return $this->transformMatch($data, $m);
             }
         };
         // no match
