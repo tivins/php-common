@@ -4,15 +4,20 @@ namespace Tivins\Core\HTML;
 
 use Tivins\Core\Http\HTTP;
 
-class Page {
-    public static string $title = '';
-    public static array $css = [];
-    public static array $scripts = [];
-    public static function getScripts(): string {
-        return join(array_map(fn($s) => '<script src="'.$s.'"></script>', self::$scripts));
+class Page
+{
+    public static string $title   = '';
+    public static array  $css     = [];
+    public static array  $scripts = [];
+
+    public static function getScripts(): string
+    {
+        return join(array_map(fn($s) => '<script src="' . $s . '"></script>', self::$scripts));
     }
-    public static function getCSS(): string {
-        return join(array_map(fn($s) => '<link rel="stylesheet" type="text/css" href="'.$s.'">', self::$css));
+
+    public static function getCSS(): string
+    {
+        return join(array_map(fn($s) => '<link rel="stylesheet" type="text/css" href="' . $s . '">', self::$css));
     }
 
     public static function render(): never

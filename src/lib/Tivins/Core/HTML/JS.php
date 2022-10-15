@@ -21,7 +21,7 @@ class JS
                 fn($f) => $this->getFile($f),
                 $this->files
             )
-        ), ContentType::CSS);
+        ), ContentType::JS);
     }
 
     public function getFile(string $f): string
