@@ -4,15 +4,18 @@ namespace Tivins\Core\Routing;
 
 class Router
 {
+    /**
+     * @var Controller[]
+     */
     private array $pathes = [];
     private string $last_match = '';
 
     /**
      *
      */
-    public function register(string $path, array $data): void
+    public function register(string $path, Controller $ctrl): void
     {
-        $this->pathes[$path] = $data;
+        $this->pathes[$path] = $ctrl;
     }
 
     /**
@@ -31,18 +34,18 @@ class Router
         // fast, complete match
         if (isset($this->pathes[$path])) {
            $this->last_match = $path;
-            return $this->pathes[$path] + ['args' => []];
+            return $this->pathes[$path]->query([]);
         }
         // preg match
         foreach ($this->pathes as $regexp => $data) {
-            if (strpos($regexp, '(') === false) {
+            if (!str_contains($regexp, '(')) {
                 continue;
             }
             $m = [];
             if (preg_match('~' . $regexp . '~', $path, $m)) {
                 array_shift($m); // remove $m[0]
                 $this->last_match = $regexp;
-                return $data + ['args' => $m];
+                return $data->query($m);
             }
         };
         // no match
