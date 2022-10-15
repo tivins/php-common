@@ -29,7 +29,7 @@ class Router
     /**
      *
      */
-    private function transformMatch($class, $args)
+    private function transformMatch($class, $args): ?\Tivins\Core\Http\Response
     {
         $instance = new $class;
         if ($instance instanceof Controller) {
@@ -40,7 +40,7 @@ class Router
     /**
      *
      */
-    public function find(string $path): ?array
+    public function find(string $path): ?\Tivins\Core\Http\Response
     {
         // fast, complete match
         if (isset($this->pathes[$path])) {
