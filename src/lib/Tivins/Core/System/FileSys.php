@@ -49,4 +49,16 @@ class FileSys
         $directory = new RecursiveDirectoryIterator($directory);
         return new RecursiveIteratorIterator($directory);
     }
+
+    /**
+     * Returns the extension of the given filename. Ex: 'image.JPG' => 'jpg'
+     */
+    public static function getFileExtension(string $file): string
+    {
+        $lastDotPos = strrpos($file, '.');
+        if ($lastDotPos === false) {
+            return '';
+        }
+        return mb_strtolower(mb_substr($file, $lastDotPos + 1));
+    }
 }

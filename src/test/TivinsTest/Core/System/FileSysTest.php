@@ -27,6 +27,13 @@ class FileSysTest extends TestCase
         self::assertIsString(FileSys::loadFile($tmp));
     }
 
+    public function testGetFileExtension()
+    {
+        self::assertEquals('jpg', FileSys::getFileExtension('image.test.JPG'));
+        self::assertEquals('jpg', FileSys::getFileExtension ('image.test..JPG'));
+        self::assertEquals('', FileSys::getFileExtension('imageJpG'));
+    }
+
     public function testDelete()
     {
         $file = '/tmp/path/to/delete/file';

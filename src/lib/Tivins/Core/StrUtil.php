@@ -53,6 +53,7 @@ class StrUtil
         if (!isset($parser)) {
             $parser = new Parsedown();
         }
-        return $parser->parse($text);
+        // $parser->setSafeMode(true);
+        return $parser->text($text);
     }
 }
