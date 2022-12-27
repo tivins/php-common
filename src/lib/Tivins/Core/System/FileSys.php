@@ -26,6 +26,22 @@ class FileSys
         return file_put_contents($filename, $data, $append ? FILE_APPEND : 0) !== false;
     }
 
+    public static function writeJSONFile(string $file, mixed $data): bool {
+        $json = json_encode($data);
+        if ($json === false) {
+            return false;
+        }
+        return self::writeFile($file, $json);
+    }
+    public static function loadJSONFile(string $file): mixed
+    {
+        $data = self::loadFile($file);
+        if ($data === false) {
+            return null;
+        }
+        return json_decode($data);
+    }
+
     public static function loadFile(string $file): string|false
     {
         if (!is_readable($file)) {

@@ -7,13 +7,13 @@ use PHPUnit\Framework\TestCase;
 
 class Test
 {
-use FastToString;
+    use FastToString;
 }
+
 class FastToStringTest extends TestCase
 {
-
     public function test__toString()
     {
-            self::assertMatchesRegularExpression('~Core\\\Code\\\Test#\d*~', new Test);
+        self::assertMatchesRegularExpression('~Core\\\Code\\\Test#\d*~', new Test);
     }
 }

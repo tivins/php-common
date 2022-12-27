@@ -3,7 +3,6 @@
 namespace TivinsTest\Core\System;
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit\TextUI\XmlConfiguration\File;
 use Tivins\Core\System\FileSys;
 
 class FileSysTest extends TestCase
@@ -11,12 +10,12 @@ class FileSysTest extends TestCase
     public function testMkdirFile()
     {
         $file = '/tmp/path/to/a/file';
-        $this->assertTrue(FileSys::mkdirFile($file));
-        $this->assertDirectoryExists(dirname($file));
+        self::assertTrue(FileSys::mkdirFile($file));
+        self::assertDirectoryExists(dirname($file));
 
         $file = '/tmp/path/to/b/file';
-        $this->assertTrue(FileSys::writeFile($file, 'test'));
-        $this->assertDirectoryExists(dirname($file));
+        self::assertTrue(FileSys::writeFile($file, 'test'));
+        self::assertDirectoryExists(dirname($file));
     }
 
     public function testLoad()
@@ -31,15 +30,24 @@ class FileSysTest extends TestCase
     {
         self::assertEquals('jpg', FileSys::getFileExtension('image.test.JPG'));
         self::assertEquals('jpg', FileSys::getFileExtension ('image.test..JPG'));
+        self::assertEquals('jpg', FileSys::getFileExtension ('https://example.com/test.jpg'));
         self::assertEquals('', FileSys::getFileExtension('imageJpG'));
     }
 
     public function testDelete()
     {
         $file = '/tmp/path/to/delete/file';
-        $this->assertFalse(FileSys::isReadable($file));
-        $this->assertTrue(FileSys::delete($file));
-        $this->assertTrue(FileSys::writeFile($file, 'test'));
-        $this->assertTrue(FileSys::delete($file));
+        self::assertFalse(FileSys::isReadable($file));
+        self::assertTrue(FileSys::delete($file));
+        self::assertTrue(FileSys::writeFile($file, 'test'));
+        self::assertTrue(FileSys::delete($file));
+    }
+
+    public function testJSON()
+    {
+        $file = '/tmp/' . sha1(microtime(true)) . '.json';
+        $data = (object) ['foo' => 'bar'];
+        self::assertTrue(FileSys::writeJSONFile($file, $data));
+        self::assertEquals($data, FileSys::loadJSONFile($file));
     }
 }
