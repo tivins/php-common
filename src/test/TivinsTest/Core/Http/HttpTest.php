@@ -13,5 +13,6 @@ class HttpTest extends TestCase
         $this->assertEquals(404, HttpStatus::NotFound->value);
         $this->assertEquals('POST', HttpMethod::POST->name);
         $this->assertTrue(HttpStatus::NotFound->isError());
+        $this->assertFalse(HttpStatus::OK->isError());
     }
 }

@@ -3,17 +3,17 @@
 namespace Tivins\Core;
 
 
-use Tivins\I18n\I18n;
+use Tivins\Core\Intl\Intl;
 
 /**
  * Simple Template Engine
  *
  * Basics replacements :
  *
- * * {{ variable }} : HTML entities.
- * * {$ variable $} : Translated and HTML entities.
- * * {! variable !} : No process.
- * * {^ file.html ^} : Include file.
+ * * `{{ variable }}` : HTML entities.
+ * * `{$ variable $}` : Translated and HTML entities.
+ * * `{! variable !}` : No process.
+ * * `{^ file.html ^}` : Include file.
  *
  * ## Usage
  *
@@ -27,14 +27,14 @@ use Tivins\I18n\I18n;
  * ## Blocks
  *
  * ```html
- * <!-- BEGIN blockname -->
+ * <!-- BEGIN blockName -->
  * <p>A block that contains a {{ variable }}.</p>
- * <!-- END blockname -->
+ * <!-- END blockName -->
  * ```
  *
  * ```php
- * $tpl->block('blockname', ['variable' => 'lorem']);
- * $tpl->block('blockname', ['variable' => 'ipsum']);
+ * $tpl->block('blockName', ['variable' => 'lorem']);
+ * $tpl->block('blockName', ['variable' => 'ipsum']);
  * ```
  *
  * Will render :
@@ -44,7 +44,7 @@ use Tivins\I18n\I18n;
  * <p>A block that contains a ipsum.</p>
  * ```
  *
- * NB: if there is no $tpl->block('blockname', $args), the block will not be
+ * NB: if there is no $tpl->block('blockName', $args), the block will not be
  * rendered.
  *
  * ## Nested blocks
@@ -58,20 +58,23 @@ use Tivins\I18n\I18n;
  * <!-- END block_name -->
  * ```
  *
- * ...todo
+ * ```php
+ * $tpl->getSubTpl('block_name')?->block('sub_block_name', ['anotherVariable' => 'foo']);
+ * $tpl->getSubTpl('block_name')?->block('sub_block_name', ['anotherVariable' => 'foo']);
+ * $tpl->block('sub_block_name', ['anotherVariable' => 'foo']);
+ * ```
  *
  */
 class Tpl
 {
-    /**
-     * @var string
-     * @todo Rename to 'content' or 'body'.
-     */
     public string $html = '';
 
     public array $vars = [];
 
     private array $storage = []; /*blocks*/
+
+    public function getStorage(): array { return $this->storage; }
+    public function getRawHTML(): string { return $this->html; }
 
     /**
      * @var string[]
@@ -91,7 +94,6 @@ class Tpl
         'abs' => 'abs',
     ];
 
-    private ?I18n $i18nModule = null;
 
     /**
      *
@@ -107,16 +109,78 @@ class Tpl
     public function setBody(string $body): self
     {
         $this->html = $body;
+        $this->processIncludes();
         $this->html = $this->parseBlocks($this->html);
         return $this;
     }
 
+
+    /**
+     *
+     */
+    public static function fromFile(string $filename, bool $addIncludeDir = false): self
+    {
+        $tpl = new self();
+        if ($addIncludeDir) {
+            $tpl->addIncludeDirectory(dirname($filename));
+        }
+        $tpl->setBody(file_get_contents($filename));
+        return $tpl;
+    }
+
+    public function addIncludeDirectory(string $directory): void
+    {
+        $this->includeDirs[] = $directory;
+    }
+
+    public function addFunction($name, callable $callback): void
+    {
+        $this->allowedFunctions[$name] = $callback;
+    }
+
+    public function concat(string $html): self
+    {
+        $this->html .= $html;
+        return $this;
+    }
+
+    public function loadFile(string $filename): bool
+    {
+        $data = $this->loadTemplate($filename);
+        if ($data === false) return false;
+        $this->setBody($data);
+        return true;
+    }
+
+    private function loadTemplate(string $filename): string|false
+    {
+        foreach ($this->includeDirs as $dir) {
+            $filename = $dir . '/' . $filename;
+            if (file_exists($filename)) {
+                return file_get_contents($filename);
+            }
+        }
+        return false;
+    }
+
+    public function setVar(string $key, string $value): self
+    {
+        $this->vars[$key] = $value;
+        return $this;
+    }
+
+    public function reset(string $body): void {
+        $this->vars=[];
+        $this->storage=[];
+        $this->setBody($body);
+    }
     /**
      *
      */
     public function parseBlocks(string $str): string
     {
-        while (preg_match('~<!-- BEGIN ([a-zA-Z0-9]+) -->~', $str, $matches, PREG_OFFSET_CAPTURE)) {
+        while (preg_match('~<!-- BEGIN ([a-zA-Z0-9_]+) -->~', $str, $matches, PREG_OFFSET_CAPTURE)) {
+            /** @var int $pos */
             [$name, $pos] = $matches[1];
 
             /** find END block */
@@ -129,7 +193,7 @@ class Tpl
 
             /** get content strings */
             $inside = substr($str, $startTagPos, $endTagPos - $startTagPos);
-            $block  = substr($str, $blockStartPos, $blockEndPos - $blockStartPos);
+            # $block  = substr($str, $blockStartPos, $blockEndPos - $blockStartPos);
 
             $str = substr($str, 0, $blockStartPos)
                 . '<!-- tpl(' . sha1($name) . ') -->'
@@ -137,8 +201,9 @@ class Tpl
 
             /** store block */
             $this->storage[$name] = [
-                'data' => $inside,
-                'processed' => '',
+                'data'       => $inside,
+                'processed'  => '',
+                'tpl'        => str_contains($inside, '<!-- BEGIN') ? new Tpl($inside) : null,
             ];
         }
         return $str;
@@ -147,80 +212,26 @@ class Tpl
     /**
      *
      */
-    public static function fromFile(string $filename, bool $addIncludeDir = false): self
+    public function getSubTpl(string $blockName): ?Tpl
     {
-        $tpl = new self(file_get_contents($filename));
-        if ($addIncludeDir) {
-            $tpl->addIncludeDirectory(dirname($filename));
-        }
-        return $tpl;
+        return $this->storage[$blockName]['tpl'] ?? null;
     }
 
-    public function addIncludeDirectory(string $directory): void
-    {
-        $this->includeDirs[] = $directory;
-    }
-
-    public function addFunction($name, callable $callback)
-    {
-        $this->allowedFunctions[$name] = $callback;
-    }
-
-    /**
-     *
-     */
-    public function concat(string $html): self
-    {
-        $this->html .= $html;
-        return $this;
-    }
-
-    /**
-     *
-     */
-    public function loadFile(string $filename): bool
-    {
-        $data = $this->loadTemplate($filename);
-        if ($data === false) return false;
-        $this->setBody($data);
-        return true;
-    }
-
-    /**
-     *
-     */
-    private function loadTemplate(string $filename): string|false
-    {
-        foreach ($this->includeDirs as $dir) {
-            $filename = $dir . '/' . $filename;
-            if (file_exists($filename)) {
-                return file_get_contents($filename);
-            }
-        }
-        return false;
-    }
-
-    /**
-     *
-     */
-    public function setVar(string $key, string $value): self
-    {
-        $this->vars[$key] = $value;
-        return $this;
-    }
-
-    /**
-     *
-     */
-    public function block(string $name, array $data)
+    public function block(string $name, array $data = []): static
     {
         if (!isset($this->storage[$name])) {
-            // $this->storage[$name]['processed'] .= '*miss*';
-            return;
+            return $this;
+        }
+        if ($this->storage[$name]['tpl']) {
+            $this->storage[$name]['processed'] .= $this->storage[$name]['tpl'];
+            $this->storage[$name]['tpl']->reset($this->storage[$name]['data']);
+            return $this;
         }
         $tpl = new Tpl($this->storage[$name]['data']);
-        $tpl->setVars($data);
+        //var_dump("SubTplStorate=", $tpl->getStorage());
+        if (!empty($data)) $tpl->setVars($data);
         $this->storage[$name]['processed'] .= $tpl;
+        return $this;
     }
 
     /**
@@ -228,7 +239,7 @@ class Tpl
      */
     public function setVars(array $keys_values): self
     {
-        $this->vars += $keys_values;
+        $this->vars = array_merge($this->vars, $keys_values);
         return $this;
     }
 
@@ -243,22 +254,26 @@ class Tpl
     /**
      *
      */
+    public function processIncludes(): void {
+        $this->html = preg_replace_callback('~{\^\s?([_a-zA-Z0-9\-.]*)\s?\^}~',
+            fn($matches) => $this->loadTemplate($matches[1]),
+            $this->html
+        );
+    }
+
     public function process(string $str, array $vars): string
     {
-        $str = preg_replace_callback('~{\^\s?([a-zA-Z0-9\-.]*)\s?\^}~',
-            fn($matches) => $this->loadTemplate($matches[1]),
-            $str
-        );
+
 
         $str = $this->replaceBlocks($str);
 
-        $str = preg_replace_callback('~{{\s?([a-zA-Z0-9]*)\s?\|?\s?([a-zA-Z0-9_,]+)?\s?}}~',
+        $str = preg_replace_callback('~{{\s?([_a-zA-Z0-9]*)\s?\|?\s?([a-zA-Z0-9_,]+)?\s?}}~',
             function ($matches) use ($vars) {
                 $base = $vars[$matches[1]] ?? $matches[1];
                 if (isset($matches[2]) && isset($this->allowedFunctions[$matches[2]])) {
                     $base = call_user_func($this->allowedFunctions[$matches[2]], $base);
                 }
-                return StringUtil::html($base);
+                return StrUtil::html($base);
             },
             $str
         );
@@ -268,26 +283,12 @@ class Tpl
             $str
         );
 
-        if ($this->i18nModule) {
-            $str = preg_replace_callback('~{\$\s*(.*?)\s*\$}~',
-                 fn($matches) => StringUtil::html($this->i18nModule->get($matches[1])),
-                 $str);
-        }
+        $str = preg_replace_callback('~{\$\s*(.*?)\s*\$}~',
+            fn($matches) => StrUtil::html(Intl::get($matches[1])),
+            $str);
 
         return $str;
     }
-
-    /**
-     * @param I18n|null $i18nModule
-     * @return Tpl
-     */
-    public function setI18nModule(?I18n $i18nModule): static
-    {
-        $this->i18nModule = $i18nModule;
-        return $this;
-    }
-
-
 
     /**
      * Replace stored processed blocks in the given string.

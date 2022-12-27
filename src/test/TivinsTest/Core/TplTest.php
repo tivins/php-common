@@ -4,7 +4,7 @@ namespace TivinsTest\Core;
 
 use PHPUnit\Framework\TestCase;
 use Tivins\Core\Tpl;
-use Tivins\I18n\I18n;
+use Tivins\Core\Intl\Intl;
 
 class TplTest extends TestCase
 {
@@ -38,10 +38,10 @@ class TplTest extends TestCase
 
     public function testTpl2()
     {
-        $i18n = (new I18n)->add('hello', 'Bonjour');
-
+       //  $i18n = (new Intl())->setData(['hello' => 'Bonjour']);
+        Intl::setData(['hello' => 'Bonjour']);
         $tpl = Tpl::fromFile(__dir__ . '/../../testFiles/replacements.html');
-        $tpl->setI18nModule($i18n);
+        //$tpl->setI18nModule($i18n);
         $tpl->setVars([
             'var1' => 'Template!',
             'html' => '<html>',

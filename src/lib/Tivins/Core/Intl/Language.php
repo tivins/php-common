@@ -1,11 +1,7 @@
 <?php /** @noinspection SpellCheckingInspection */
 
-namespace Tivins\I18n;
+namespace Tivins\Core\Intl;
 
-/**
- * @deprecated
- * @see \Tivins\Core\Intl\Language
- */
 enum Language: string
 {
     case English = 'en';

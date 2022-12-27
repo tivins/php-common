@@ -6,16 +6,13 @@ namespace Tivins\Core;
  * A `getopts()` wrapper.
  *
  * ```php
- * $opts = (new OptionsArgs())
- *     ->add(new OptionArg('h', false, 'help'))
- *     ->add(new OptionArg('f', true, 'filename'))
- *     ->parse();
- * var_dump($opts);
- * ```
- * ```sh
- * program.php -h
- * program.php -hf path/to/file
- * program.php --filename path/to/file
+ * $opts = OptionsArgs::newParsed(
+ *      new OptionArg('uri', true, 'u'),
+ *      new OptionArg('user-id', true),
+ *      new OptionArg('notify-id', true),
+ *      new OptionArg('verbose', false, 'v'),
+ * );
+ * $uri = $opts->getValue('uri');
  * ```
  *
  */
@@ -28,6 +25,12 @@ class OptionsArgs
      */
     private array $args = [];
 
+    private array $parsed = [];
+
+    public function __construct(OptionArg ...$args) {
+        $this->add(...$args);
+    }
+
     /**
      * Add one or more options to parse.
      *
@@ -35,9 +38,8 @@ class OptionsArgs
      * @return $this
      *
      */
-    public function add(OptionArg ...$args): self
+    public function add(OptionArg ...$args): static
     {
-        // $this->args = array_merge($this->args, $args);
         foreach ($args as $arg) {
             $this->args[$arg->getId()] = $arg;
         }
@@ -51,18 +53,17 @@ class OptionsArgs
      *      If $data is null, `getopt()` will be used.
      *      If $data is an array, this will be the source of input.
      *
-     * @return array
      */
     public function parse(array|null $data = null): array
     {
         $short = '';
         $longs = [];
         foreach ($this->args as $arg) {
-            if ($arg->getShort()) {
-                $short .= $arg->getShort() . ($arg->requireValue() ? ':' : '');
+            if ($arg->short) {
+                $short .= $arg->short . ($arg->requireValue ? ':' : '');
             }
-            if ($arg->getLong()) {
-                $longs[] = $arg->getLong() . ($arg->requireValue() ? ':' : '');
+            if ($arg->long) {
+                $longs[] = $arg->long . ($arg->requireValue ? ':' : '');
             }
         }
 
@@ -70,26 +71,29 @@ class OptionsArgs
 
         foreach ($this->args as $arg)
         {
-            if (!$arg->getLong()) {
-                continue;
-            }
             // copy value to long and remove short.
-            if (isset($opts[$arg->getShort()])) {
-                $opts[$arg->getLong()] = $opts[$arg->getShort()];
-                unset($opts[$arg->getShort()]);
+            if (isset($opts[$arg->short])) {
+                $opts[$arg->long] = $opts[$arg->short];
+                unset($opts[$arg->short]);
             }
         }
 
-        return $opts ?: [];
+        $this->parsed = $opts ?: [];
+        return $this->parsed;
     }
-    /*
-    private function getOpts(string $shortOrLong): ?OptionArg {
-        foreach ($this->args as $id => $arg) {
-            if (in_array($shortOrLong, [$arg->getShort(),$arg->getLong()])) {
-                return $arg;
-            }
-        }
-        return null;
+
+    public function getParsed(): array
+    {
+        return $this->parsed;
     }
-    */
+
+    public function getValue(string $long): string|false {
+        return $this->parsed[$long] ?? false;
+    }
+
+    public static function newParsed(OptionArg ...$args): static {
+        $inst = new static(...$args);
+        $inst->parse();
+        return $inst;
+    }
 }

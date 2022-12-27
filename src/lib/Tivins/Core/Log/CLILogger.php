@@ -6,11 +6,11 @@ use Tivins\Core\System\Terminal;
 
 class CLILogger extends Logger
 {
-    private bool $decorate = true;
+    private bool $decorated = true;
 
-    function colorLog(Level $level, string $str): string
+    private function colorLog(Level $level, string $str): string
     {
-        if (! $this->decorate) {
+        if (! $this->decorated) {
             return $str;
         }
         return Terminal::decorate($level, $str);
@@ -18,18 +18,18 @@ class CLILogger extends Logger
 
     public function write(Level $level, string $message, mixed ...$data)
     {
-        echo $this->colorLog($level, sprintf("[ %-9s ] [ %s ] - %s\n", $level->name, date('c'), is_string($message) ? $message : json_encode($message)));
+        echo $this->colorLog($level, sprintf("[ %-9s ] [ %s ] - %s\n", $level->name, date('c'), $message));
         if (! empty(array_filter($data))) echo "\e[90m" . " └─ " . json_encode($data) . "\e[0m" . PHP_EOL;
     }
 
-    public function isDecorate(): bool
+    public function isDecorated(): bool
     {
-        return $this->decorate;
+        return $this->decorated;
     }
 
-    public function setDecorate(bool $decorate): static
+    public function setDecorated(bool $decorated): static
     {
-        $this->decorate = $decorate;
+        $this->decorated = $decorated;
         return $this;
     }
 

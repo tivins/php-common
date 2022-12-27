@@ -1,11 +1,7 @@
 <?php
 
-namespace Tivins\Core\Http;
+namespace Tivins\Core\Net\Http;
 
-/**
- * @deprecated
- * @see \Tivins\Core\Net\Http\Status
- */
 enum Status: int
 {
     case Continue = 100;

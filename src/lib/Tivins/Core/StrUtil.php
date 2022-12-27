@@ -5,7 +5,7 @@ namespace Tivins\Core;
 /**
  * Utility class for strings.
  */
-class StringUtil
+class StrUtil
 {
     /**
      * Convert a string to a lowercase and "hyphened" string.

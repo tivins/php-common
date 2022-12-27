@@ -2,7 +2,9 @@
 
 namespace Tivins\Core;
 
-use Exception;
+use Psr\Log\LogLevel;
+use Throwable;
+use Tivins\Core\Log\Level;
 
 class Msg
 {
@@ -10,21 +12,21 @@ class Msg
     public const Warning = 'warning';
     public const Success = 'success';
 
-    public function __construct(private string $group = 'default')
+    public function __construct(private readonly string $group = 'default')
     {
     }
 
     /**
      * Push a new message.
      */
-    public function push(string $msg, string $type) : void
+    public function push(string $msg, Level $type) : void
     {
         $_SESSION['msg'][$this->group][] = [$msg, $type];
     }
 
-    public function pushException(Exception $exception)
+    public function pushException(Throwable $exception): void
     {
-        $this->push($exception->getMessage(), self::Error);
+        $this->push($exception->getMessage(), Level::DANGER);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace TivinsTest\Core\System;
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\TextUI\XmlConfiguration\File;
 use Tivins\Core\System\FileSys;
 
 class FileSysTest extends TestCase
@@ -16,5 +17,22 @@ class FileSysTest extends TestCase
         $file = '/tmp/path/to/b/file';
         $this->assertTrue(FileSys::writeFile($file, 'test'));
         $this->assertDirectoryExists(dirname($file));
+    }
+
+    public function testLoad()
+    {
+        self::assertFalse(FileSys::loadFile('/anywhere/' . time()));
+        $tmp = '/tmp/tmp-'.time().'.test';
+        FileSys::writeFile($tmp, time());
+        self::assertIsString(FileSys::loadFile($tmp));
+    }
+
+    public function testDelete()
+    {
+        $file = '/tmp/path/to/delete/file';
+        $this->assertFalse(FileSys::isReadable($file));
+        $this->assertTrue(FileSys::delete($file));
+        $this->assertTrue(FileSys::writeFile($file, 'test'));
+        $this->assertTrue(FileSys::delete($file));
     }
 }

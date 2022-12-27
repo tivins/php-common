@@ -112,7 +112,7 @@ class Process
     /**
      * Called just after the process opening.
      */
-    public function onStart()
+    public function onStart(): void
     {
     }
 
@@ -125,7 +125,7 @@ class Process
      * echo round(microtime(true) - $this->proc->started, 3), "\r";
      * ```
      */
-    public function onUpdate(array $status, array $received)
+    public function onUpdate(array $status, array $received): void
     {
     }
 
@@ -137,7 +137,7 @@ class Process
      * echo Terminal::getClearLine();
      * ```
      */
-    public function onFinish()
+    public function onFinish(): void
     {
     }
 }

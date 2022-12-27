@@ -2,6 +2,9 @@
 
 namespace Tivins\Core\System;
 
+/**
+ * @deprecated
+ */
 enum TTYColors
 {
     case black;

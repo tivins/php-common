@@ -10,10 +10,14 @@ class OptionsArgsTest extends TestCase
 
     public function testParse()
     {
-        $opts = (new OptionsArgs())
-            ->add(new OptionArg('v', false, 'version'))
-            ->parse();
+        $opts = OptionsArgs::newParsed(
+            new OptionArg('uri', true, 'u'),
+             new OptionArg('configuration', true),
+             new OptionArg('notify-id', true),
+             new OptionArg('verbose', false, 'v'),
+        );
 
-        $this->assertEquals([], $opts);
+        self::assertFalse($opts->getValue('notify-id'));
+//        self::assertIsString($opts->getValue('configuration'));
     }
 }

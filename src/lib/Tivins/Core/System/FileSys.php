@@ -2,6 +2,9 @@
 
 namespace Tivins\Core\System;
 
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+
 class FileSys
 {
     public static function mkdir(string $dir, int $permissions = 0755): bool
@@ -17,12 +20,9 @@ class FileSys
         return self::mkdir(dirname($filename), $permissions);
     }
 
-    /**
-     * @todo Remove $createDirs
-     */
-    public static function writeFile(string $filename, mixed $data, bool $createDirs = true, bool $append = false): bool
+    public static function writeFile(string $filename, mixed $data, bool $append = false, bool $createDirs = true): bool
     {
-        self::mkdirFile($filename);
+        if ($createDirs) self::mkdirFile($filename);
         return file_put_contents($filename, $data, $append ? FILE_APPEND : 0) !== false;
     }
 
@@ -41,6 +41,12 @@ class FileSys
 
     public static function delete(string $file): bool
     {
-        return unlink($file);
+        return !file_exists($file) || unlink($file);
+    }
+
+    public static function globRecursive($directory): RecursiveIteratorIterator
+    {
+        $directory = new RecursiveDirectoryIterator($directory);
+        return new RecursiveIteratorIterator($directory);
     }
 }

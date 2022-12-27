@@ -7,7 +7,7 @@ use Tivins\Core\System\Terminal;
 
 class ProcBackground extends Process
 {
-    private string  $str      = '⠉⠛⠿⣿⣶⣤⣀⣤⣶⣿⠿⠛';
+    private string  $str = '⠉⠛⠿⣿⣶⣤⣀⣤⣶⣿⠿⠛';
     private int     $len;
     private string  $message;
     private ?string $endMessage;
@@ -18,29 +18,29 @@ class ProcBackground extends Process
 
     public function __construct(string $message, ?string $endMessage = null, ?string $failMessage = null)
     {
-        $this->message    = $message;
-        $this->endMessage = $endMessage;
+        $this->message     = $message;
+        $this->endMessage  = $endMessage;
         $this->failMessage = $failMessage;
-        $this->len        = mb_strlen($this->str);
+        $this->len         = mb_strlen($this->str);
     }
 
     private function displayLines(string $logs): string
     {
-        $lines = array_filter(explode("\n", $logs)?:[]);
+        $lines = array_filter(explode("\n", $logs) ?: []);
         if (empty($logs)) return '';
-        $out=[];
+        $out = [];
         foreach ($lines as $line) {
             $write = $line;
-            if (strlen($line) > Terminal::getWidth() - 10) {
-                $partLen = floor((Terminal::getWidth() - 10 - 3)/2);
-                $write = substr($line,0, $partLen) .'...'.substr($line,-$partLen);
+            if (strlen($line) > Terminal::width() - 10) {
+                $partLen = floor((Terminal::width() - 10 - 3) / 2);
+                $write   = substr($line, 0, $partLen) . '...' . substr($line, -$partLen);
             }
             $out[] = "  | " . $write;
         }
-        return join("\n", $out)."\n";
+        return join("\n", $out) . "\n";
     }
 
-    public function onUpdate(array $status, array $received)
+    public function onUpdate(array $status, array $received): void
     {
         $this->buffers[self::STDOUT] .= $received[self::STDOUT];
         $this->buffers[self::STDERR] .= $received[self::STDERR];
@@ -54,24 +54,24 @@ class ProcBackground extends Process
         if ($this->display[self::STDERR]) echo Terminal::decorateDanger($this->displayLines($stderr));
 
         $loader = $this->getLoaderChar()
-            . ' [' . number_format(microtime(true) - $this->proc->started, 1) . 's] '
-            ;
+            . ' [' . number_format(microtime(true) - $this->proc->started, 1) . 's] ';
 
         echo "\r" . Terminal::decorateSuccess($loader) . $this->message . "…";
     }
 
-    public function onFinish()
+    public function onFinish(): void
     {
         echo Terminal::getClearLine();
 
         $err      = $this->proc->hasError();
         $loadChar = $err ? 'x' : '✓'; // mb_substr($this->str, $this->full, 1);
-        $message  = $err && ($this->failMessage ? $this->failMessage: ($this->endMessage ?? $this->message));
+        $message  = $err && ($this->failMessage ? $this->failMessage : ($this->endMessage ?? $this->message));
         $timeStr  = ' in [' . number_format(microtime(true) - $this->proc->started, 3) . 's]';
 
         echo Terminal::getClearLine(); // Erase line width animation
         echo Terminal::decorate($err ? Level::DANGER : Level::INFO,
-                $loadChar . ' ' . $message) . $timeStr . ".\n";
+                $loadChar . ' ' . $message
+            ) . $timeStr . ".\n";
     }
 
     /**
@@ -96,8 +96,8 @@ class ProcBackground extends Process
 
     private function wrapPartialContent(int $fd): string
     {
-        $pos = strrpos($this->buffers[$fd], "\n");
-        $out = substr($this->buffers[$fd], 0, $pos + 1);
+        $pos                = strrpos($this->buffers[$fd], "\n");
+        $out                = substr($this->buffers[$fd], 0, $pos + 1);
         $this->buffers[$fd] = substr($this->buffers[$fd], $pos + 1);
         return $out;
     }

@@ -3,7 +3,7 @@
 namespace Tivins\Core\HTML;
 
 use Tivins\Core\Code\Exception;
-use Tivins\Core\StringUtil as Str;
+use Tivins\Core\StrUtil as Str;
 
 class Form
 {

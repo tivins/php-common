@@ -6,7 +6,7 @@ abstract class Logger
 {
     private Level $level = Level::DANGER;
 
-    final public function log(Level $level, string $message, mixed ...$data)
+    final public function log(Level $level, string $message, mixed ...$data): void
     {
         if ($level->value > $this->level->value) {
             return;
@@ -16,22 +16,30 @@ abstract class Logger
 
     abstract protected function write(Level $level, string $message, mixed ...$data);
 
-    final public function danger(string $message, mixed ...$data) {
+    final public function danger(string $message, mixed ...$data): void
+    {
         $this->log(Level::DANGER, $message, ...$data);
     }
-    final public function info(string $message, mixed ...$data) {
+
+    final public function info(string $message, mixed ...$data): void
+    {
         $this->log(Level::INFO, $message, ...$data);
     }
-    final public function warning(string $message, mixed ...$data) {
+
+    final public function warning(string $message, mixed ...$data): void
+    {
         $this->log(Level::WARNING, $message, ...$data);
     }
-    final public function success(string $message, mixed ...$data) {
+
+    final public function success(string $message, mixed ...$data): void
+    {
         $this->log(Level::SUCCESS, $message, ...$data);
     }
-    final public function debug(string $message, mixed ...$data) {
+
+    final public function debug(string $message, mixed ...$data): void
+    {
         $this->log(Level::DEBUG, $message, ...$data);
     }
-
 
     /**
      * @return Level

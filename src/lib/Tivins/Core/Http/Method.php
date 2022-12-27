@@ -3,10 +3,8 @@
 namespace Tivins\Core\Http;
 
 /**
- * HTTP defines a set of request methods to indicate the desired action to be performed for a given resource.
- *
- * @see https://datatracker.ietf.org/doc/html/rfc7231#section-4
- * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
+ * @deprecated
+ * @see \Tivins\Core\Net\Http\Method
  */
 enum Method
 {
