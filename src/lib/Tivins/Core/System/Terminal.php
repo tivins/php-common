@@ -3,6 +3,7 @@
 namespace Tivins\Core\System;
 
 use Tivins\Core\Color;
+use Tivins\Core\ColorFormat;
 
 class Terminal
 {
@@ -44,8 +45,8 @@ class Terminal
 
     public static function decorateRGB(?Color $foreColor, ?Color $backColor): void
     {
-        if ($foreColor) echo self::ESCAPE_CHAR . "[38;2;{$foreColor->red};{$foreColor->green};{$foreColor->blue}m";
-        if ($backColor) echo self::ESCAPE_CHAR . "[48;2;{$backColor->red};{$backColor->green};{$backColor->blue}m";
+        if ($foreColor) echo self::ESCAPE_CHAR . "[38;2;{$foreColor->format(ColorFormat::TTY)}m";
+        if ($backColor) echo self::ESCAPE_CHAR . "[48;2;{$backColor->format(ColorFormat::TTY)}m";
     }
 
     public static function decorateReset(): void
