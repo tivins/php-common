@@ -2,6 +2,8 @@
 
 namespace Tivins\Core;
 
+use Parsedown;
+
 /**
  * Utility class for strings.
  */
@@ -44,5 +46,13 @@ class StrUtil
     public static function toUnicode(string $sequence = '\uffff'): string
     {
         return json_decode('"' . $sequence . '"');
+    }
+
+    public static function markdown(string $text): string {
+        static $parser;
+        if (!isset($parser)) {
+            $parser = new Parsedown();
+        }
+        return $parser->parse($text);
     }
 }
