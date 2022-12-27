@@ -20,45 +20,11 @@ class FileSys
         return self::mkdir(dirname($filename), $permissions);
     }
 
-    public static function writeFile(string $filename, mixed $data, bool $append = false, bool $createDirs = true): bool
-    {
-        if ($createDirs) self::mkdirFile($filename);
-        return file_put_contents($filename, $data, $append ? FILE_APPEND : 0) !== false;
-    }
-
-    public static function writeJSONFile(string $file, mixed $data): bool {
-        $json = json_encode($data);
-        if ($json === false) {
-            return false;
-        }
-        return self::writeFile($file, $json);
-    }
-    public static function loadJSONFile(string $file): mixed
-    {
-        $data = self::loadFile($file);
-        if ($data === false) {
-            return null;
-        }
-        return json_decode($data);
-    }
-
-    public static function loadFile(string $file): string|false
-    {
-        if (!is_readable($file)) {
-            return false;
-        }
-        return file_get_contents($file);
-    }
-
     public static function isReadable(string $file): bool
     {
         return is_readable($file);
     }
 
-    public static function delete(string $file): bool
-    {
-        return !file_exists($file) || unlink($file);
-    }
 
     public static function globRecursive($directory): RecursiveIteratorIterator
     {
@@ -66,15 +32,4 @@ class FileSys
         return new RecursiveIteratorIterator($directory);
     }
 
-    /**
-     * Returns the extension of the given filename. Ex: 'image.JPG' => 'jpg'
-     */
-    public static function getFileExtension(string $file): string
-    {
-        $lastDotPos = strrpos($file, '.');
-        if ($lastDotPos === false) {
-            return '';
-        }
-        return mb_strtolower(mb_substr($file, $lastDotPos + 1));
-    }
 }

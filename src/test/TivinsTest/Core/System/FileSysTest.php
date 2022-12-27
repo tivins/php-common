@@ -3,6 +3,7 @@
 namespace TivinsTest\Core\System;
 
 use PHPUnit\Framework\TestCase;
+use Tivins\Core\System\File;
 use Tivins\Core\System\FileSys;
 
 class FileSysTest extends TestCase
@@ -14,40 +15,40 @@ class FileSysTest extends TestCase
         self::assertDirectoryExists(dirname($file));
 
         $file = '/tmp/path/to/b/file';
-        self::assertTrue(FileSys::writeFile($file, 'test'));
+        self::assertTrue(File::save($file, 'test'));
         self::assertDirectoryExists(dirname($file));
     }
 
     public function testLoad()
     {
-        self::assertFalse(FileSys::loadFile('/anywhere/' . time()));
+        self::assertFalse(File::load('/anywhere/' . time()));
         $tmp = '/tmp/tmp-'.time().'.test';
-        FileSys::writeFile($tmp, time());
-        self::assertIsString(FileSys::loadFile($tmp));
+        File::save($tmp, time());
+        self::assertIsString(File::load($tmp));
     }
 
     public function testGetFileExtension()
     {
-        self::assertEquals('jpg', FileSys::getFileExtension('image.test.JPG'));
-        self::assertEquals('jpg', FileSys::getFileExtension ('image.test..JPG'));
-        self::assertEquals('jpg', FileSys::getFileExtension ('https://example.com/test.jpg'));
-        self::assertEquals('', FileSys::getFileExtension('imageJpG'));
+        self::assertEquals('jpg', File::getExtension('image.test.JPG'));
+        self::assertEquals('jpg', File::getExtension ('image.png.test.jpg'));
+        self::assertEquals('jpg', File::getExtension ('https://example.com/test.jpg'));
+        self::assertEquals('', File::getExtension('imageJpG'));
     }
 
     public function testDelete()
     {
         $file = '/tmp/path/to/delete/file';
         self::assertFalse(FileSys::isReadable($file));
-        self::assertTrue(FileSys::delete($file));
-        self::assertTrue(FileSys::writeFile($file, 'test'));
-        self::assertTrue(FileSys::delete($file));
+        self::assertTrue(File::delete($file));
+        self::assertTrue(File::save($file, 'test'));
+        self::assertTrue(File::delete($file));
     }
 
     public function testJSON()
     {
         $file = '/tmp/' . sha1(microtime(true)) . '.json';
-        $data = (object) ['foo' => 'bar'];
-        self::assertTrue(FileSys::writeJSONFile($file, $data));
-        self::assertEquals($data, FileSys::loadJSONFile($file));
+        $data = (object)['foo' => 'bar'];
+        self::assertTrue(File::saveJSON($file, $data));
+        self::assertEquals($data, File::loadJSON($file));
     }
 }
