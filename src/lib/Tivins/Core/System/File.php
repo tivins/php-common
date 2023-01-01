@@ -4,6 +4,14 @@ namespace Tivins\Core\System;
 
 class File
 {
+    public static function isReadable(string $file): bool
+    {
+        return is_readable($file);
+    }
+
+    # public static function get(string $file): string|false { return self::load($file); }
+    # public static function getJSON(string $file): mixed { return self::loadJSON($file); }
+
     public static function loadJSON(string $file): mixed
     {
         $data = self::load($file);
@@ -12,6 +20,7 @@ class File
         }
         return json_decode($data);
     }
+
 
     public static function load(string $file): string|false
     {

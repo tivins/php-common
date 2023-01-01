@@ -58,7 +58,7 @@ class Msg
      */
     protected function render(array $msgData) : string
     {
-        return '<div class="alert ' . $msgData[1] . '">' . $msgData[0] . '</div>';
+        return '<div class="alert level-' . $msgData[1]->name . '">' . $msgData[0] . '</div>';
     }
 }
 

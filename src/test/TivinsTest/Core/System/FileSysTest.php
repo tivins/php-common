@@ -38,7 +38,7 @@ class FileSysTest extends TestCase
     public function testDelete()
     {
         $file = '/tmp/path/to/delete/file';
-        self::assertFalse(FileSys::isReadable($file));
+        self::assertFalse(File::isReadable($file));
         self::assertTrue(File::delete($file));
         self::assertTrue(File::save($file, 'test'));
         self::assertTrue(File::delete($file));

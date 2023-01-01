@@ -10,10 +10,10 @@ use Tivins\Core\Intl\Intl;
  *
  * Basics replacements :
  *
- * * `{{ variable }}` : HTML entities.
- * * `{$ variable $}` : Translated and HTML entities.
- * * `{! variable !}` : No process.
- * * `{^ file.html ^}` : Include file.
+ * - `{{ variable }}` : HTML entities.
+ * - `{$ variable $}` : Translated and HTML entities.
+ * - `{! variable !}` : No process.
+ * - `{^ file.html ^}` : Include file.
  *
  * ## Usage
  *
@@ -263,17 +263,17 @@ class Tpl
 
     public function process(string $str, array $vars): string
     {
-
-
         $str = $this->replaceBlocks($str);
 
-        $str = preg_replace_callback('~{{\s?([_a-zA-Z0-9]*)\s?\|?\s?([a-zA-Z0-9_,]+)?\s?}}~',
+        $str = preg_replace_callback('~{{\s?(.*?)\s?\|?\s?([a-zA-Z0-9_,]+)?\s?}}~',
             function ($matches) use ($vars) {
                 $base = $vars[$matches[1]] ?? $matches[1];
+                $encode = true;
                 if (isset($matches[2]) && isset($this->allowedFunctions[$matches[2]])) {
-                    $base = call_user_func($this->allowedFunctions[$matches[2]], $base);
+                    /** @noinspection PhpConditionAlreadyCheckedInspection */
+                    $base = call_user_func_array($this->allowedFunctions[$matches[2]], [$base, &$encode]);
                 }
-                return StrUtil::html($base);
+                return $encode ? StrUtil::html($base) : $base;
             },
             $str
         );

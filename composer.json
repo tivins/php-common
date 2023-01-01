@@ -26,6 +26,7 @@
   },
   "autoload-dev": {
     "psr-4": {
+      "Tivins\\DocBuilder\\": "src/DocBuilder",
       "TivinsTest\\": "src/test/TivinsTest"
     }
   },
