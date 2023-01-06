@@ -27,6 +27,14 @@ class FileSysTest extends TestCase
         self::assertIsString(File::load($tmp));
     }
 
+    public function testCopy()
+    {
+        $tmp = '/tmp/tmp-'.sha1(microtime(true)).'.test';
+        $out = $tmp . '_copy';
+        File::save($tmp, 'ym90');
+        FileSys::copy($tmp, $out);
+        self::assertTrue(file_exists($out));
+    }
     public function testGetFileExtension()
     {
         self::assertEquals('jpg', File::getExtension('image.test.JPG'));

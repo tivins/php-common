@@ -15,6 +15,11 @@ class FileSys
         return is_dir($dir);
     }
 
+    public static function copy(string $source, string $destination): bool
+    {
+        self::mkdirFile($destination);
+        return copy($source, $destination);
+    }
     /**
      * Create the directory for the given file.
      */
