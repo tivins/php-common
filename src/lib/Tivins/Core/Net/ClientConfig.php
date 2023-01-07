@@ -30,6 +30,7 @@ class ClientConfig
             CURLOPT_POST           => false,
             CURLOPT_CUSTOMREQUEST  => 'GET',
             CURLOPT_POSTFIELDS     => '',
+            CURLOPT_ENCODING       => '',
         ];
     }
 
