@@ -12,7 +12,7 @@ permissions:
 jobs:
   build:
 
-    runs-on: 8.2.1-apache
+    runs-on: php:8.2.1
 
     steps:
     - uses: actions/checkout@v3
