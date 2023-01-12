@@ -15,7 +15,8 @@ namespace Tivins\Core\Cache;
  * }
  * else {
  *      // get what to be cached...
- *      $cache->set('my_key', new CacheItem($content, $meta));
+ *      $item = new CacheItem($content, $meta);
+ *      $cache->set('my_key', $item);
  * }
  * ```
  *

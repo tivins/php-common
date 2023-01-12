@@ -1,9 +1,9 @@
 <?php
 
-namespace Core;
+namespace TivinsTest\Core;
 
-use Tivins\Core\Color;
 use PHPUnit\Framework\TestCase;
+use Tivins\Core\Color;
 use Tivins\Core\ColorFormat;
 use function PHPUnit\Framework\assertEquals;
 

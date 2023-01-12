@@ -1,6 +1,6 @@
 <?php /** @noinspection PhpMultipleClassesDeclarationsInOneFile */
 
-namespace Core\Code;
+namespace TivinsTest\Core\Code;
 
 use Tivins\Core\Code\FastToString;
 use PHPUnit\Framework\TestCase;
@@ -14,6 +14,6 @@ class FastToStringTest extends TestCase
 {
     public function test__toString()
     {
-        self::assertMatchesRegularExpression('~Core\\\Code\\\Test#\d*~', new Test);
+        self::assertMatchesRegularExpression('~\\\Core\\\Code\\\Test#\d*$~', new Test);
     }
 }

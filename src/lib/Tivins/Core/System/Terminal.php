@@ -45,8 +45,12 @@ class Terminal
 
     public static function decorateRGB(?Color $foreColor, ?Color $backColor): void
     {
-        if ($foreColor) echo self::ESCAPE_CHAR . "[38;2;{$foreColor->format(ColorFormat::TTY)}m";
-        if ($backColor) echo self::ESCAPE_CHAR . "[48;2;{$backColor->format(ColorFormat::TTY)}m";
+        if ($foreColor) {
+            echo self::ESCAPE_CHAR . "[38;2;{$foreColor->format(ColorFormat::TTY)}m";
+        }
+        if ($backColor) {
+            echo self::ESCAPE_CHAR . "[48;2;{$backColor->format(ColorFormat::TTY)}m";
+        }
     }
 
     public static function decorateReset(): void
@@ -62,5 +66,14 @@ class Terminal
     public static function height(): int
     {
         return intval(shell_exec('tput lines'));
+    }
+
+    public static function sleep(int $seconds, string $format = 'Sleeping %d seconds...'): void
+    {
+        while ($seconds--) {
+            printf($format . PHP_EOL, $seconds);
+            sleep(1);
+            self::goUpClean(1);
+        }
     }
 }

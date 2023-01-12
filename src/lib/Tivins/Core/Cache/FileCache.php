@@ -2,6 +2,7 @@
 
 namespace Tivins\Core\Cache;
 
+use Tivins\Core\System\File;
 use Tivins\Core\System\FileSys;
 
 class FileCache implements Cache
@@ -42,9 +43,9 @@ class FileCache implements Cache
     {
         $filename = $this->getFilename($key);
         FileSys::mkdirFile($filename);
-        $res = file_put_contents($filename, $item->data) !== false;
+        $res = File::save($filename, $item->data) !== false;
         if ($res && !is_null($item->meta)) {
-            $res = file_put_contents($this->getFilename($key, true), json_encode($item->meta));
+            $res = File::saveJSON($this->getFilename($key, true), $item->meta);
         }
         return $res;
     }
@@ -68,6 +69,6 @@ class FileCache implements Cache
 
     public function delete(string $key): void
     {
-        FileSys::delete($this->getFilename($key));
+        File::delete($this->getFilename($key));
     }
 }

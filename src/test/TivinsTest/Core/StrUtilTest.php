@@ -1,9 +1,9 @@
 <?php
 
-namespace Core;
+namespace TivinsTest\Core;
 
-use Tivins\Core\StrUtil;
 use PHPUnit\Framework\TestCase;
+use Tivins\Core\StrUtil;
 use function PHPUnit\Framework\assertEquals;
 
 class StrUtilTest extends TestCase

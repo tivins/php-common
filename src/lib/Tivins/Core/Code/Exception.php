@@ -2,7 +2,7 @@
 
 namespace Tivins\Core\Code;
 
-use Tivins\Core\Http\Status;
+use Tivins\Core\Net\Http\Status;
 
 class Exception extends \Exception
 {
