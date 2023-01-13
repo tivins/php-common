@@ -2,7 +2,7 @@
 
 namespace Tivins\Core\API\Exceptions;
 
-use Tivins\Core\Net\http\Status;
+use Tivins\Core\Net\Http\Status;
 
 class BadRequestException extends APIException
 {
