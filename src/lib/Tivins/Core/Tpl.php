@@ -267,12 +267,13 @@ class Tpl
 
         $str = preg_replace_callback('~{{\s?(.*?)\s?\|?\s?([a-zA-Z0-9_,]+)?\s?}}~',
             function ($matches) use ($vars) {
+                $matches = array_values(array_filter($matches));
                 $base = $vars[$matches[1]] ?? $matches[1];
                 $encode = true;
                 if (isset($matches[2]) && isset($this->allowedFunctions[$matches[2]])) {
-                    /** @noinspection PhpConditionAlreadyCheckedInspection */
-                    $base = call_user_func_array($this->allowedFunctions[$matches[2]], [$base, &$encode]);
+                    $base = call_user_func_array($this->allowedFunctions[$matches[2]], [$base]);
                 }
+                /** @todo */
                 return $encode ? StrUtil::html($base) : $base;
             },
             $str

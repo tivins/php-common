@@ -12,7 +12,7 @@ class TplTest extends TestCase
         self::assertTrue(true);
     }
     
-    public function _testTpl()
+    public function testTpl()
     {
         $tpl = new Tpl('test');
         $this->assertEquals('test', (string)$tpl);
@@ -27,7 +27,6 @@ class TplTest extends TestCase
         //    . "\n\n"
         //    . '<p>A block that contains a \'hello2\'.</p>',
         //    trim($tpl));
-
         $tpl->block('blockName2', ['num' => '2.7']);
         $this->assertEquals(
             '<p>A block that contains a \'hello1\'.</p>'
