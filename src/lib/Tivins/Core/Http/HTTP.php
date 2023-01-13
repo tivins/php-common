@@ -1,6 +1,8 @@
 <?php
 
 namespace Tivins\Core\Http;
+use Tivins\Core\Net\Http\Status;
+use Tivins\Core\Net\Http\ContentType;
 
 /**
  * Perform actions on HTTP content.
