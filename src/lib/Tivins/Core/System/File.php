@@ -6,11 +6,12 @@ class File
 {
     public static function isReadable(string $file): bool
     {
+        if ($file === 'php://input') {
+            return true;
+        }
         return is_readable($file);
     }
 
-    # public static function get(string $file): string|false { return self::load($file); }
-    # public static function getJSON(string $file): mixed { return self::loadJSON($file); }
 
     public static function loadJSON(string $file): mixed
     {
@@ -24,7 +25,7 @@ class File
 
     public static function load(string $file): string|false
     {
-        if (!is_readable($file)) {
+        if (!self::isReadable($file)) {
             return false;
         }
         return file_get_contents($file);
