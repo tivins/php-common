@@ -1,0 +1,23 @@
+Tivins\Baz\Core\Net\Client#21 200 (568)
+{
+  "args": {}, 
+  "data": "{\"yo\":\"lo\"}", 
+  "files": {}, 
+  "form": {}, 
+  "headers": {
+    "Accept": "*/*", 
+    "Authorization": "Bearer a-token-from-elsewhere", 
+    "Content-Length": "11", 
+    "Content-Type": "application/json", 
+    "Host": "httpbin.org", 
+    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:104.0) Gecko/xx.xx.xx.xx Firefox/104.0", 
+    "X-Amzn-Trace-Id": "Root=xx.xx.xx.xx-78aaxx.xx.xx.xxef"
+  }, 
+  "json": {
+    "yo": "lo"
+  }, 
+  "method": "POST", 
+  "origin": "xx.xx.xx.xx", 
+  "url": "https://httpbin.org/anything"
+}
+
