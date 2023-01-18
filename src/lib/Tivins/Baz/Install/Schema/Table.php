@@ -2,8 +2,20 @@
 
 namespace Tivins\Baz\Install\Schema;
 
-
-
+/**
+ * example:
+ *
+ *     $id        = Field::newSerial('id_user', 'User unique ID')->setSelectable();
+ *     $name      = Field::newString('name', 32, 'User display name')->setSelectable()->setUnique()->setNotEmpty();
+ *     $mail      = Field::newString('mail', 255, 'User email')->setSelectable()->setUnique()->setValidEmail();
+ *     $pass      = Field::newString('pass', 255, 'Encrypted password')->setNotEmpty();
+ *     $created   = Field::newTimestamp('created', 'the creation timestamp');
+ *     $nb_conn   = Field::newInt('nb_conn');
+ *     //
+ *     $table = new Table('users', 'User', 'User account'))
+ *          ->addFields($id, $name, $mail, $pass, $created, $deleted, $last_conn, $nb_conn)
+ *          ->setPrimaryKey($id);
+ */
 class Table
 {
     private readonly string $name;
