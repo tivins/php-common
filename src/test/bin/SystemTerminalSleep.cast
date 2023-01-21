@@ -1,6 +1,6 @@
-{"version":2,"width":80,"height":24,"timestamp":1674319176,"env":{"SHELL":"\/bin\/bash","TERM":"xterm-256color"}}
+{"version":2,"width":80,"height":24,"timestamp":1674319829,"env":{"SHELL":"\/bin\/bash","TERM":"xterm-256color"}}
 [0,"o","\u0007\u001b[01;32mme@hostname\u001b[00m:\u001b[01;34m\/path\/run\u001b[00m$ run.php\r\n"]
-[0.020333051681518555,"o","Sleeping 2 seconds...\r\n"]
-[1.0203251838684082,"o","\u001b[1A\r\u001b[KSleeping 1 seconds...\r\n"]
-[2.020418167114258,"o","\u001b[1A\r\u001b[KSleeping 0 seconds...\r\n"]
-[3.0205471515655518,"o","\u001b[1A\r\u001b[KDone.\r\n"]
+[0.044728994369506836,"o","Sleeping 2 seconds...\r\n"]
+[1.0447678565979004,"o","\u001b[1A\r\u001b[KSleeping 1 seconds...\r\n"]
+[2.044883966445923,"o","\u001b[1A\r\u001b[KSleeping 0 seconds...\r\n"]
+[3.046433925628662,"o","\u001b[1A\r\u001b[KDone.\r\n"]

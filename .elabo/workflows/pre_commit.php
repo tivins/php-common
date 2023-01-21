@@ -86,12 +86,10 @@ function convertAscii(array $matches): string
     $info = $proc->run($command,10);
     //
     File::save($outFile, $proc->getCast());
-    return '<script src="/asciinema-player.min.js"></script>
-  <div id="demo"></div>
-
-  <script>
-    AsciinemaPlayer.create(\''.$outFile.'\', document.getElementById(\'demo\'));
-  </script>';
+    return '
+<div id="demo"></div>
+<script src="/php-common/asciinema-player.min.js"></script>
+<script>AsciinemaPlayer.create(\'/php-common/'.basename($outFile).'\', document.getElementById(\'demo\'));</script>';
 }
 
 function convertCode($matches): string
