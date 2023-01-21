@@ -71,7 +71,7 @@ class Terminal
     public static function sleep(int $seconds, string $format = 'Sleeping %d seconds...'): void
     {
         while ($seconds--) {
-            printf($format . PHP_EOL, $seconds);
+            printf($format . "\r\n", $seconds);
             sleep(1);
             self::goUpClean(1);
         }
