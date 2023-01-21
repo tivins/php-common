@@ -1,4 +1,4 @@
-Tivins\Baz\Core\Net\Client#4 200 (497)
+Tivins\Core\Net\Client#4 200 (542)
 stdClass Object
 (
     [args] => stdClass Object
@@ -17,11 +17,12 @@ stdClass Object
     [headers] => stdClass Object
         (
             [Accept] => */*
+            [Accept-Encoding] => deflate, gzip, br
             [Content-Length] => 0
             [Content-Type] => application/x-www-form-urlencoded
             [Host] => httpbin.org
-            [User-Agent] => Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:102.0) Gecko/xx.xx.xx.xx Firefox/102.0
-            [X-Amzn-Trace-Id] => Root=xx.xx.xx.xx-xx.xx.xx.xxbecxx.xx.xx.xx
+            [User-Agent] => Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:107.0) Gecko/xx.xx.xx.xx Firefox/107.0
+            [X-Amzn-Trace-Id] => Root=1-63cbb24f-187ff1dfxx.xx.xx.xx
         )
 
     [json] => 

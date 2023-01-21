@@ -1,0 +1,30 @@
+Tivins\Core\Net\ClientMulti#5 => 0.0s
+Tivins\Core\Net\ClientMulti#5 => 0.1s
+Tivins\Core\Net\ClientMulti#5 => 0.2s
+Tivins\Core\Net\ClientMulti#5 => 0.3s
+Tivins\Core\Net\ClientMulti#5 => 0.4s
+Tivins\Core\Net\ClientMulti#5 => 0.5s
+Tivins\Core\Net\ClientMulti#5 => 0.6s
+Tivins\Core\Net\ClientAsync#4 200 (558)
+{
+  "args": {}, 
+  "data": "{\"yo\":\"lo\"}", 
+  "files": {}, 
+  "form": {}, 
+  "headers": {
+    "Accept": "*/*", 
+    "Accept-Encoding": "deflate, gzip, br", 
+    "Content-Length": "11", 
+    "Content-Type": "application/json", 
+    "Host": "httpbin.org", 
+    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:101.0) Gecko/xx.xx.xx.xx Firefox/101.0", 
+    "X-Amzn-Trace-Id": "Root=1-63cbbxx.xx.xx.xxbaa64daxx.xx.xx.xxf"
+  }, 
+  "json": {
+    "yo": "lo"
+  }, 
+  "method": "POST", 
+  "origin": "xx.xx.xx.xx", 
+  "url": "https://httpbin.org/anything"
+}
+

@@ -1,4 +1,4 @@
-Tivins\Baz\Core\Net\Client#21 200 (568)
+Tivins\Core\Net\Client#21 200 (611)
 {
   "args": {}, 
   "data": "{\"yo\":\"lo\"}", 
@@ -6,12 +6,13 @@ Tivins\Baz\Core\Net\Client#21 200 (568)
   "form": {}, 
   "headers": {
     "Accept": "*/*", 
+    "Accept-Encoding": "deflate, gzip, br", 
     "Authorization": "Bearer a-token-from-elsewhere", 
     "Content-Length": "11", 
     "Content-Type": "application/json", 
     "Host": "httpbin.org", 
-    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:104.0) Gecko/xx.xx.xx.xx Firefox/104.0", 
-    "X-Amzn-Trace-Id": "Root=xx.xx.xx.xx-78aaxx.xx.xx.xxef"
+    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:99.0) Gecko/xx.xx.xx.xx Firefox/99.0", 
+    "X-Amzn-Trace-Id": "Root=1-63cbbxx.xx.xx.xxbdxx.xx.xx.xx"
   }, 
   "json": {
     "yo": "lo"
