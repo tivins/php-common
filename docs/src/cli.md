@@ -1,5 +1,5 @@
 
-# [PHP Common](/php-common)/CLI
+## CLI
 
 Working with command line interpreter
 

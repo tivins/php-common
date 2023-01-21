@@ -43,8 +43,8 @@ function convertMarkdown(string $inFile): void
         }
         File::save($outFile, $output);
         return "```php\n$phpCode\n```\n\n"
-            . "<details><summary>Output</summary>\n\n\n"
-            . "```none\n$output\n```\n\n"
+            . "<details><summary>Output</summary>\n\n<pre>"
+            . "\n$output\n</pre>\n"
             . "</details>\n\n";
     }, $content);
     File::save($outFile, $content);

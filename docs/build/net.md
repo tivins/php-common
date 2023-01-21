@@ -1,6 +1,4 @@
-
-
-# [PHP Common](/php-common)/Network/HTTP
+## PHP Common/Network/HTTP
 
 NB: outputs are stored at pre-commit time.
 
@@ -36,8 +34,7 @@ print_r($client->getContentAsJSON());
 
 <details><summary>Output</summary>
 
-
-```none
+<pre>
 Tivins\Core\Net\Client#4 200 (542)
 stdClass Object
 (
@@ -71,8 +68,7 @@ stdClass Object
     [url] => https://httpbin.org/anything
 )
 
-```
-
+</pre>
 </details>
 
 
@@ -111,8 +107,7 @@ echo $client->getContent(), PHP_EOL;
 
 <details><summary>Output</summary>
 
-
-```none
+<pre>
 Tivins\Core\Net\Client#21 200 (611)
 {
   "args": {}, 
@@ -138,8 +133,7 @@ Tivins\Core\Net\Client#21 200 (611)
 }
 
 
-```
-
+</pre>
 </details>
 
 
@@ -175,8 +169,7 @@ $client->getContent(), PHP_EOL;
 
 <details><summary>Output</summary>
 
-
-```none
+<pre>
 Tivins\Core\Net\ClientMulti#5 => 0.0s
 Tivins\Core\Net\ClientMulti#5 => 0.1s
 Tivins\Core\Net\ClientMulti#5 => 0.2s
@@ -208,8 +201,7 @@ Tivins\Core\Net\ClientAsync#4 200 (558)
 }
 
 
-```
-
+</pre>
 </details>
 
 
@@ -246,13 +238,11 @@ foreach ($clients->getClients() as $k => $client) {
 
 <details><summary>Output</summary>
 
-
-```none
+<pre>
 - #45 : Tivins\Core\Net\Client#43, Code: 200, Size: 1256 bytes
 - #46 : Tivins\Core\Net\Client#5, Code: 200, Size: 558 bytes
 
-```
-
+</pre>
 </details>
 
 
