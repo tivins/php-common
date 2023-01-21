@@ -11,7 +11,7 @@
   ],
   "require": {
     "php": ">=8.2",
-    "erusev/parsedown": "dev-master",
+    "erusev/parsedown": "v1.7.2",
     "ext-mbstring": "*",
     "ext-curl": "*",
     "ext-openssl": "*"
