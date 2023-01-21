@@ -6,6 +6,7 @@ use Tivins\Core\System\FileSys;
 
 require 'vendor/autoload.php';
 
+
 $it = FileSys::getIterator('docs/src');
 foreach ($it as $file) {
     if ($file->isDir()) continue;
@@ -33,8 +34,8 @@ function convertMarkdown(string $inFile): void
         throw new Exception('no-content');
     }
     $content = preg_replace_callback('~{{{ run \| (.*?) }}}~', function ($matches) {
-        $phpFile = __dir__ . '/' . $matches[1];
-        $outFile = __dir__ . '/' . str_replace('.php', '.out', $matches[1]);
+        $phpFile = getcwd() . '/' . $matches[1];
+        $outFile = getcwd() . '/' . str_replace('.php', '.out', $matches[1]);
         $phpCode = File::load($phpFile);
         $output  = File::load($outFile);
         if (!$output) {
