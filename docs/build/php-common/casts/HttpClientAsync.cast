@@ -1,0 +1,11 @@
+{"version":2,"width":80,"height":10,"timestamp":1674406159,"env":{"SHELL":"\/bin\/bash","TERM":"xterm-256color"}}
+[0,"o","\u0007\u001b[01;32mme@hostname\u001b[00m:\u001b[01;34m\/\u001b[00m$ run.php\r\n"]
+[0.03871917724609375,"o","Tivins\\Core\\Net\\ClientMulti#5 => 0.0s\r\n"]
+[0.13898301124572754,"o","Tivins\\Core\\Net\\ClientMulti#5 => 0.1s\r\n"]
+[0.2540760040283203,"o","Tivins\\Core\\Net\\ClientMulti#5 => 0.2s\r\n"]
+[0.3556690216064453,"o","Tivins\\Core\\Net\\ClientMulti#5 => 0.3s\r\n"]
+[0.4562032222747803,"o","Tivins\\Core\\Net\\ClientMulti#5 => 0.4s\r\n"]
+[0.5565252304077148,"o","Tivins\\Core\\Net\\ClientMulti#5 => 0.5s\r\n"]
+[0.6570072174072266,"o","Tivins\\Core\\Net\\ClientMulti#5 => 0.6s\r\n"]
+[0.7607710361480713,"o","Tivins\\Core\\Net\\ClientAsync#4 200 (558)\r\n{\r\n  \"args\": {}, \r\n  \"data\": \"{\\\"yo\\\":\\\"lo\\\"}\", \r\n  \"files\": {}, \r\n  \"form\": {}, \r\n  \"headers\": {\r\n    \"Accept\": \"*\/*\", \r\n    \"Accept-Encoding\": \"deflate, gzip, br\", \r\n    \"Content-Length\": \"11\", \r\n    \"Content-Type\": \"application\/json\", \r\n    \"Host\": \"httpbin.org\", \r\n    \"User-Agent\": \"Mozilla\/5.0 (X11; Ubuntu; Linux x86_64; rv:106.0) Gecko\/20100101 Firefox\/106.0\", \r\n    \"X-Amzn-Trace-Id\": \"Root=1-63cd690e-733ee32063334d32105a6840\"\r\n  }, \r\n  \"json\": {\r\n    \"yo\": \"lo\"\r\n  }, \r\n  \"method\": \"POST\", \r\n  \"origin\": \"xx.xx.xx.xx\", \r\n  \"url\": \"https:\/\/httpbin.org\/anything\"\r\n}\r\n\r\n"]
+[0.7655889987945557,"o","\u0007\u001b[01;32mme@hostname\u001b[00m:\u001b[01;34m\/\u001b[00m$ "]

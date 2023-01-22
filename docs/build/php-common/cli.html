@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>CLI</title>
+  <link rel="stylesheet" type="text/css" href="/php-common/assets/asciinema-player.css">
+  <link rel="stylesheet" type="text/css" href="/php-common/assets/style.css">
+  <link rel="stylesheet" type="text/css" href="/php-common/assets/overrides.css">
+</head>
+<body>
+<div class="container-lg px-3 my-5 markdown-body">
+  <h1><a href="/php-common/">PHP Common</a></h1>
+<h2>Working with command line interpreter</h2>
+<ul>
+<li><a href="#have-to-make-a-pause">Have to make a pause?</a></li>
+<li><a href="#go-up">Go up</a></li>
+<li><a href="#asciinema">asciinema</a></li>
+</ul>
+<h3>Have to make a pause?</h3>
+<pre class="highlight"><span class="kn">use</span> <span class="nn">Tivins\Core\System\Terminal</span><span class="p">;</span>
+
+<span class="k">require</span> <span class="s1">&#039;vendor/autoload.php&#039;</span><span class="p">;</span>
+
+Terminal<span class="o">::</span>sleep(<span class="mi">2</span>)<span class="p">;</span>
+Terminal<span class="o">::</span>sleep(<span class="mi">2</span>, <span class="s2">&quot;Remains: %.2f seconds.&quot;</span>)<span class="p">;</span>
+<span class="k">echo</span> <span class="s2">&quot;Done.&quot;</span><span class="p"> . </span><span class="kc">PHP_EOL</span><span class="p">;</span>
+</pre>
+<div class="asciinema" data-cast="/php-common/casts/SystemTerminalSleep.cast"></div>
+<h3>Go up</h3>
+<pre class="highlight"><span class="kn">use</span> <span class="nn">Tivins\Core\Chrono</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Tivins\Core\System\Terminal</span><span class="p">;</span>
+
+<span class="k">require</span> <span class="s1">&#039;vendor/autoload.php&#039;</span><span class="p">;</span>
+
+<span class="nv">$array</span> = [<span class="s1">&#039;part1&#039;</span> <span class="o">=&gt;</span> [<span class="s1">&#039;action1&#039;</span>, <span class="s1">&#039;action2&#039;</span>, <span class="s1">&#039;action3&#039;</span>], <span class="s1">&#039;part2&#039;</span> <span class="o">=&gt;</span> [<span class="s1">&#039;action4&#039;</span>, <span class="s1">&#039;action5&#039;</span>]]<span class="p">;</span>
+<span class="nv">$chrono</span> = (new Chrono())<span class="o">-&gt;</span><span class="nf">start</span>()<span class="p">;</span>
+foreach () {
+    <span class="nv">$actionChrono</span> = (new Chrono())<span class="o">-&gt;</span><span class="nf">start</span>()<span class="p">;</span>
+    <span class="k">echo</span> " 🔧 <span class="nv">$partName</span>\n"<span class="p">;</span>
+    foreach () {
+        <span class="k">echo</span> " └─ processing <span class="nv">$action</span> ...\n"<span class="p">;</span>
+        <span class="nb">usleep</span>(<span class="nb">rand</span>(<span class="mi">400000</span>, <span class="mi">600000</span>))<span class="p">;</span>
+        Terminal<span class="o">::</span>goUpClean(<span class="mi">1</span>)<span class="p">;</span>
+    }
+    Terminal<span class="o">::</span>goUpClean(<span class="mi">1</span>)<span class="p">;</span>
+    <span class="k">echo</span> " ✅ <span class="nv">$partName</span> ("<span class="mf"> . </span><span class="nb">number_format</span>(<span class="nv">$actionChrono</span><span class="o">-&gt;</span><span class="nf">get</span>(), <span class="mi">2</span>)<span class="mf"> . </span><span class="s2">&quot; s.)\n&quot;</span><span class="p">;</span>
+}
+<span class="k">echo</span> <span class="s2">&quot;All tasks finished in &quot;</span><span class="mf"> . </span><span class="nb">number_format</span>(<span class="nv">$chrono</span><span class="o">-&gt;</span><span class="nf">get</span>(), <span class="mi">2</span>)<span class="mf"> . </span><span class="s2">&quot; seconds.\n&quot;</span><span class="p">;</span>
+</pre>
+<div class="asciinema" data-cast="/php-common/casts/SystemTerminalGoUp.cast"></div>
+<h3>asciinema</h3>
+<pre class="highlight"><span class="kn">use</span> <span class="nn">Tivins\Core\Proc\AsciiProcess</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Tivins\Core\Proc\Command</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Tivins\Core\System\File</span><span class="p">;</span>
+
+<span class="k">require</span> <span class="s1">&#039;vendor/autoload.php&#039;</span><span class="p">;</span>
+
+<span class="nv">$tmpFile</span> = <span class="nb">tempnam</span>(<span class="s1">&#039;/tmp&#039;</span>, <span class="s1">&#039;test&#039;</span>)<span class="p">;</span>
+File<span class="o">::</span>save(<span class="nv">$tmpFile</span>, <span class="s1">&#039;&lt;?&#039;</span><span class="mf"> . </span><span class="s1">&#039;php&#039;</span><span class="mf"> . </span><span class="s2">&quot;\n&quot;</span><span class="mf"> . </span><span class="s1">&#039;echo &quot;Hello&quot;; sleep(1); echo &quot;Word\n&quot;;&#039;</span>)<span class="p">;</span>
+<span class="nv">$cast</span> = AsciiProcess<span class="o">::</span>buildCast((new Command(<span class="s1">&#039;php&#039;</span>, <span class="nv">$tmpFile</span>)))<span class="p">;</span>
+<span class="k">echo</span> <span class="nv">$cast</span><span class="mf"> . </span><span class="kc">PHP_EOL</span><span class="p">;</span>
+File<span class="o">::</span>delete(<span class="nv">$tmpFile</span>)<span class="p">;</span>
+</pre>
+<details><summary>Output</summary>
+
+<pre>
+{"version":2,"width":80,"height":10,"timestamp":1674406157,"env":{"SHELL":"\/bin\/bash","TERM":"xterm-256color"}}
+[0,"o","\u0007\u001b[01;32mme@hostname\u001b[00m:\u001b[01;34m\/\u001b[00m$ run.php\r\n"]
+[0.033399105072021484,"o","Hello"]
+[1.0343210697174072,"o","Word\r\n"]
+[1.0362589359283447,"o","\u0007\u001b[01;32mme@hostname\u001b[00m:\u001b[01;34m\/\u001b[00m$ "]
+
+</pre>
+</details>
+<div class="asciinema" data-cast="/php-common/casts/ProcAsciiProcess.cast"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+<script src="/php-common/assets/asciinema-player.min.js"></script>
+<script>
+    anchors.add();
+    document.querySelectorAll('.asciinema')
+        .forEach(item =>
+            AsciinemaPlayer.create(item.getAttribute('data-cast'), item, {
+                poster: "npt:0:01",
+                // fit: "none",
+                // cols: 40,
+                // speed: .5,
+            })
+        )
+</script>
+</body>
+</html>

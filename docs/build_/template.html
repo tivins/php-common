@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>CLI</title>
+  <link rel="stylesheet" type="text/css" href="asciinema-player.css">
+</head>
+<body>
+<?= $html ?>
+<!-- <div class="asciinema" data-cast="SystemTerminalSleep.cast"></div> -->
+<script src="asciinema-player.min.js"></script>
+<script>
+    document.querySelectorAll('.asciinema')
+        .forEach(item =>
+            AsciinemaPlayer.create(item.getAttribute('data-cast'), item)
+        )
+</script>
+</body>
+</html>

@@ -11,8 +11,8 @@ Tivins\Core\Net\Client#21 200 (611)
     "Content-Length": "11", 
     "Content-Type": "application/json", 
     "Host": "httpbin.org", 
-    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:99.0) Gecko/xx.xx.xx.xx Firefox/99.0", 
-    "X-Amzn-Trace-Id": "Root=1-63cbbxx.xx.xx.xxbdxx.xx.xx.xx"
+    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:98.0) Gecko/20100101 Firefox/98.0", 
+    "X-Amzn-Trace-Id": "Root=1-63cd690e-276627241bb1f82d1ad2d34b"
   }, 
   "json": {
     "yo": "lo"

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>CLI</title>
+  <link rel="stylesheet" type="text/css" href="/php-common/assets/asciinema-player.css">
+  <link rel="stylesheet" type="text/css" href="/php-common/assets/style.css">
+  <link rel="stylesheet" type="text/css" href="/php-common/assets/overrides.css">
+</head>
+<body>
+<div class="container-lg px-3 my-5 markdown-body">
+  <h1><a href="/php-common/">PHP Common</a></h1>
+{{ HTML }}
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
+<script src="/php-common/assets/asciinema-player.min.js"></script>
+<script>
+    anchors.add();
+    document.querySelectorAll('.asciinema')
+        .forEach(item =>
+            AsciinemaPlayer.create(item.getAttribute('data-cast'), item, {
+                poster: "npt:0:01",
+                // fit: "none",
+                // cols: 40,
+                // speed: .5,
+            })
+        )
+</script>
+</body>
+</html>

@@ -56,4 +56,8 @@ class StrUtil
         // $parser->setSafeMode(true);
         return $parser->text($text);
     }
+    public static function hideIPs(string $s): string
+    {
+        return preg_replace('~(\d+)\.(\d+)\.(\d+)\.(\d+)~', 'xx.xx.xx.xx', $s);
+    }
 }

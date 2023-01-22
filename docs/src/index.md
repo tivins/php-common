@@ -1,4 +1,3 @@
-# PHP-Common
 
 ## Install
 
@@ -8,5 +7,6 @@ composer require tivins/php-common dev-main
 
 ## Content
 
-* [HTTP Client](/php-common/net)
-* [CLI Options Managment](/php-common/cli)
+* [HTTP Client](/php-common/net.html)
+* [CLI Options Managment](/php-common/cli.html)
+* [test](/php-common/test.html)

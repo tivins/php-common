@@ -68,11 +68,12 @@ class Terminal
         return intval(shell_exec('tput lines'));
     }
 
-    public static function sleep(int $seconds, string $format = 'Sleeping %d seconds...'): void
+    public static function sleep(float $seconds, string $format = 'Sleeping %.1f seconds...'): void
     {
-        while ($seconds--) {
-            printf($format . "\r\n", $seconds);
-            sleep(1);
+        while ($seconds > 0) {
+            printf($format . PHP_EOL, $seconds);
+            usleep(10000);
+            $seconds -= 0.01;
             self::goUpClean(1);
         }
     }

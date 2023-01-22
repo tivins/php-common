@@ -1,0 +1,21 @@
+
+.asciinema-player-wrapper{justify-content: start;}
+details {
+    margin-bottom: 1rem;
+    border-left: 4px solid #d6d8da;
+    border-radius: 3px;
+    overflow: hidden;
+}
+details pre:last-of-type{
+    margin-bottom: 0;
+}
+details summary {
+    cursor: pointer;
+    background: #f0f2f6;
+    padding: 1rem;
+    border-radius: 3px;
+}
+.highlight .s2 {
+    background: #fee;
+    color: #d14;
+}

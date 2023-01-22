@@ -1,0 +1,4 @@
+{"version":2,"width":80,"height":10,"timestamp":1674406160,"env":{"SHELL":"\/bin\/bash","TERM":"xterm-256color"}}
+[0,"o","\u0007\u001b[01;32mme@hostname\u001b[00m:\u001b[01;34m\/\u001b[00m$ run.php\r\n"]
+[0.9859240055084229,"o","- #45 : Tivins\\Core\\Net\\Client#43, Code: 200, Size: 1256 bytes\r\n- #46 : Tivins\\Core\\Net\\Client#5, Code: 200, Size: 558 bytes\r\n"]
+[0.9931809902191162,"o","\u0007\u001b[01;32mme@hostname\u001b[00m:\u001b[01;34m\/\u001b[00m$ "]

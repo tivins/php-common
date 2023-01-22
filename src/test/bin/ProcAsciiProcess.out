@@ -1,0 +1,5 @@
+{"version":2,"width":80,"height":10,"timestamp":1674406157,"env":{"SHELL":"\/bin\/bash","TERM":"xterm-256color"}}
+[0,"o","\u0007\u001b[01;32mme@hostname\u001b[00m:\u001b[01;34m\/\u001b[00m$ run.php\r\n"]
+[0.033399105072021484,"o","Hello"]
+[1.0343210697174072,"o","Word\r\n"]
+[1.0362589359283447,"o","\u0007\u001b[01;32mme@hostname\u001b[00m:\u001b[01;34m\/\u001b[00m$ "]
