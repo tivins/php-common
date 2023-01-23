@@ -5,7 +5,7 @@ Tivins\Core\Net\ClientMulti#5 => 0.3s
 Tivins\Core\Net\ClientMulti#5 => 0.4s
 Tivins\Core\Net\ClientMulti#5 => 0.5s
 Tivins\Core\Net\ClientMulti#5 => 0.6s
-Tivins\Core\Net\ClientAsync#4 200 (558)
+Tivins\Core\Net\ClientAsync#4 200 (556)
 {
   "args": {}, 
   "data": "{\"yo\":\"lo\"}", 
@@ -17,8 +17,8 @@ Tivins\Core\Net\ClientAsync#4 200 (558)
     "Content-Length": "11", 
     "Content-Type": "application/json", 
     "Host": "httpbin.org", 
-    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:106.0) Gecko/20100101 Firefox/106.0", 
-    "X-Amzn-Trace-Id": "Root=1-63cd690e-733ee32063334d32105a6840"
+    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:98.0) Gecko/20100101 Firefox/98.0", 
+    "X-Amzn-Trace-Id": "Root=1-63cee136-3f4a2532396f25634d25f99f"
   }, 
   "json": {
     "yo": "lo"

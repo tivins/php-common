@@ -1,8 +1,6 @@
 <?php
 
-use Tivins\Core\Net\ClientAsync;
-use Tivins\Core\Net\ClientException;
-use Tivins\Core\Net\ClientMulti;
+use Tivins\Core\Net\{ ClientAsync, ClientException, ClientMulti };
 
 require 'vendor/autoload.php';
 

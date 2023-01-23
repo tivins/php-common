@@ -1,4 +1,4 @@
-{"version":2,"width":80,"height":10,"timestamp":1674406157,"env":{"SHELL":"\/bin\/bash","TERM":"xterm-256color"}}
+{"version":2,"width":80,"height":10,"timestamp":1674502452,"env":{"SHELL":"\/bin\/bash","TERM":"xterm-256color"}}
 [0,"o","\u0007\u001b[01;32mme@hostname\u001b[00m:\u001b[01;34m\/\u001b[00m$ run.php\r\n"]
-[1.0861260890960693,"o","{\"version\":2,\"width\":80,\"height\":10,\"timestamp\":1674406157,\"env\":{\"SHELL\":\"\\\/bin\\\/bash\",\"TERM\":\"xterm-256color\"}}\r\n[0,\"o\",\"\\u0007\\u001b[01;32mme@hostname\\u001b[00m:\\u001b[01;34m\\\/\\u001b[00m$ run.php\\r\\n\"]\r\n[0.033399105072021484,\"o\",\"Hello\"]\r\n[1.0343210697174072,\"o\",\"Word\\r\\n\"]\r\n[1.0362589359283447,\"o\",\"\\u0007\\u001b[01;32mme@hostname\\u001b[00m:\\u001b[01;34m\\\/\\u001b[00m$ \"]\r\n"]
-[1.087820053100586,"o","\u0007\u001b[01;32mme@hostname\u001b[00m:\u001b[01;34m\/\u001b[00m$ "]
+[1.1000890731811523,"o","{\"version\":2,\"width\":80,\"height\":10,\"timestamp\":1674502452,\"env\":{\"SHELL\":\"\\\/bin\\\/bash\",\"TERM\":\"xterm-256color\"}}\r\n[0,\"o\",\"\\u0007\\u001b[01;32mme@hostname\\u001b[00m:\\u001b[01;34m\\\/\\u001b[00m$ run.php\\r\\n\"]\r\n[0.03485393524169922,\"o\",\"Hello\"]\r\n[1.0348260402679443,\"o\",\"Word\\r\\n\"]\r\n[1.0506720542907715,\"o\",\"\\u0007\\u001b[01;32mme@hostname\\u001b[00m:\\u001b[01;34m\\\/\\u001b[00m$ \"]\r\n"]
+[1.1069021224975586,"o","\u0007\u001b[01;32mme@hostname\u001b[00m:\u001b[01;34m\/\u001b[00m$ "]

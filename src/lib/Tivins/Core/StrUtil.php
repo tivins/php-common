@@ -56,8 +56,24 @@ class StrUtil
         // $parser->setSafeMode(true);
         return $parser->text($text);
     }
+
     public static function hideIPs(string $s): string
     {
         return preg_replace('~(\d+)\.(\d+)\.(\d+)\.(\d+)~', 'xx.xx.xx.xx', $s);
+    }
+
+    /**
+     * @param string $string The string to escape
+     * @param string $quote `'` or `"`
+     * @return string
+     */
+    public static function escape(string $str, string $quote): string
+    {
+        if ($quote == '"') {
+            return json_encode($str);
+        }
+        return $quote
+            . str_replace('\'', '\\\'', $str)
+            . $quote;
     }
 }

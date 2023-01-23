@@ -19,3 +19,30 @@ details summary {
     background: #fee;
     color: #d14;
 }
+
+pre.highlight {
+    position: relative;
+}
+.localNotifier {
+    position: absolute;
+    background: rgba(0,0,0,.7);
+    color: #ccc;
+    border-radius: 3px;
+    box-shadow: 0 5px 10px rgba(0,0,0,.1) ;
+    font-size: 90%;
+    padding: .25rem .5rem;
+}
+a.clipper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding:.25rem .5rem;
+    text-decoration: none;
+    color:#999;
+}
+a.clipper:hover {
+    color:#444;
+    background: rgba(0,0,0,.1);
+}
+
+.hidden { display:none!important; }

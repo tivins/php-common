@@ -16,70 +16,136 @@
 <li><a href="#asciinema">asciinema</a></li>
 </ul>
 <h3>Have to make a pause?</h3>
-<pre class="highlight"><span class="kn">use</span> <span class="nn">Tivins\Core\System\Terminal</span><span class="p">;</span>
+<pre class="highlight"><a href="#" class="clipper" data-target="#code-3c3eb904">COPY</a><div id="code-3c3eb904"><span class="kn">use</span> <span class="nn">Tivins\Core\System\Terminal</span><span class="p">;</span>
 
 <span class="k">require</span> <span class="s1">&#039;vendor/autoload.php&#039;</span><span class="p">;</span>
 
 Terminal<span class="o">::</span>sleep(<span class="mi">2</span>)<span class="p">;</span>
 Terminal<span class="o">::</span>sleep(<span class="mi">2</span>, <span class="s2">&quot;Remains: %.2f seconds.&quot;</span>)<span class="p">;</span>
 <span class="k">echo</span> <span class="s2">&quot;Done.&quot;</span><span class="p"> . </span><span class="kc">PHP_EOL</span><span class="p">;</span>
-</pre>
+</div></pre>
 <div class="asciinema" data-cast="/php-common/casts/SystemTerminalSleep.cast"></div>
 <h3>Go up</h3>
-<pre class="highlight"><span class="kn">use</span> <span class="nn">Tivins\Core\Chrono</span><span class="p">;</span>
+<pre class="highlight"><a href="#" class="clipper" data-target="#code-4ae98194">COPY</a><div id="code-4ae98194"><span class="kn">use</span> <span class="nn">Tivins\Core\Chrono</span><span class="p">;</span>
 <span class="kn">use</span> <span class="nn">Tivins\Core\System\Terminal</span><span class="p">;</span>
 
 <span class="k">require</span> <span class="s1">&#039;vendor/autoload.php&#039;</span><span class="p">;</span>
 
 <span class="nv">$array</span> = [<span class="s1">&#039;part1&#039;</span> <span class="o">=&gt;</span> [<span class="s1">&#039;action1&#039;</span>, <span class="s1">&#039;action2&#039;</span>, <span class="s1">&#039;action3&#039;</span>], <span class="s1">&#039;part2&#039;</span> <span class="o">=&gt;</span> [<span class="s1">&#039;action4&#039;</span>, <span class="s1">&#039;action5&#039;</span>]]<span class="p">;</span>
-<span class="nv">$chrono</span> = (new Chrono())<span class="o">-&gt;</span><span class="nf">start</span>()<span class="p">;</span>
-foreach () {
-    <span class="nv">$actionChrono</span> = (new Chrono())<span class="o">-&gt;</span><span class="nf">start</span>()<span class="p">;</span>
-    <span class="k">echo</span> " 🔧 <span class="nv">$partName</span>\n"<span class="p">;</span>
-    foreach () {
-        <span class="k">echo</span> " └─ processing <span class="nv">$action</span> ...\n"<span class="p">;</span>
-        <span class="nb">usleep</span>(<span class="nb">rand</span>(<span class="mi">400000</span>, <span class="mi">600000</span>))<span class="p">;</span>
+<span class="nv">$chrono</span> = <span class="p">(</span><span class="k">new</span> <span class="nc">Chrono</span><span class="p">(</span><span class="p">)</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">start</span>()<span class="p">;</span>
+foreach (*todo*) {
+    <span class="nv">$actionChrono</span> = <span class="p">(</span><span class="k">new</span> <span class="nc">Chrono</span><span class="p">(</span><span class="p">)</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">start</span>()<span class="p">;</span>
+    <span class="k">echo</span> <span class="s2">" 🔧 <span class="nv">$partName</span>\n"</span><span class="p">;</span>
+    foreach (*todo*) {
+        <span class="k">echo</span> <span class="s2">" └─ processing <span class="nv">$action</span> ...\n"</span><span class="p">;</span>
+        <span class="nb">usleep</span><span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="mi">400000</span><span class="p">, </span><span class="mi">600000</span><span class="p">)</span><span class="p">)</span><span class="p">;</span>
         Terminal<span class="o">::</span>goUpClean(<span class="mi">1</span>)<span class="p">;</span>
     }
     Terminal<span class="o">::</span>goUpClean(<span class="mi">1</span>)<span class="p">;</span>
-    <span class="k">echo</span> " ✅ <span class="nv">$partName</span> ("<span class="mf"> . </span><span class="nb">number_format</span>(<span class="nv">$actionChrono</span><span class="o">-&gt;</span><span class="nf">get</span>(), <span class="mi">2</span>)<span class="mf"> . </span><span class="s2">&quot; s.)\n&quot;</span><span class="p">;</span>
+    <span class="k">echo</span> <span class="s2">" ✅ <span class="nv">$partName</span> ("</span> <span class="mf">.</span> <span class="nb">number_format</span><span class="p">(</span><span class="nv">$actionChrono</span><span class="o">-&gt;</span><span class="nf">get</span>()<span class="p">, </span><span class="mi">2</span><span class="p">)</span> <span class="mf">.</span> <span class="s2">&quot; s.)\n&quot;</span><span class="p">;</span>
 }
-<span class="k">echo</span> <span class="s2">&quot;All tasks finished in &quot;</span><span class="mf"> . </span><span class="nb">number_format</span>(<span class="nv">$chrono</span><span class="o">-&gt;</span><span class="nf">get</span>(), <span class="mi">2</span>)<span class="mf"> . </span><span class="s2">&quot; seconds.\n&quot;</span><span class="p">;</span>
-</pre>
+<span class="k">echo</span> <span class="s2">&quot;All tasks finished in &quot;</span> <span class="mf">.</span> <span class="nb">number_format</span><span class="p">(</span><span class="nv">$chrono</span><span class="o">-&gt;</span><span class="nf">get</span>()<span class="p">, </span><span class="mi">2</span><span class="p">)</span> <span class="mf">.</span> <span class="s2">&quot; seconds.\n&quot;</span><span class="p">;</span>
+</div></pre>
 <div class="asciinema" data-cast="/php-common/casts/SystemTerminalGoUp.cast"></div>
 <h3>asciinema</h3>
-<pre class="highlight"><span class="kn">use</span> <span class="nn">Tivins\Core\Proc\AsciiProcess</span><span class="p">;</span>
+<pre class="highlight"><a href="#" class="clipper" data-target="#code-b9c97c1d">COPY</a><div id="code-b9c97c1d"><span class="kn">use</span> <span class="nn">Tivins\Core\Proc\AsciiProcess</span><span class="p">;</span>
 <span class="kn">use</span> <span class="nn">Tivins\Core\Proc\Command</span><span class="p">;</span>
 <span class="kn">use</span> <span class="nn">Tivins\Core\System\File</span><span class="p">;</span>
 
 <span class="k">require</span> <span class="s1">&#039;vendor/autoload.php&#039;</span><span class="p">;</span>
 
-<span class="nv">$tmpFile</span> = <span class="nb">tempnam</span>(<span class="s1">&#039;/tmp&#039;</span>, <span class="s1">&#039;test&#039;</span>)<span class="p">;</span>
-File<span class="o">::</span>save(<span class="nv">$tmpFile</span>, <span class="s1">&#039;&lt;?&#039;</span><span class="mf"> . </span><span class="s1">&#039;php&#039;</span><span class="mf"> . </span><span class="s2">&quot;\n&quot;</span><span class="mf"> . </span><span class="s1">&#039;echo &quot;Hello&quot;; sleep(1); echo &quot;Word\n&quot;;&#039;</span>)<span class="p">;</span>
-<span class="nv">$cast</span> = AsciiProcess<span class="o">::</span>buildCast((new Command(<span class="s1">&#039;php&#039;</span>, <span class="nv">$tmpFile</span>)))<span class="p">;</span>
-<span class="k">echo</span> <span class="nv">$cast</span><span class="mf"> . </span><span class="kc">PHP_EOL</span><span class="p">;</span>
+<span class="nv">$tmpFile</span> = <span class="nb">tempnam</span><span class="p">(</span><span class="s1">&#039;/tmp&#039;</span><span class="p">, </span><span class="s1">&#039;test&#039;</span><span class="p">)</span><span class="p">;</span>
+File<span class="o">::</span>save(<span class="nv">$tmpFile</span>, <span class="s1">&#039;&lt;?&#039;</span> <span class="mf">.</span> <span class="s1">&#039;php&#039;</span> <span class="mf">.</span> <span class="s2">&quot;\n&quot;</span> <span class="mf">.</span> <span class="s1">&#039;echo &quot;Hello&quot;; sleep(1); echo &quot;Word\n&quot;;&#039;</span>)<span class="p">;</span>
+<span class="nv">$cast</span> = AsciiProcess<span class="o">::</span>buildCast(<span class="k">new</span> <span class="nc">Command</span><span class="p">(</span><span class="s1">&#039;php&#039;</span>, <span class="nv">$tmpFile</span><span class="p">)</span>)<span class="p">;</span>
+<span class="k">echo</span> <span class="nv">$cast</span> <span class="mf">.</span> <span class="kc">PHP_EOL</span><span class="p">;</span>
 File<span class="o">::</span>delete(<span class="nv">$tmpFile</span>)<span class="p">;</span>
-</pre>
+</div></pre>
 <details><summary>Output</summary>
 
 <pre>
-{"version":2,"width":80,"height":10,"timestamp":1674406157,"env":{"SHELL":"\/bin\/bash","TERM":"xterm-256color"}}
+{"version":2,"width":80,"height":10,"timestamp":1674502452,"env":{"SHELL":"\/bin\/bash","TERM":"xterm-256color"}}
 [0,"o","\u0007\u001b[01;32mme@hostname\u001b[00m:\u001b[01;34m\/\u001b[00m$ run.php\r\n"]
-[0.033399105072021484,"o","Hello"]
-[1.0343210697174072,"o","Word\r\n"]
-[1.0362589359283447,"o","\u0007\u001b[01;32mme@hostname\u001b[00m:\u001b[01;34m\/\u001b[00m$ "]
+[0.03485393524169922,"o","Hello"]
+[1.0348260402679443,"o","Word\r\n"]
+[1.0506720542907715,"o","\u0007\u001b[01;32mme@hostname\u001b[00m:\u001b[01;34m\/\u001b[00m$ "]
 
 </pre>
 </details>
 <div class="asciinema" data-cast="/php-common/casts/ProcAsciiProcess.cast"></div>
+<h3>proc</h3>
+<pre class="highlight"><a href="#" class="clipper" data-target="#code-8c9abd63">COPY</a><div id="code-8c9abd63"><span class="kn">use</span> <span class="nn">Tivins\Core\Proc\Process</span><span class="p">;</span>
+
+<span class="k">require</span> <span class="s1">&#039;vendor/autoload.php&#039;</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">MyProcess</span> <span class="k">extends</span> <span class="nc">Process</span>
+{
+    <span class="k">public</span> <span class="k">function</span> <span class="n">onUpdate</span><span class="p">(</span>array <span class="nv">$status</span><span class="p">, </span>array <span class="nv">$received</span><span class="p">): </span><span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nv">$in</span> = <span class="nv">$received</span><span class="p">[</span>Process<span class="o">::</span>STDOUT<span class="p">]</span><span class="p">;</span>
+        <span class="k">if</span><span class="p"> (</span>!<span class="nv">$in</span><span class="p">) {</span>
+            <span class="k">return</span><span class="p">;</span>
+        }
+        <span class="k">echo</span> <span class="nv">$in</span><span class="p">;</span>
+    <span class="p">}</span>
+}
+
+<span class="nv">$cmd</span> = <span class="k">new</span> <span class="nc">Tivins\Core\Proc\Command</span><span class="p">(</span><span class="s1">&#039;top&#039;</span><span class="p">)</span><span class="p">;</span>
+<span class="k">echo</span> <span class="s1">&#039;ok&#039;</span><span class="p">;</span>
+</div></pre>
 </div>
+
+
+<!-- github-corner : https://tholman.com/github-corners/ -->
+<a href="https://github.com/tivins/php-common" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#0366d6; color:#fff; position: fixed; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<!-- github-corner -->
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
 <script src="/php-common/assets/asciinema-player.min.js"></script>
+<script src="/php-common/assets/common.js"></script>
 <script>
     anchors.add();
-    document.querySelectorAll('.asciinema')
-        .forEach(item =>
+
+    function copyToClipboard(text, successCallback) {
+        navigator.clipboard.writeText(text).then(function () {
+            successCallback();//console.log('Async: Copying to clipboard was successful!');
+        }, function (err) {
+            console.error('Async: Could not copy text: ', err);
+        });
+    }
+    function getOffset(el) {
+        const rect = el.getBoundingClientRect();
+        return {
+            left: rect.left + window.scrollX, top: rect.top + window.scrollY
+        };
+    }
+
+    const localNotifier = document.createElement('div');
+    localNotifier.className = 'localNotifier hidden';
+    localNotifier.innerHTML = 'Copied to clipboard!';
+    document.body.append(localNotifier);
+
+    document.querySelectorAll('.clipper').forEach(item => {
+        item.addEventListener('click', e => {
+            e.preventDefault();
+            copyToClipboard(document.querySelector(item.getAttribute('data-target')).innerText, ()=> {
+                let off = getOffset(item);
+                localNotifier.classList.remove('hidden');
+                localNotifier.style.top = (off.top - localNotifier.offsetHeight) + 'px';
+                localNotifier.style.left = (off.left - localNotifier.offsetWidth/2 + item.offsetWidth/2) + 'px';
+                localNotifier.setAttribute('data-last-hit', (new Date()).getTime().toString());
+            });
+        })
+    });
+
+    setInterval(() => {
+        let tm = (new Date()).getTime();
+        if (localNotifier.getAttribute('data-last-hit') < tm - 2000) {
+            localNotifier.classList.add('hidden');
+        }
+    }, 1000);
+
+    document.querySelectorAll('.asciinema').forEach(item =>
             AsciinemaPlayer.create(item.getAttribute('data-cast'), item, {
                 poster: "npt:0:01",
                 // fit: "none",

@@ -16,3 +16,7 @@
 ### asciinema
 
 {{{ run | src/test/bin/ProcAsciiProcess.php | code,output,cinema }}}
+
+### proc
+
+{{{ run | src/test/bin/ProcTop.php | code }}}

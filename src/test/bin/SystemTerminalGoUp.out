@@ -2,9 +2,9 @@
  └─ processing action1 ...
 [1A[K └─ processing action2 ...
 [1A[K └─ processing action3 ...
-[1A[K[1A[K ✅ part1 (1.54 s.)
+[1A[K[1A[K ✅ part1 (1.63 s.)
  🔧 part2
  └─ processing action4 ...
 [1A[K └─ processing action5 ...
-[1A[K[1A[K ✅ part2 (0.96 s.)
-All tasks finished in 2.50 seconds.
+[1A[K[1A[K ✅ part2 (0.99 s.)
+All tasks finished in 2.61 seconds.

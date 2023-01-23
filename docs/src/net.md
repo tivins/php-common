@@ -13,25 +13,25 @@ NB: outputs are stored at pre-commit time.
 * [Using Cache](#using-cache)
 
 
-### Minimal
+## Minimal
 
 {{{ run | src/test/bin/HttpClientBasic.php | code,output }}}
 
-### Post + Token Bearer
+## Post + Token Bearer
 
 {{{ run | src/test/bin/HttpClientAuth.php | code,output }}}
 
-### Asynchronous
+## Asynchronous
 
 Cet exemple démontre comment effectuer une requête HTTP de manière asynchrone. 
 Appeler la méthode `setProgressCallback()` pour fournir la callback qui sera appelée durant le traitement.
 
 {{{ run | src/test/bin/HttpClientAsync.php | code,output,cinema }}}
 
-### Multiple calls
+## Multiple calls
 
 {{{ run | src/test/bin/HttpClientMulti.php | code,output }}}
 
-### Using cache
+## Using cache
 
 ...todo.

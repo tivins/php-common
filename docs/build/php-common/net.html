@@ -19,18 +19,20 @@
 <li><a href="#multiple-calls">Multiple</a></li>
 <li><a href="#using-cache">Using Cache</a></li>
 </ul>
-<h3>Minimal</h3>
-<pre class="highlight"><span class="k">require</span> <span class="s1">&#039;vendor/autoload.php&#039;</span><span class="p">;</span>
+<h2>Minimal</h2>
+<pre class="highlight"><a href="#" class="clipper" data-target="#code-9af645dc">COPY</a><div id="code-9af645dc"><span class="kn">use</span> <span class="nn">Tivins\Core\Net\Client</span> <span class="kn">as</span> <span class="nn">Client</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Tivins\Core\Net\ClientException</span> <span class="kn">as</span> <span class="nn">ClientException</span><span class="p">;</span>
+<span class="k">require</span> <span class="s1">&#039;vendor/autoload.php&#039;</span><span class="p">;</span>
 
 <span class="k">try</span><span class="p"> {</span>
-    <span class="nv">$client</span> = (new Client(<span class="s1">&#039;https://httpbin.org/anything&#039;</span>))<span class="o">-&gt;</span><span class="nf">execute</span>()<span class="p">;</span>
-    <span class="k">echo</span> <span class="nv">$client</span><span class="mf"> . </span><span class="s1">&#039; &#039;</span><span class="mf"> . </span><span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getCode</span>()<span class="mf"> . </span><span class="s1">&#039; (&#039;</span><span class="mf"> . </span><span class="nb">strlen</span>(<span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getContent</span>())<span class="mf"> . </span><span class="s1">&#039;)&#039;</span><span class="mf"> . </span><span class="kc">PHP_EOL</span><span class="p">;</span>
-    <span class="nb">print_r</span>(<span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getContentAsJSON</span>())<span class="p">;</span>
+    <span class="nv">$client</span> = <span class="p">(</span><span class="k">new</span> <span class="nc">Client</span><span class="p">(</span><span class="s1">&#039;https://httpbin.org/anything&#039;</span><span class="p">)</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">execute</span>()<span class="p">;</span>
+    <span class="k">echo</span> <span class="nv">$client</span> <span class="mf">.</span> <span class="s1">&#039; &#039;</span> <span class="mf">.</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getCode</span>() <span class="mf">.</span> <span class="s1">&#039; (&#039;</span> <span class="mf">.</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getContent</span>()<span class="p">)</span> <span class="mf">.</span> <span class="s1">&#039;)&#039;</span> <span class="mf">.</span> <span class="kc">PHP_EOL</span><span class="p">;</span>
+    <span class="nb">print_r</span><span class="p">(</span><span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getContentAsJSON</span>()<span class="p">)</span><span class="p">;</span>
 <span class="p">}</span>
-<span class="k">catch</span> (Exception|ClientException <span class="nv">$ex</span>) {
-    <span class="k">exit</span><span class="p">(</span><span class="nv">$ex</span>-><span class="n">client</span><span class="mf"> . </span><span class="s1">&#039; : &#039;</span><span class="mf"> . </span><span class="nv">$ex</span><span class="o">-&gt;</span><span class="nf">getMessage</span>()<span class="mf"> . </span><span class="s2">&quot;\n&quot;</span><span class="p">)</span><span class="p">;</span>
+<span class="k">catch</span> <span class="p">(</span>Exception|ClientException <span class="nv">$ex</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">exit</span><span class="p">(</span><span class="nv">$ex</span>-><span class="n">client</span> <span class="mf">.</span> <span class="s1">&#039; : &#039;</span> <span class="mf">.</span> <span class="nv">$ex</span><span class="o">-&gt;</span><span class="nf">getMessage</span>() <span class="mf">.</span> <span class="s2">&quot;\n&quot;</span><span class="p">)</span><span class="p">;</span>
 <span class="p">}</span>
-</pre>
+</div></pre>
 <details><summary>Output</summary>
 
 <pre>
@@ -57,8 +59,8 @@ stdClass Object
             [Content-Length] => 0
             [Content-Type] => application/x-www-form-urlencoded
             [Host] => httpbin.org
-            [User-Agent] => Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:103.0) Gecko/20100101 Firefox/103.0
-            [X-Amzn-Trace-Id] => Root=1-63cd690d-0b0e5b550cc93dea5f0d9685
+            [User-Agent] => Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:108.0) Gecko/20100101 Firefox/108.0
+            [X-Amzn-Trace-Id] => Root=1-63cee135-29c6c8a615ad07af6cc18c58
         )
 
     [json] => 
@@ -69,8 +71,8 @@ stdClass Object
 
 </pre>
 </details>
-<h3>Post + Token Bearer</h3>
-<pre class="highlight"><span class="kn">use</span> <span class="nn">Tivins\Core\Net\Client</span><span class="p">;</span>
+<h2>Post + Token Bearer</h2>
+<pre class="highlight"><a href="#" class="clipper" data-target="#code-6a04ebf3">COPY</a><div id="code-6a04ebf3"><span class="kn">use</span> <span class="nn">Tivins\Core\Net\Client</span><span class="p">;</span>
 <span class="kn">use</span> <span class="nn">Tivins\Core\Net\ClientException</span><span class="p">;</span>
 <span class="kn">use</span> <span class="nn">Tivins\Core\Net\Http\Header</span><span class="p">;</span>
 <span class="kn">use</span> <span class="nn">Tivins\Core\Net\Http\Headers</span><span class="p">;</span>
@@ -78,20 +80,20 @@ stdClass Object
 <span class="k">require</span> <span class="s1">&#039;vendor/autoload.php&#039;</span><span class="p">;</span>
 
 <span class="nv">$token</span> = <span class="s1">&#039;a-token-from-elsewhere&#039;</span><span class="p">;</span>
-<span class="nv">$headers</span> = (new Headers())<span class="o">-&gt;</span><span class="nf">setHeader</span>(Header<span class="o">::</span>Authorization, <span class="s1">&#039;Bearer &#039;</span><span class="mf"> . </span><span class="nv">$token</span>)<span class="p">;</span>
+<span class="nv">$headers</span> = <span class="p">(</span><span class="k">new</span> <span class="nc">Headers</span><span class="p">(</span><span class="p">)</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">setHeader</span>(Header<span class="o">::</span>Authorization, <span class="s1">&#039;Bearer &#039;</span> <span class="mf">.</span> <span class="nv">$token</span>)<span class="p">;</span>
 <span class="k">try</span><span class="p"> {</span>
-    <span class="nv">$client</span> = (new Client(<span class="s1">&#039;https://httpbin.org/anything&#039;</span>))<span class="o">-&gt;</span><span class="nf">setHeaders</span>(<span class="nv">$headers</span>)<span class="o">-&gt;</span><span class="nf">postJSON</span>([<span class="s1">&#039;yo&#039;</span> <span class="o">=&gt;</span> <span class="s1">&#039;lo&#039;</span>])<span class="o">-&gt;</span><span class="nf">execute</span>()<span class="p">;</span>
+    <span class="nv">$client</span> = <span class="p">(</span><span class="k">new</span> <span class="nc">Client</span><span class="p">(</span><span class="s1">&#039;https://httpbin.org/anything&#039;</span><span class="p">)</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">setHeaders</span>(<span class="nv">$headers</span>)<span class="o">-&gt;</span><span class="nf">postJSON</span>([<span class="s1">&#039;yo&#039;</span> <span class="o">=&gt;</span> <span class="s1">&#039;lo&#039;</span>])<span class="o">-&gt;</span><span class="nf">execute</span>()<span class="p">;</span>
 <span class="p">}</span>
-<span class="k">catch</span> (ClientException <span class="nv">$e</span>) {
-    <span class="k">exit</span><span class="p">(</span><span class="nv">$e</span>-><span class="n">client</span><span class="mf"> . </span><span class="s1">&#039; &#039;</span><span class="mf"> . </span><span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span>()<span class="mf"> . </span><span class="s2">&quot;\n&quot;</span><span class="p">)</span><span class="p">;</span>
+<span class="k">catch</span> <span class="p">(</span>ClientException <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">exit</span><span class="p">(</span><span class="nv">$e</span>-><span class="n">client</span> <span class="mf">.</span> <span class="s1">&#039; &#039;</span> <span class="mf">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span>() <span class="mf">.</span> <span class="s2">&quot;\n&quot;</span><span class="p">)</span><span class="p">;</span>
 <span class="p">}</span>
-<span class="k">echo</span> <span class="nv">$client</span><span class="mf"> . </span><span class="s1">&#039; &#039;</span><span class="mf"> . </span><span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getCode</span>()<span class="mf"> . </span><span class="s1">&#039; (&#039;</span><span class="mf"> . </span><span class="nb">strlen</span>(<span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getContent</span>())<span class="mf"> . </span><span class="s1">&#039;)&#039;</span><span class="p"> . </span><span class="kc">PHP_EOL</span><span class="p">;</span>
+<span class="k">echo</span> <span class="nv">$client</span> <span class="mf">.</span> <span class="s1">&#039; &#039;</span> <span class="mf">.</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getCode</span>() <span class="mf">.</span> <span class="s1">&#039; (&#039;</span> <span class="mf">.</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getContent</span>()<span class="p">)</span> <span class="mf">.</span> <span class="s1">&#039;)&#039;</span><span class="p"> . </span><span class="kc">PHP_EOL</span><span class="p">;</span>
 <span class="k">echo</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getContent</span>()<span class="p"> . </span><span class="kc">PHP_EOL</span><span class="p">;</span>
-</pre>
+</div></pre>
 <details><summary>Output</summary>
 
 <pre>
-Tivins\Core\Net\Client#21 200 (611)
+Tivins\Core\Net\Client#21 200 (613)
 {
   "args": {}, 
   "data": "{\"yo\":\"lo\"}", 
@@ -104,8 +106,8 @@ Tivins\Core\Net\Client#21 200 (611)
     "Content-Length": "11", 
     "Content-Type": "application/json", 
     "Host": "httpbin.org", 
-    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:98.0) Gecko/20100101 Firefox/98.0", 
-    "X-Amzn-Trace-Id": "Root=1-63cd690e-276627241bb1f82d1ad2d34b"
+    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:101.0) Gecko/20100101 Firefox/101.0", 
+    "X-Amzn-Trace-Id": "Root=1-63cee136-1ec8d0b936b8d70030aa3d1a"
   }, 
   "json": {
     "yo": "lo"
@@ -117,28 +119,27 @@ Tivins\Core\Net\Client#21 200 (611)
 
 </pre>
 </details>
-<h3>Asynchronous</h3>
+<h2>Asynchronous</h2>
 <p>Cet exemple démontre comment effectuer une requête HTTP de manière asynchrone.
 Appeler la méthode <code>setProgressCallback()</code> pour fournir la callback qui sera appelée durant le traitement.</p>
-<pre class="highlight"><span class="kn">use</span> <span class="nn">Tivins\Core\Net\ClientAsync</span><span class="p">;</span>
-<span class="kn">use</span> <span class="nn">Tivins\Core\Net\ClientException</span><span class="p">;</span>
-<span class="kn">use</span> <span class="nn">Tivins\Core\Net\ClientMulti</span><span class="p">;</span>
-
+<pre class="highlight"><a href="#" class="clipper" data-target="#code-f6cbb898">COPY</a><div id="code-f6cbb898"><span class="kn">use</span> <span class="nn">Tivins\Core\Net\ClientAsync</span> <span class="kn">as</span> <span class="nn">ClientAsync</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Tivins\Core\Net\ClientException</span> <span class="kn">as</span> <span class="nn">ClientException</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Tivins\Core\Net\ClientMulti</span> <span class="kn">as</span> <span class="nn">ClientMulti</span><span class="p">;</span>
 <span class="k">require</span> <span class="s1">&#039;vendor/autoload.php&#039;</span><span class="p">;</span>
 
-<span class="nv">$client</span> = (new ClientAsync(<span class="s1">&#039;https://httpbin.org/anything&#039;</span>))<span class="o">-&gt;</span><span class="nf">setProgressCallback</span>(
-    function() use() {
-        <span class="k">echo</span> "<span class="nv">$client</span> => "<span class="mf"> . </span><span class="nb">number_format</span>(<span class="nv">$duration</span>, <span class="mi">1</span>)<span class="mf"> . </span><span class="s2">&quot;s\n&quot;</span><span class="p">;</span>
-    }
+<span class="nv">$client</span> = <span class="p">(</span><span class="k">new</span> <span class="nc">ClientAsync</span><span class="p">(</span><span class="s1">&#039;https://httpbin.org/anything&#039;</span><span class="p">)</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">setProgressCallback</span>(
+    <span class="k">function</span> (*todo*) use (*todo*) {
+        <span class="k">echo</span> <span class="s2">"<span class="nv">$client</span> => "</span> <span class="mf">.</span> <span class="nb">number_format</span><span class="p">(</span><span class="nv">$duration</span><span class="p">, </span><span class="mi">1</span><span class="p">)</span> <span class="mf">.</span> <span class="s2">&quot;s\n&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
 )<span class="o">-&gt;</span><span class="nf">postJSON</span>([<span class="s1">&#039;yo&#039;</span> <span class="o">=&gt;</span> <span class="s1">&#039;lo&#039;</span>])<span class="p">;</span>
 <span class="k">try</span><span class="p"> {</span>
     <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">execute</span>()<span class="p">;</span>
 <span class="p">}</span>
-<span class="k">catch</span> (ClientException <span class="nv">$e</span>) {
-    <span class="k">exit</span><span class="p">(</span><span class="nv">$e</span>-><span class="n">client</span><span class="mf"> . </span><span class="s1">&#039; &#039;</span><span class="mf"> . </span><span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span>()<span class="mf"> . </span><span class="s2">&quot;\n&quot;</span><span class="p">)</span><span class="p">;</span>
+<span class="k">catch</span> <span class="p">(</span>ClientException <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">exit</span><span class="p">(</span><span class="nv">$e</span>-><span class="n">client</span> <span class="mf">.</span> <span class="s1">&#039; &#039;</span> <span class="mf">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span>() <span class="mf">.</span> <span class="s2">&quot;\n&quot;</span><span class="p">)</span><span class="p">;</span>
 <span class="p">}</span>
-<span class="k">echo</span> <span class="nv">$client</span><span class="mf"> . </span><span class="s1">&#039; &#039;</span><span class="mf"> . </span><span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getCode</span>()<span class="mf"> . </span><span class="s1">&#039; (&#039;</span><span class="mf"> . </span><span class="nb">strlen</span>(<span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getContent</span>())<span class="mf"> . </span><span class="s1">&#039;)&#039;</span><span class="p"> . </span><span class="kc">PHP_EOL</span><span class="p"> . </span><span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getContent</span>()<span class="p"> . </span><span class="kc">PHP_EOL</span><span class="p">;</span>
-</pre>
+<span class="k">echo</span> <span class="nv">$client</span> <span class="mf">.</span> <span class="s1">&#039; &#039;</span> <span class="mf">.</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getCode</span>() <span class="mf">.</span> <span class="s1">&#039; (&#039;</span> <span class="mf">.</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getContent</span>()<span class="p">)</span> <span class="mf">.</span> <span class="s1">&#039;)&#039;</span><span class="p"> . </span><span class="kc">PHP_EOL</span><span class="p"> . </span><span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getContent</span>()<span class="p"> . </span><span class="kc">PHP_EOL</span><span class="p">;</span>
+</div></pre>
 <details><summary>Output</summary>
 
 <pre>
@@ -149,7 +150,7 @@ Tivins\Core\Net\ClientMulti#5 => 0.3s
 Tivins\Core\Net\ClientMulti#5 => 0.4s
 Tivins\Core\Net\ClientMulti#5 => 0.5s
 Tivins\Core\Net\ClientMulti#5 => 0.6s
-Tivins\Core\Net\ClientAsync#4 200 (558)
+Tivins\Core\Net\ClientAsync#4 200 (556)
 {
   "args": {}, 
   "data": "{\"yo\":\"lo\"}", 
@@ -161,8 +162,8 @@ Tivins\Core\Net\ClientAsync#4 200 (558)
     "Content-Length": "11", 
     "Content-Type": "application/json", 
     "Host": "httpbin.org", 
-    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:106.0) Gecko/20100101 Firefox/106.0", 
-    "X-Amzn-Trace-Id": "Root=1-63cd690e-733ee32063334d32105a6840"
+    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:98.0) Gecko/20100101 Firefox/98.0", 
+    "X-Amzn-Trace-Id": "Root=1-63cee136-3f4a2532396f25634d25f99f"
   }, 
   "json": {
     "yo": "lo"
@@ -175,20 +176,20 @@ Tivins\Core\Net\ClientAsync#4 200 (558)
 </pre>
 </details>
 <div class="asciinema" data-cast="/php-common/casts/HttpClientAsync.cast"></div>
-<h3>Multiple calls</h3>
-<pre class="highlight"><span class="kn">use</span> <span class="nn">Tivins\Core\Net\Client</span><span class="p">;</span>
+<h2>Multiple calls</h2>
+<pre class="highlight"><a href="#" class="clipper" data-target="#code-78a5c832">COPY</a><div id="code-78a5c832"><span class="kn">use</span> <span class="nn">Tivins\Core\Net\Client</span><span class="p">;</span>
 <span class="kn">use</span> <span class="nn">Tivins\Core\Net\ClientException</span><span class="p">;</span>
 <span class="kn">use</span> <span class="nn">Tivins\Core\Net\ClientMulti</span><span class="p">;</span>
 
 <span class="k">require</span> <span class="s1">&#039;vendor/autoload.php&#039;</span><span class="p">;</span>
 
-<span class="nv">$clients</span> = (new ClientMulti())<span class="p">;</span>
-<span class="nv">$clients</span><span class="o">-&gt;</span><span class="nf">addClients</span>(<span class="s1">&#039;https://example.com/&#039;</span>, (new Client(<span class="s1">&#039;https://httpbin.org/anything&#039;</span>))<span class="o">-&gt;</span><span class="nf">postJSON</span>([<span class="s1">&#039;yo&#039;</span> <span class="o">=&gt;</span> <span class="s1">&#039;lo&#039;</span>]))<span class="p">;</span>
+<span class="nv">$clients</span> = <span class="k">new</span> <span class="nc">ClientMulti</span><span class="p">(</span><span class="p">)</span><span class="p">;</span>
+<span class="nv">$clients</span><span class="o">-&gt;</span><span class="nf">addClients</span>(<span class="s1">&#039;https://example.com/&#039;</span>, <span class="p">(</span><span class="k">new</span> <span class="nc">Client</span><span class="p">(</span><span class="s1">&#039;https://httpbin.org/anything&#039;</span><span class="p">)</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">postJSON</span>([<span class="s1">&#039;yo&#039;</span> <span class="o">=&gt;</span> <span class="s1">&#039;lo&#039;</span>]))<span class="p">;</span>
 <span class="nv">$duration</span> = <span class="nv">$clients</span><span class="o">-&gt;</span><span class="nf">execute</span>()<span class="p">;</span>
-foreach () {
-    <span class="nb">printf</span>(<span class="s2">&quot;- #%d : %s, Code: %d, Size: %d bytes\n&quot;</span>, <span class="nv">$k</span>, <span class="nv">$client</span>, <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getCode</span>(), <span class="nb">strlen</span>(<span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getContent</span>()))<span class="p">;</span>
+foreach (*todo*) {
+    <span class="nb">printf</span><span class="p">(</span><span class="s2">&quot;- #%d : %s, Code: %d, Size: %d bytes\n&quot;</span><span class="p">, </span><span class="nv">$k</span><span class="p">, </span><span class="nv">$client</span><span class="p">, </span><span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getCode</span>()<span class="p">, </span><span class="nb">strlen</span><span class="p">(</span><span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getContent</span>()<span class="p">)</span><span class="p">)</span><span class="p">;</span>
 }
-</pre>
+</div></pre>
 <details><summary>Output</summary>
 
 <pre>
@@ -197,16 +198,62 @@ foreach () {
 
 </pre>
 </details>
-<h3>Using cache</h3>
+<h2>Using cache</h2>
 <p>...todo.</p>
 </div>
 
+
+<!-- github-corner : https://tholman.com/github-corners/ -->
+<a href="https://github.com/tivins/php-common" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#0366d6; color:#fff; position: fixed; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<!-- github-corner -->
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
 <script src="/php-common/assets/asciinema-player.min.js"></script>
+<script src="/php-common/assets/common.js"></script>
 <script>
     anchors.add();
-    document.querySelectorAll('.asciinema')
-        .forEach(item =>
+
+    function copyToClipboard(text, successCallback) {
+        navigator.clipboard.writeText(text).then(function () {
+            successCallback();//console.log('Async: Copying to clipboard was successful!');
+        }, function (err) {
+            console.error('Async: Could not copy text: ', err);
+        });
+    }
+    function getOffset(el) {
+        const rect = el.getBoundingClientRect();
+        return {
+            left: rect.left + window.scrollX, top: rect.top + window.scrollY
+        };
+    }
+
+    const localNotifier = document.createElement('div');
+    localNotifier.className = 'localNotifier hidden';
+    localNotifier.innerHTML = 'Copied to clipboard!';
+    document.body.append(localNotifier);
+
+    document.querySelectorAll('.clipper').forEach(item => {
+        item.addEventListener('click', e => {
+            e.preventDefault();
+            copyToClipboard(document.querySelector(item.getAttribute('data-target')).innerText, ()=> {
+                let off = getOffset(item);
+                localNotifier.classList.remove('hidden');
+                localNotifier.style.top = (off.top - localNotifier.offsetHeight) + 'px';
+                localNotifier.style.left = (off.left - localNotifier.offsetWidth/2 + item.offsetWidth/2) + 'px';
+                localNotifier.setAttribute('data-last-hit', (new Date()).getTime().toString());
+            });
+        })
+    });
+
+    setInterval(() => {
+        let tm = (new Date()).getTime();
+        if (localNotifier.getAttribute('data-last-hit') < tm - 2000) {
+            localNotifier.classList.add('hidden');
+        }
+    }, 1000);
+
+    document.querySelectorAll('.asciinema').forEach(item =>
             AsciinemaPlayer.create(item.getAttribute('data-cast'), item, {
                 poster: "npt:0:01",
                 // fit: "none",
