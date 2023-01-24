@@ -1,6 +1,4 @@
-
-
-## Core/Network/HTTP
+## Working with the network
 
 NB: outputs are stored at pre-commit time.
 

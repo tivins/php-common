@@ -5,18 +5,18 @@
 * [Go up](#go-up)
 * [asciinema](#asciinema)
 
-### Have to make a pause?
+## Have to make a pause?
 
 {{{ run | src/test/bin/SystemTerminalSleep.php | code,cinema }}}
 
-### Go up
+## Go up
 
 {{{ run | src/test/bin/SystemTerminalGoUp.php | code,cinema }}}
 
-### asciinema
+## asciinema
 
 {{{ run | src/test/bin/ProcAsciiProcess.php | code,output,cinema }}}
 
-### proc
+## proc
 
 {{{ run | src/test/bin/ProcTop.php | code }}}

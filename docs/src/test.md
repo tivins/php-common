@@ -2,7 +2,7 @@
 ## test
 
 
-{{{ run | src/test/bin/ReformatBadPhp.php | code,output,cinema }}}
+{{{ run | src/test/bin/ReformatBadPhp.php | code }}}
 
 
 voilà

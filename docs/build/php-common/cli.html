@@ -1,7 +1,10 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <title>CLI</title>
+  <title>php-common - Working with command line interpreter</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="/php-common/assets/asciinema-player.css">
   <link rel="stylesheet" type="text/css" href="/php-common/assets/style.css">
   <link rel="stylesheet" type="text/css" href="/php-common/assets/overrides.css">
@@ -15,17 +18,17 @@
 <li><a href="#go-up">Go up</a></li>
 <li><a href="#asciinema">asciinema</a></li>
 </ul>
-<h3>Have to make a pause?</h3>
+<h2>Have to make a pause?</h2>
 <pre class="highlight"><a href="#" class="clipper" data-target="#code-3c3eb904">COPY</a><div id="code-3c3eb904"><span class="kn">use</span> <span class="nn">Tivins\Core\System\Terminal</span><span class="p">;</span>
 
 <span class="k">require</span> <span class="s1">&#039;vendor/autoload.php&#039;</span><span class="p">;</span>
 
-Terminal<span class="o">::</span>sleep(<span class="mi">2</span>)<span class="p">;</span>
-Terminal<span class="o">::</span>sleep(<span class="mi">2</span>, <span class="s2">&quot;Remains: %.2f seconds.&quot;</span>)<span class="p">;</span>
+<span class="nc">Terminal</span><span class="o">::</span><span class="nf">sleep</span>(<span class="mi">2</span>)<span class="p">;</span>
+<span class="nc">Terminal</span><span class="o">::</span><span class="nf">sleep</span>(<span class="mi">2</span>, <span class="s2">&quot;Remains: %.2f seconds.&quot;</span>)<span class="p">;</span>
 <span class="k">echo</span> <span class="s2">&quot;Done.&quot;</span><span class="p"> . </span><span class="kc">PHP_EOL</span><span class="p">;</span>
 </div></pre>
 <div class="asciinema" data-cast="/php-common/casts/SystemTerminalSleep.cast"></div>
-<h3>Go up</h3>
+<h2>Go up</h2>
 <pre class="highlight"><a href="#" class="clipper" data-target="#code-4ae98194">COPY</a><div id="code-4ae98194"><span class="kn">use</span> <span class="nn">Tivins\Core\Chrono</span><span class="p">;</span>
 <span class="kn">use</span> <span class="nn">Tivins\Core\System\Terminal</span><span class="p">;</span>
 
@@ -39,15 +42,15 @@ foreach (*todo*) {
     foreach (*todo*) {
         <span class="k">echo</span> <span class="s2">" └─ processing <span class="nv">$action</span> ...\n"</span><span class="p">;</span>
         <span class="nb">usleep</span><span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="mi">400000</span><span class="p">, </span><span class="mi">600000</span><span class="p">)</span><span class="p">)</span><span class="p">;</span>
-        Terminal<span class="o">::</span>goUpClean(<span class="mi">1</span>)<span class="p">;</span>
+        <span class="nc">Terminal</span><span class="o">::</span><span class="nf">goUpClean</span>(<span class="mi">1</span>)<span class="p">;</span>
     }
-    Terminal<span class="o">::</span>goUpClean(<span class="mi">1</span>)<span class="p">;</span>
+    <span class="nc">Terminal</span><span class="o">::</span><span class="nf">goUpClean</span>(<span class="mi">1</span>)<span class="p">;</span>
     <span class="k">echo</span> <span class="s2">" ✅ <span class="nv">$partName</span> ("</span> <span class="mf">.</span> <span class="nb">number_format</span><span class="p">(</span><span class="nv">$actionChrono</span><span class="o">-&gt;</span><span class="nf">get</span>()<span class="p">, </span><span class="mi">2</span><span class="p">)</span> <span class="mf">.</span> <span class="s2">&quot; s.)\n&quot;</span><span class="p">;</span>
 }
 <span class="k">echo</span> <span class="s2">&quot;All tasks finished in &quot;</span> <span class="mf">.</span> <span class="nb">number_format</span><span class="p">(</span><span class="nv">$chrono</span><span class="o">-&gt;</span><span class="nf">get</span>()<span class="p">, </span><span class="mi">2</span><span class="p">)</span> <span class="mf">.</span> <span class="s2">&quot; seconds.\n&quot;</span><span class="p">;</span>
 </div></pre>
 <div class="asciinema" data-cast="/php-common/casts/SystemTerminalGoUp.cast"></div>
-<h3>asciinema</h3>
+<h2>asciinema</h2>
 <pre class="highlight"><a href="#" class="clipper" data-target="#code-b9c97c1d">COPY</a><div id="code-b9c97c1d"><span class="kn">use</span> <span class="nn">Tivins\Core\Proc\AsciiProcess</span><span class="p">;</span>
 <span class="kn">use</span> <span class="nn">Tivins\Core\Proc\Command</span><span class="p">;</span>
 <span class="kn">use</span> <span class="nn">Tivins\Core\System\File</span><span class="p">;</span>
@@ -55,10 +58,10 @@ foreach (*todo*) {
 <span class="k">require</span> <span class="s1">&#039;vendor/autoload.php&#039;</span><span class="p">;</span>
 
 <span class="nv">$tmpFile</span> = <span class="nb">tempnam</span><span class="p">(</span><span class="s1">&#039;/tmp&#039;</span><span class="p">, </span><span class="s1">&#039;test&#039;</span><span class="p">)</span><span class="p">;</span>
-File<span class="o">::</span>save(<span class="nv">$tmpFile</span>, <span class="s1">&#039;&lt;?&#039;</span> <span class="mf">.</span> <span class="s1">&#039;php&#039;</span> <span class="mf">.</span> <span class="s2">&quot;\n&quot;</span> <span class="mf">.</span> <span class="s1">&#039;echo &quot;Hello&quot;; sleep(1); echo &quot;Word\n&quot;;&#039;</span>)<span class="p">;</span>
-<span class="nv">$cast</span> = AsciiProcess<span class="o">::</span>buildCast(<span class="k">new</span> <span class="nc">Command</span><span class="p">(</span><span class="s1">&#039;php&#039;</span>, <span class="nv">$tmpFile</span><span class="p">)</span>)<span class="p">;</span>
+<span class="nc">File</span><span class="o">::</span><span class="nf">save</span>(<span class="nv">$tmpFile</span>, <span class="s1">&#039;&lt;?&#039;</span> <span class="mf">.</span> <span class="s1">&#039;php&#039;</span> <span class="mf">.</span> <span class="s2">&quot;\n&quot;</span> <span class="mf">.</span> <span class="s1">&#039;echo &quot;Hello&quot;; sleep(1); echo &quot;Word\n&quot;;&#039;</span>)<span class="p">;</span>
+<span class="nv">$cast</span> = <span class="nc">AsciiProcess</span><span class="o">::</span><span class="nf">buildCast</span>(<span class="k">new</span> <span class="nc">Command</span><span class="p">(</span><span class="s1">&#039;php&#039;</span>, <span class="nv">$tmpFile</span><span class="p">)</span>)<span class="p">;</span>
 <span class="k">echo</span> <span class="nv">$cast</span> <span class="mf">.</span> <span class="kc">PHP_EOL</span><span class="p">;</span>
-File<span class="o">::</span>delete(<span class="nv">$tmpFile</span>)<span class="p">;</span>
+<span class="nc">File</span><span class="o">::</span><span class="nf">delete</span>(<span class="nv">$tmpFile</span>)<span class="p">;</span>
 </div></pre>
 <details><summary>Output</summary>
 
@@ -72,14 +75,14 @@ File<span class="o">::</span>delete(<span class="nv">$tmpFile</span>)<span class
 </pre>
 </details>
 <div class="asciinema" data-cast="/php-common/casts/ProcAsciiProcess.cast"></div>
-<h3>proc</h3>
+<h2>proc</h2>
 <pre class="highlight"><a href="#" class="clipper" data-target="#code-8c9abd63">COPY</a><div id="code-8c9abd63"><span class="kn">use</span> <span class="nn">Tivins\Core\Proc\Process</span><span class="p">;</span>
 
 <span class="k">require</span> <span class="s1">&#039;vendor/autoload.php&#039;</span><span class="p">;</span>
 
 <span class="kd">class</span> <span class="nc">MyProcess</span> <span class="k">extends</span> <span class="nc">Process</span>
 {
-    <span class="k">public</span> <span class="k">function</span> <span class="n">onUpdate</span><span class="p">(</span>array <span class="nv">$status</span><span class="p">, </span>array <span class="nv">$received</span><span class="p">): </span><span class="kt">void</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">onUpdate</span><span class="p">(</span><span class="kt">array</span> <span class="nv">$status</span><span class="p">, </span><span class="kt">array</span> <span class="nv">$received</span><span class="p">): </span><span class="kt">void</span>
     <span class="p">{</span>
         <span class="nv">$in</span> = <span class="nv">$received</span><span class="p">[</span>Process<span class="o">::</span>STDOUT<span class="p">]</span><span class="p">;</span>
         <span class="k">if</span><span class="p"> (</span>!<span class="nv">$in</span><span class="p">) {</span>

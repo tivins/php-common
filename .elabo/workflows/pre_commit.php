@@ -37,8 +37,13 @@ function highPHP(string $code): string
  */
 function convertMarkdown(string $inFile): void
 {
+    $baseTitle = 'php-common';
     $outFile = str_replace('/src/', '/build/php-common/', $inFile);
     $content = File::load($inFile);
+    $firstSharp = mb_strpos($content, '#');
+    $titleEOL   = mb_strpos($content, "\n", $firstSharp);
+    $title      = mb_substr($content, $firstSharp, $titleEOL - $firstSharp);
+    $title = $baseTitle.' - ' .trim($title, " \ \t\n\r\0\x0B#");
     if (!$content) {
         throw new Exception('no-content');
     }
@@ -81,6 +86,7 @@ function convertMarkdown(string $inFile): void
 
     }, $content);
     $tpl = File::load('docs/src/template.html');
+    $tpl = str_replace('{{ title }}', $title, $tpl);
     $tpl = str_replace('{{ HTML }}', StrUtil::markdown($content), $tpl);
     File::save(str_replace('.md','.html', $outFile), $tpl);
 }

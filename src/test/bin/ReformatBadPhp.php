@@ -8,10 +8,47 @@ use Tivins\Core\System\Terminal;
 
 require 'vendor/autoload.php';
 
+function testAssignOperators(): void
+{
+    $a = 0;
+    $a += 1;
+    $a *= 1;
+    $a %= 1;
+    $a /= 1;
+    $a ^= 1;
+    $a &= 1;
+    $a |= 1;
+    $a >>= 1;
+    $a <<= 1;
+}
+
+function testUnionTypes(array|bool $param, ?string $null): int|float|false
+{
+    return false;
+}
+
+function testDefaultParam(int $a = 2, array $b = [1,2,3]): void {
+}
+
+function testNamedParameters()
+{
+    testDefaultParam(b: [4,5,6], a: 9);
+    testDefaultParam(9, [4,5,6]);
+}
+
 trait TraitC {}
 trait TraitB {
     const MY_LETTER = 'B';
     public function areYouSad(): true {
+        if (rand() < 100) {
+            doSomething();
+        } elseif (rand() > 102)
+        {
+            return true;
+        }
+        else {
+            throw new Exception("foo");
+        }
         return true;
     }
 }
@@ -21,7 +58,8 @@ trait Yolo {
     }
 }
 class Util {
-    public static function doSome1(): void {}
+    public static function doSome1(): int { return 2; }
+    public static function doSome2(): int { return self::doSome1(); }
 }
 class Emoclass {
     use TraitC;
@@ -54,7 +92,17 @@ var_dump($a);
 Terminal::sleep(1);
 $a['test']++;
 var_dump($a);
+$a['test']--;
+$a['test']+=1;
+$a['test']*=1;
+$a['test']%=1;
+$a['test']/=1;
+$a['test'] = PHP_INT_MAX;
 Terminal::sleep(.2);
+$b['yo'] = 'Hello';
+$b['yo'] .= 'World';
+$b['yoa'] ??= 'World';
+
 
 
 $var = "That's a \"test\" !";
