@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <title>php-common - About</title>
+  <title>php-common - test JS</title>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,16 +12,27 @@
 <body>
 <div class="container-lg px-3 my-5 markdown-body">
   <h1><a href="/php-common/">PHP Common</a></h1>
-<h2>About</h2>
-<h2>Install</h2>
-<pre><code class="language-shell">composer require tivins/php-common dev-main</code></pre>
-<h2>Content</h2>
-<ul>
-<li><a href="/php-common/net.html">HTTP Client</a></li>
-<li><a href="/php-common/cli.html">CLI Options Managment</a></li>
-<li><a href="/php-common/test.html">test</a></li>
-<li><a href="/php-common/testjs.html">test JS</a></li>
-</ul>
+<h2>test JS</h2>
+<pre class="highlight"><a href="#" class="clipper" data-target="#code-7d643166">COPY</a><div id="code-7d643166"><span class="kn">use</span> <span class="nn">Tivins\Dev\JS\Env</span><span class="p">;</span>
+
+<span class="nv">window</span> = <span class="nc">Env</span><span class="o">.</span><span class="nf">init</span>()<span class="p">;</span>
+<span class="kd">class</span> <span class="nc">Test</span>
+{
+    /** @type {string} */
+    test;
+    /** @type {int} */
+    <span class="k">#</span>testPrivate;
+    static <span class="k">function</span> <span class="n">log</span><span class="p">(</span><span class="nv">label</span><span class="p">, </span><span class="nv">info</span><span class="p">)</span><span class="p">: </span><span class="kt">void</span>
+    <span class="p">{</span>
+        <span class="nc">Env</span><span class="o">.</span><span class="nf">window</span>()<span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="nf">log</span>(<span class="nv">label</span>, <span class="nv">info</span>)<span class="p">;</span>
+    <span class="p">}</span>
+}
+
+Test<span class="o">.</span><span class="n">test</span> = <span class="s1">&#039;world&#039;</span><span class="p">;</span>
+<span class="nc">Test</span><span class="o">.</span><span class="nf">log</span>(<span class="s2">&quot;yo&quot;</span>, [<span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span>])<span class="p">;</span>
+<span class="nv">window</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">innerText</span> = <span class="s1">&#039;test&#039;</span><span class="p">;</span>
+</div></pre>
+<p>voilà</p>
 </div>
 
 

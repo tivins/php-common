@@ -74,6 +74,9 @@ function convertMarkdown(string $inFile): void
         if (in_array('code', $flags)) {
             $output .= (new PHPHighlight)->highlight($phpCode);
         }
+        if (in_array('codeJS', $flags)) {
+            $output .= (new \Tivins\Dev\PHPJS())->highlight($phpCode);
+        }
         if (in_array('output', $flags)) {
             $output .= "<details><summary>Output</summary>\n\n<pre>"
               . "\n". $raw . "\n</pre>\n"

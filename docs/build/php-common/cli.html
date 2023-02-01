@@ -82,9 +82,9 @@ foreach (*todo*) {
 
 <span class="kd">class</span> <span class="nc">MyProcess</span> <span class="k">extends</span> <span class="nc">Process</span>
 {
-    <span class="k">public</span> <span class="k">function</span> <span class="n">onUpdate</span><span class="p">(</span><span class="kt">array</span> <span class="nv">$status</span><span class="p">, </span><span class="kt">array</span> <span class="nv">$received</span><span class="p">): </span><span class="kt">void</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">onUpdate</span><span class="p">(</span><span class="kt">array</span> <span class="nv">$status</span><span class="p">, </span><span class="kt">array</span> <span class="nv">$received</span><span class="p">)</span><span class="p">: </span><span class="kt">void</span>
     <span class="p">{</span>
-        <span class="nv">$in</span> = <span class="nv">$received</span><span class="p">[</span>Process<span class="o">::</span>STDOUT<span class="p">]</span><span class="p">;</span>
+        <span class="nv">$in</span> = <span class="nv">$received</span><span class="p">[</span>Process<span class="o">::</span><span class="n">STDOUT</span><span class="p">]</span><span class="p">;</span>
         <span class="k">if</span><span class="p"> (</span>!<span class="nv">$in</span><span class="p">) {</span>
             <span class="k">return</span><span class="p">;</span>
         }

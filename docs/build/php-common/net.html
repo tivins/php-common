@@ -23,8 +23,8 @@
 <li><a href="#using-cache">Using Cache</a></li>
 </ul>
 <h2>Minimal</h2>
-<pre class="highlight"><a href="#" class="clipper" data-target="#code-9af645dc">COPY</a><div id="code-9af645dc"><span class="kn">use</span> <span class="nn">Tivins\Core\Net\Client</span> <span class="kn">as</span> <span class="nn">Client</span><span class="p">;</span>
-<span class="kn">use</span> <span class="nn">Tivins\Core\Net\ClientException</span> <span class="kn">as</span> <span class="nn">ClientException</span><span class="p">;</span>
+<pre class="highlight"><a href="#" class="clipper" data-target="#code-9af645dc">COPY</a><div id="code-9af645dc"><span class="kn">use</span> <span class="nn">Client</span> <span class="kn">as</span> <span class="nn">Client</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">ClientException</span> <span class="kn">as</span> <span class="nn">ClientException</span><span class="p">;</span>
 <span class="k">require</span> <span class="s1">&#039;vendor/autoload.php&#039;</span><span class="p">;</span>
 
 <span class="k">try</span><span class="p"> {</span>
@@ -33,7 +33,7 @@
     <span class="nb">print_r</span><span class="p">(</span><span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getContentAsJSON</span>()<span class="p">)</span><span class="p">;</span>
 <span class="p">}</span>
 <span class="k">catch</span> <span class="p">(</span>Exception|ClientException <span class="nv">$ex</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">exit</span><span class="p">(</span><span class="nv">$ex</span>-><span class="n">client</span> <span class="mf">.</span> <span class="s1">&#039; : &#039;</span> <span class="mf">.</span> <span class="nv">$ex</span><span class="o">-&gt;</span><span class="nf">getMessage</span>() <span class="mf">.</span> <span class="s2">&quot;\n&quot;</span><span class="p">)</span><span class="p">;</span>
+    <span class="k">exit</span><span class="p">(</span><span class="nv">$ex</span><span class="o">-&gt;</span><span class="n">client</span> <span class="mf">.</span> <span class="s1">&#039; : &#039;</span> <span class="mf">.</span> <span class="nv">$ex</span><span class="o">-&gt;</span><span class="nf">getMessage</span>() <span class="mf">.</span> <span class="s2">&quot;\n&quot;</span><span class="p">)</span><span class="p">;</span>
 <span class="p">}</span>
 </div></pre>
 <details><summary>Output</summary>
@@ -83,12 +83,12 @@ stdClass Object
 <span class="k">require</span> <span class="s1">&#039;vendor/autoload.php&#039;</span><span class="p">;</span>
 
 <span class="nv">$token</span> = <span class="s1">&#039;a-token-from-elsewhere&#039;</span><span class="p">;</span>
-<span class="nv">$headers</span> = <span class="p">(</span><span class="k">new</span> <span class="nc">Headers</span><span class="p">(</span><span class="p">)</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">setHeader</span>(Header<span class="o">::</span>Authorization, <span class="s1">&#039;Bearer &#039;</span> <span class="mf">.</span> <span class="nv">$token</span>)<span class="p">;</span>
+<span class="nv">$headers</span> = <span class="p">(</span><span class="k">new</span> <span class="nc">Headers</span><span class="p">(</span><span class="p">)</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">setHeader</span>(Header<span class="o">::</span><span class="n">Authorization</span>, <span class="s1">&#039;Bearer &#039;</span> <span class="mf">.</span> <span class="nv">$token</span>)<span class="p">;</span>
 <span class="k">try</span><span class="p"> {</span>
     <span class="nv">$client</span> = <span class="p">(</span><span class="k">new</span> <span class="nc">Client</span><span class="p">(</span><span class="s1">&#039;https://httpbin.org/anything&#039;</span><span class="p">)</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">setHeaders</span>(<span class="nv">$headers</span>)<span class="o">-&gt;</span><span class="nf">postJSON</span>([<span class="s1">&#039;yo&#039;</span> <span class="o">=&gt;</span> <span class="s1">&#039;lo&#039;</span>])<span class="o">-&gt;</span><span class="nf">execute</span>()<span class="p">;</span>
 <span class="p">}</span>
 <span class="k">catch</span> <span class="p">(</span>ClientException <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">exit</span><span class="p">(</span><span class="nv">$e</span>-><span class="n">client</span> <span class="mf">.</span> <span class="s1">&#039; &#039;</span> <span class="mf">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span>() <span class="mf">.</span> <span class="s2">&quot;\n&quot;</span><span class="p">)</span><span class="p">;</span>
+    <span class="k">exit</span><span class="p">(</span><span class="nv">$e</span><span class="o">-&gt;</span><span class="n">client</span> <span class="mf">.</span> <span class="s1">&#039; &#039;</span> <span class="mf">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span>() <span class="mf">.</span> <span class="s2">&quot;\n&quot;</span><span class="p">)</span><span class="p">;</span>
 <span class="p">}</span>
 <span class="k">echo</span> <span class="nv">$client</span> <span class="mf">.</span> <span class="s1">&#039; &#039;</span> <span class="mf">.</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getCode</span>() <span class="mf">.</span> <span class="s1">&#039; (&#039;</span> <span class="mf">.</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getContent</span>()<span class="p">)</span> <span class="mf">.</span> <span class="s1">&#039;)&#039;</span><span class="p"> . </span><span class="kc">PHP_EOL</span><span class="p">;</span>
 <span class="k">echo</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getContent</span>()<span class="p"> . </span><span class="kc">PHP_EOL</span><span class="p">;</span>
@@ -125,9 +125,9 @@ Tivins\Core\Net\Client#21 200 (613)
 <h2>Asynchronous</h2>
 <p>Cet exemple démontre comment effectuer une requête HTTP de manière asynchrone.
 Appeler la méthode <code>setProgressCallback()</code> pour fournir la callback qui sera appelée durant le traitement.</p>
-<pre class="highlight"><a href="#" class="clipper" data-target="#code-f6cbb898">COPY</a><div id="code-f6cbb898"><span class="kn">use</span> <span class="nn">Tivins\Core\Net\ClientAsync</span> <span class="kn">as</span> <span class="nn">ClientAsync</span><span class="p">;</span>
-<span class="kn">use</span> <span class="nn">Tivins\Core\Net\ClientException</span> <span class="kn">as</span> <span class="nn">ClientException</span><span class="p">;</span>
-<span class="kn">use</span> <span class="nn">Tivins\Core\Net\ClientMulti</span> <span class="kn">as</span> <span class="nn">ClientMulti</span><span class="p">;</span>
+<pre class="highlight"><a href="#" class="clipper" data-target="#code-f6cbb898">COPY</a><div id="code-f6cbb898"><span class="kn">use</span> <span class="nn">ClientAsync</span> <span class="kn">as</span> <span class="nn">ClientAsync</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">ClientException</span> <span class="kn">as</span> <span class="nn">ClientException</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">ClientMulti</span> <span class="kn">as</span> <span class="nn">ClientMulti</span><span class="p">;</span>
 <span class="k">require</span> <span class="s1">&#039;vendor/autoload.php&#039;</span><span class="p">;</span>
 
 <span class="nv">$client</span> = <span class="p">(</span><span class="k">new</span> <span class="nc">ClientAsync</span><span class="p">(</span><span class="s1">&#039;https://httpbin.org/anything&#039;</span><span class="p">)</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">setProgressCallback</span>(
@@ -139,7 +139,7 @@ Appeler la méthode <code>setProgressCallback()</code> pour fournir la callback 
     <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">execute</span>()<span class="p">;</span>
 <span class="p">}</span>
 <span class="k">catch</span> <span class="p">(</span>ClientException <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">exit</span><span class="p">(</span><span class="nv">$e</span>-><span class="n">client</span> <span class="mf">.</span> <span class="s1">&#039; &#039;</span> <span class="mf">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span>() <span class="mf">.</span> <span class="s2">&quot;\n&quot;</span><span class="p">)</span><span class="p">;</span>
+    <span class="k">exit</span><span class="p">(</span><span class="nv">$e</span><span class="o">-&gt;</span><span class="n">client</span> <span class="mf">.</span> <span class="s1">&#039; &#039;</span> <span class="mf">.</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="nf">getMessage</span>() <span class="mf">.</span> <span class="s2">&quot;\n&quot;</span><span class="p">)</span><span class="p">;</span>
 <span class="p">}</span>
 <span class="k">echo</span> <span class="nv">$client</span> <span class="mf">.</span> <span class="s1">&#039; &#039;</span> <span class="mf">.</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getCode</span>() <span class="mf">.</span> <span class="s1">&#039; (&#039;</span> <span class="mf">.</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getContent</span>()<span class="p">)</span> <span class="mf">.</span> <span class="s1">&#039;)&#039;</span><span class="p"> . </span><span class="kc">PHP_EOL</span><span class="p"> . </span><span class="nv">$client</span><span class="o">-&gt;</span><span class="nf">getContent</span>()<span class="p"> . </span><span class="kc">PHP_EOL</span><span class="p">;</span>
 </div></pre>

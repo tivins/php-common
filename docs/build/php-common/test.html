@@ -17,7 +17,7 @@
 
 <span class="k">require</span> <span class="s1">&#039;vendor/autoload.php&#039;</span><span class="p">;</span>
 
-<span class="k">function</span> <span class="n">testAssignOperators</span><span class="p">(</span><span class="p">): </span><span class="kt">void</span>
+<span class="k">function</span> <span class="n">testAssignOperators</span><span class="p">(</span><span class="p">)</span><span class="p">: </span><span class="kt">void</span>
 <span class="p">{</span>
     <span class="nv">$a</span> = <span class="mi">0</span><span class="p">;</span>
     <span class="nv">$a</span> += <span class="mi">1</span><span class="p">;</span>
@@ -31,16 +31,16 @@
     <span class="nv">$a</span> <<= <span class="mi">1</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="k">function</span> <span class="n">testUnionTypes</span><span class="p">(</span><span class="kt">array|bool</span> <span class="nv">$param</span><span class="p">, </span><span class="kt">?string</span> <span class="nv">$null</span><span class="p">): </span><span class="kt">int|float|false</span>
+<span class="k">function</span> <span class="n">testUnionTypes</span><span class="p">(</span><span class="kt">array|bool</span> <span class="nv">$param</span><span class="p">, </span><span class="kt">?string</span> <span class="nv">$null</span><span class="p">)</span><span class="p">: </span><span class="kt">int|float|false</span>
 <span class="p">{</span>
     <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="k">function</span> <span class="n">testDefaultParam</span><span class="p">(</span><span class="kt">int</span> <span class="nv">$a</span> = <span class="mi">2</span><span class="p">, </span><span class="kt">array</span> <span class="nv">$b</span> = [<span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span>]<span class="p">): </span><span class="kt">void</span>
+<span class="k">function</span> <span class="n">testDefaultParam</span><span class="p">(</span><span class="kt">int</span> <span class="nv">$a</span> = <span class="mi">2</span><span class="p">, </span><span class="kt">array</span> <span class="nv">$b</span> = [<span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span>]<span class="p">)</span><span class="p">: </span><span class="kt">void</span>
 <span class="p">{</span>
 <span class="p">}</span>
 
-<span class="k">function</span> <span class="n">testNamedParameters</span><span class="p">(</span><span class="p">): </span><span class="kt"></span>
+<span class="k">function</span> <span class="n">testNamedParameters</span><span class="p">(</span><span class="p">)</span><span class="p">: </span><span class="kt"></span>
 <span class="p">{</span>
     <span class="nb">testDefaultParam</span><span class="p">(</span><span class="s">b: </span>[<span class="mi">4</span>, <span class="mi">5</span>, <span class="mi">6</span>]<span class="p">, </span><span class="s">a: </span><span class="mi">9</span><span class="p">)</span><span class="p">;</span>
     <span class="nb">testDefaultParam</span><span class="p">(</span><span class="mi">9</span><span class="p">, </span>[<span class="mi">4</span>, <span class="mi">5</span>, <span class="mi">6</span>]<span class="p">)</span><span class="p">;</span>
@@ -52,9 +52,9 @@ trait TraitC
 
 trait TraitB
 {
-    public const MY_LETTER = <span class="s1">&#039;B&#039;</span>;
+    <span class="k">public</span> const MY_LETTER = <span class="s1">&#039;B&#039;</span>;
 
-    <span class="k">public</span> <span class="k">function</span> <span class="n">areYouSad</span><span class="p">(</span><span class="p">): </span><span class="kt">true</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">areYouSad</span><span class="p">(</span><span class="p">)</span><span class="p">: </span><span class="kt">true</span>
     <span class="p">{</span>
         <span class="k">if</span><span class="p"> (</span><span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="p">)</span> <span class="mf">&lt;</span> <span class="mi">100</span><span class="p">)</span><span class="p">) {</span>
             <span class="nb">doSomething</span><span class="p">(</span><span class="p">)</span><span class="p">;</span>
@@ -71,7 +71,7 @@ trait TraitB
 
 trait Yolo
 {
-    <span class="k">public</span> <span class="k">function</span> <span class="n">areYouHappy</span><span class="p">(</span><span class="kt">string</span> <span class="nv">$input</span><span class="p">): </span><span class="kt">bool</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">areYouHappy</span><span class="p">(</span><span class="kt">string</span> <span class="nv">$input</span><span class="p">)</span><span class="p">: </span><span class="kt">bool</span>
     <span class="p">{</span>
         <span class="k">return</span> <span class="p">(</span><span class="nv">$input</span> <span class="mf">==</span> <span class="s1">&#039;Yolo&#039;</span><span class="p">)</span> <span class="mf">&amp;&amp;</span> <span class="p">(</span><span class="nb">time</span><span class="p">(</span><span class="p">)</span> <span class="mf">&gt;</span> <span class="p">(</span><span class="mi">4</span> <span class="mf">*</span> <span class="mi">52</span> <span class="mf">+</span> <span class="p">(</span><span class="p">(</span><span class="mi">1</span> <span class="mf">-</span> <span class="mi">2</span><span class="p">)</span> <span class="mf">/</span> <span class="mi">5</span> <span class="mf">%</span> <span class="mi">2</span><span class="p">)</span><span class="p">)</span><span class="p">)</span><span class="p">;</span>
     <span class="p">}</span>
@@ -79,12 +79,12 @@ trait Yolo
 
 <span class="kd">class</span> <span class="nc">Util</span>
 {
-    <span class="k">public</span> static <span class="k">function</span> <span class="n">doSome1</span><span class="p">(</span><span class="p">): </span><span class="kt">int</span>
+    <span class="k">public</span> static <span class="k">function</span> <span class="n">doSome1</span><span class="p">(</span><span class="p">)</span><span class="p">: </span><span class="kt">int</span>
     <span class="p">{</span>
         <span class="k">return</span> <span class="mi">2</span><span class="p">;</span>
     <span class="p">}</span>
 
-    <span class="k">public</span> static <span class="k">function</span> <span class="n">doSome2</span><span class="p">(</span><span class="p">): </span><span class="kt">int</span>
+    <span class="k">public</span> static <span class="k">function</span> <span class="n">doSome2</span><span class="p">(</span><span class="p">)</span><span class="p">: </span><span class="kt">int</span>
     <span class="p">{</span>
         <span class="k">return</span> <span class="nc">self</span><span class="o">::</span><span class="nf">doSome1</span>()<span class="p">;</span>
     <span class="p">}</span>
@@ -95,18 +95,18 @@ trait Yolo
     use TraitC<span class="p">;</span>
     use Yolo<span class="p">, </span>TraitB<span class="p">;</span>
 
-    public const YO = <span class="s2">&quot;LO&quot;</span>;
-    protected const LO = <span class="s1">&#039;YO&#039;</span>;
+    <span class="k">public</span> const YO = <span class="s2">&quot;LO&quot;</span>;
+    <span class="k">protected</span> const LO = <span class="s1">&#039;YO&#039;</span>;
     <span class="c1">/**
      * Allow to use this or that.
      */</span>
-    private const YL = <span class="s1">&#039;OO&#039;</span>;
+    <span class="k">private</span> const YL = <span class="s1">&#039;OO&#039;</span>;
 
     <span class="c1">/**
      * @param string $input a string
      * @return string another string
      */</span>
-    <span class="k">public</span> <span class="k">function</span> <span class="n">goGo</span><span class="p">(</span><span class="kt">string</span> <span class="nv">$input</span><span class="p">): </span><span class="kt">string</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">goGo</span><span class="p">(</span><span class="kt">string</span> <span class="nv">$input</span><span class="p">)</span><span class="p">: </span><span class="kt">string</span>
     <span class="p">{</span>
         <span class="k">return</span> <span class="s1">&#039;gadget&#039;</span><span class="p">;</span>
     <span class="p">}</span>

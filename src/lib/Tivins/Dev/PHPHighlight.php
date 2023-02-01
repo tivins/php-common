@@ -8,11 +8,6 @@ use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\AssignOp;
-use PhpParser\Node\Expr\BinaryOp\BooleanAnd;
-use PhpParser\Node\Expr\BinaryOp\Concat;
-use PhpParser\Node\Expr\BinaryOp\Equal;
-use PhpParser\Node\Expr\BinaryOp\Greater;
-use PhpParser\Node\Expr\BinaryOp\Mul;
 use PhpParser\Node\Expr\BooleanNot;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\Closure;
@@ -28,14 +23,15 @@ use PhpParser\Node\Expr\PreDec;
 use PhpParser\Node\Expr\PreInc;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Expr\StaticPropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\FunctionLike;
+use PhpParser\Node\Param;
 use PhpParser\Node\Scalar\DNumber;
 use PhpParser\Node\Scalar\Encapsed;
 use PhpParser\Node\Scalar\EncapsedStringPart;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Scalar\String_;
-use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -45,11 +41,13 @@ use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\Node\Stmt\Function_;
 use PhpParser\Node\Stmt\GroupUse;
 use PhpParser\Node\Stmt\If_;
+use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\Node\Stmt\Throw_;
 use PhpParser\Node\Stmt\Trait_;
 use PhpParser\Node\Stmt\TryCatch;
 use PhpParser\Node\Stmt\Use_;
+use PhpParser\Node\Stmt\UseUse;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\NodeConnectingVisitor;
 use PhpParser\ParserFactory;
@@ -58,8 +56,10 @@ use Tivins\Core\System\File;
 
 class PHPHighlight
 {
-    private int $level = 0;
-    private bool $includeOpenTag = false;
+    protected int $level = 0;
+    protected bool $includeOpenTag = false;
+    protected string $propertyFetchSeparator = '->';
+    protected string $classConstFetchSeparator = '::';
 
     public function highlight(string $code): string
     {
@@ -99,7 +99,7 @@ class PHPHighlight
      * @param array $stmts
      * @return string
      */
-    private function parseStmts(array $stmts): string {
+    protected function parseStmts(array $stmts): string {
         $html = '';
         foreach ($stmts as $k => $node) {
             if ($node instanceof GroupUse) {
@@ -163,50 +163,54 @@ class PHPHighlight
         return $html;
     }
 
-    private function getIndentLine(string $line): string
+    protected function getIndentLine(string $line): string
     {
         return $this->getIndent() . $line . "\n";
     }
 
-    private function getIndent(): string
+    protected function getIndent(): string
     {
         return str_repeat(' ', 4 * $this->level);
     }
 
-    private function getSpanPunctuation(string $content): string
+    protected function getSpanPunctuation(string $content): string
     {
         return $this->getSpan($content, 'p');
     }
 
-    private function getSpan(string $content, string $class, bool $escape = true): string
+    protected function getSpan(string $content, string $class, bool $escape = true): string
     {
         return '<span class="' . $class . '">' . ($escape ? htmlentities($content) : $content) . '</span>';
     }
 
-    private function parseUse_(GroupUse|Use_ $node): string
+    protected function parseUse(UseUse $use): string
+    {
+        $prefix = isset($node->prefix) ? $node->prefix . '\\' : '';
+        $defaultAlias = substr($use->name,strrpos($use->name, '\\')+1);
+        return $this->getIndentLine(
+            $this->getSpan('use', 'kn')
+            . ' '
+            . $this->getSpan($prefix . $use->name, 'nn')
+            . ($defaultAlias != $use->getAlias()->name
+                ? ' '
+                . $this->getSpan('as', 'kn')
+                . ' '
+                . $this->getSpan($use->getAlias()->name, 'nn')
+                : ''
+            )
+            . $this->getSpanPunctuation(';')
+        );
+    }
+    protected function parseUse_(GroupUse|Use_ $node): string
     {
         $html = '';
         foreach ($node->uses as $use) {
-            $prefix = isset($node->prefix) ? $node->prefix . '\\' : '';
-            $defaultAlias = substr($use->name,strrpos($use->name, '\\')+1);
-            $html .= $this->getIndentLine(
-                $this->getSpan('use', 'kn')
-                . ' '
-                . $this->getSpan($prefix . $use->name, 'nn')
-                . ($defaultAlias != $use->getAlias()->name
-                    ? ' '
-                    . $this->getSpan('as', 'kn')
-                    . ' '
-                    . $this->getSpan($use->getAlias()->name, 'nn')
-                    : ''
-                )
-                . $this->getSpanPunctuation(';')
-            );
+            $html .= $this->parseUse($use);
         }
         return $html;
     }
 
-    private function parseExpression(Expression $node): string
+    protected function parseExpression(Expression $node): string
     {
         return $this->getIndentLine(
             $this->parseNodeExpr($node->expr)
@@ -215,7 +219,7 @@ class PHPHighlight
             );
     }
 
-    private function parseNodeExpr(Expr $expr): string
+    protected function parseNodeExpr(Expr $expr): string
     {
         $class = $expr::class;
         switch ($class) {
@@ -242,10 +246,11 @@ class PHPHighlight
                 return $this->parseClosure($expr);
             case ClassConstFetch::class:
                 return $this->parseClassConstFetch($expr);
+            case StaticPropertyFetch::class:
             case PropertyFetch::class:
                 return $this->parsePropertyFetch($expr);
             case Variable::class:
-                return $this->getSpan('$' . $expr->name, 'nv');
+                return $this->parseVar($expr);
             case New_::class:
                 return $this->parseNew($expr);
             case Exit_::class:
@@ -315,7 +320,7 @@ class PHPHighlight
             . $f;
     }
 
-    private function parseInclude(Include_ $expr): string
+    protected function parseInclude(Include_ $expr): string
     {
         return $this->getSpan(match ($expr->type) {
             Include_::TYPE_INCLUDE => 'include',
@@ -327,19 +332,19 @@ class PHPHighlight
         . $this->parseNodeExpr($expr->expr);
     }
 
-    private function parseStaticCall(StaticCall $expr): string
+    protected function parseStaticCall(StaticCall $expr): string
     {
         $computedArgs = [];
         foreach ($expr->args as $arg) {
             $computedArgs[] = $this->parseNodeExpr($arg->value);
         }
         $html = $this->getSpan($expr->class, 'nc');
-        $html .= $this->getSpan('::', 'o');
+        $html .= $this->getSpan($this->classConstFetchSeparator, 'o');
         $html .= $this->getSpan($expr->name, 'nf');
         $html .= '('.join(', ', $computedArgs).')';
         return $html;
     }
-    private function parseNew(New_ $expr): string
+    protected function parseNew(New_ $expr): string
     {
         $computedArgs = [];
         foreach ($expr->args as $arg) {
@@ -365,7 +370,7 @@ class PHPHighlight
             . $this->getSpanPunctuation(')')
             . $f;
     }
-    private function parseMethodCall(MethodCall $expr): string
+    protected function parseMethodCall(MethodCall $expr): string
     {
         $computedArgs = [];
         foreach ($expr->args as $arg) {
@@ -378,13 +383,13 @@ class PHPHighlight
             );
         }
         $html .= $this->parseNodeExpr($expr->var);
-        $html .= $this->getSpan('->', 'o');
+        $html .= $this->getSpan($this->propertyFetchSeparator, 'o');
         $html .= $this->getSpan($expr->name, 'nf');
         $html .= '('.join(', ', $computedArgs).')';
         return $html;
 
     }
-    private function parseFunCall(FuncCall $expr): string
+    protected function parseFunCall(FuncCall $expr): string
     {
         $computedArgs = [];
         foreach ($expr->args as $arg) {
@@ -397,7 +402,7 @@ class PHPHighlight
             . $this->getSpanPunctuation(')');
     }
 
-    private function parseClosure(Closure $expr): string
+    protected function parseClosure(Closure $expr): string
     {
         echo " !! ".__function__."() is incomplete\n";
         $this->level++;
@@ -416,7 +421,7 @@ class PHPHighlight
         return $html;
     }
 
-    private function parseTryCatch(TryCatch $node): string
+    protected function parseTryCatch(TryCatch $node): string
     {
         $html = $this->getIndentLine($this->getSpan('try', 'k').$this->getSpanPunctuation(' {'));
         $this->level++;
@@ -448,7 +453,7 @@ class PHPHighlight
         return $html;
     }
 
-    private function parseForeach(Foreach_ $node): string
+    protected function parseForeach(Foreach_ $node): string
     {
         echo ' -> ' . __function__ . "() is incomplete\n";
         $html = $this->getIndentLine('foreach (*todo*) {');
@@ -463,7 +468,7 @@ class PHPHighlight
      * @param Expr $expr
      * @return string
      */
-    private function parseString(Expr $expr): string
+    protected function parseString(Expr $expr): string
     {
         [$chr, $class] = match ($expr->getAttribute('kind')) {
             String_::KIND_DOUBLE_QUOTED => ['"', 's2'],
@@ -472,7 +477,7 @@ class PHPHighlight
         return $this->getSpan(StrUtil::escape($expr->value, $chr), $class);
     }
 
-    private function parseAssign(Assign|AssignOp $expr): string
+    protected function parseAssign(Assign|AssignOp $expr): string
     {
         $opRef = [
             'Expr_AssignOp_Plus'     => '+',
@@ -500,7 +505,7 @@ class PHPHighlight
             . $this->parseNodeExpr($expr->expr);
     }
 
-    private function parseArray(Array_ $expr): string
+    protected function parseArray(Array_ $expr): string
     {
         return '['
             .join(', ', array_map(function(Expr\ArrayItem $item) {
@@ -509,7 +514,7 @@ class PHPHighlight
             .']';
     }
 
-    private function parseExit(Exit_ $expr): string
+    protected function parseExit(Exit_ $expr): string
     {
         return $this->getSpan('exit', 'k')
             . $this->getSpan('(', 'p')
@@ -517,23 +522,33 @@ class PHPHighlight
             . $this->getSpan(')', 'p');
     }
 
-    private function parsePropertyFetch(PropertyFetch $expr): string
+    protected function parsePropertyFetch(StaticPropertyFetch|PropertyFetch $expr): string
     {
+        $sep = $this->propertyFetchSeparator;
+        $left = '';
+        if ($expr instanceof StaticPropertyFetch) {
+            $sep = $this->classConstFetchSeparator;
+            $left = $expr->class;
+        }
+        else{
+            $left = $this->parseNodeExpr($expr->var);
+        }
+
         return
-            $this->parseNodeExpr($expr->var)
-            .'->'
-            .$this->getSpan($expr->name,'n');
+            $left
+            . $this->getSpan($sep, 'o')
+            . $this->getSpan($expr->name, 'n');
     }
 
-    private function parseClassConstFetch(ClassConstFetch $expr): string
+    protected function parseClassConstFetch(ClassConstFetch $expr): string
     {
         $html = $expr->class;
-        $html .= $this->getSpan('::', 'o');
-        $html .= $expr->name;
+        $html .= $this->getSpan($this->classConstFetchSeparator, 'o');
+        $html .= $this->getSpan($expr->name, 'n');
         return $html;
     }
 
-    private function parseEncapsed(Encapsed $expr): string
+    protected function parseEncapsed(Encapsed $expr): string
     {
         return $this->getSpan('"'
             . join(array_map(fn($p) => $this->parseNodeExpr($p), $expr->parts))
@@ -541,21 +556,21 @@ class PHPHighlight
     }
 
     /** @noinspection SpellCheckingInspection */
-    private function parseEncapsedStringPart(EncapsedStringPart $expr): string
+    protected function parseEncapsedStringPart(EncapsedStringPart $expr): string
     {
         return str_replace("\n", '\n', $expr->value);
     }
 
-    private function parsePostDec(PreDec|PostDec $expr, bool $post = true): string
+    protected function parsePostDec(PreDec|PostDec $expr, bool $post = true): string
     {
         return ($post ? '' : '--') . $this->parseNodeExpr($expr->var) . ($post ? '--' : '');
     }
-    private function parsePostInc(PreInc|PostInc $expr, bool $post = true): string
+    protected function parsePostInc(PreInc|PostInc $expr, bool $post = true): string
     {
         return ($post ? '' : '++'). $this->parseNodeExpr($expr->var) . ($post ? '++' : '');
     }
 
-    private function parseArrayDimFetch(ArrayDimFetch $expr): string
+    protected function parseArrayDimFetch(ArrayDimFetch $expr): string
     {
         return $this->parseNodeExpr($expr->var)
             . $this->getSpanPunctuation('[')
@@ -564,16 +579,20 @@ class PHPHighlight
             ;
     }
 
-    private function getAccess(mixed $item): string
+    protected function getAccess(mixed $item): string
     {
         $access = '';
-        if (method_exists($item, 'isPublic') && $item->isPublic()) $access = 'public';
-        if (method_exists($item, 'isProtected') && $item->isProtected()) $access = 'protected';
-        if (method_exists($item, 'isPrivate') && $item->isPrivate()) $access = 'private';
-        return $access;
+        if (method_exists($item, 'isPublic') && $item->isPublic())
+            $access = 'public';
+        if (method_exists($item, 'isProtected') && $item->isProtected())
+            $access = 'protected';
+        if (method_exists($item, 'isPrivate') && $item->isPrivate())
+            $access = 'private';
+
+        return $access ? $this->getSpan($access, 'k') : '';
     }
 
-    private function parseClass(Class_ $node): string
+    protected function parseClass(Class_ $node): string
     {
         $sign = $this->getSpan('class', 'kd')
             . ' '
@@ -603,6 +622,7 @@ class PHPHighlight
         }
 
         $html .= $this->parseConstants($node->getConstants());
+        $html .= $this->parseProperties($node->getProperties());
         $html .= $this->parseMethods($node->getMethods());
 
 
@@ -612,7 +632,7 @@ class PHPHighlight
         return $html;
     }
 
-    private function parseTrait(Trait_ $node): string
+    protected function parseTrait(Trait_ $node): string
     {
         $sign = 'trait'
             . ' '
@@ -633,7 +653,7 @@ class PHPHighlight
      * @param ClassConst[] $constants
      * @return string
      */
-    private function parseConstants(array $constants): string
+    protected function parseConstants(array $constants): string
     {
         if (empty($constants)) {
             return '';
@@ -660,59 +680,61 @@ class PHPHighlight
         return $html;
     }
 
+    protected function parseParams(FunctionLike $method): array {
+        return array_map(
+            fn(Param $param) => $this->parseParam($param),
+            $method->getParams()
+        );
+    }
+    protected function getFunctionLikeSignature(FunctionLike $method): string {
+
+        $pfx = $this->getAccess($method);
+        $pfx .= method_exists($method, 'isStatic') && $method->isStatic()
+            ? ($pfx ? ' ' : '') . 'static'
+            : '';
+        $pfx .= ($pfx ? ' ' : '');
+
+
+        return
+            $pfx
+            . $this->getSpan('function', 'k')
+            . ' '
+            . $this->getSpan($method->name, 'n')
+            . $this->getSpanPunctuation('(')
+            . join($this->getSpanPunctuation(', '), $this->parseParams($method))
+            . $this->getSpanPunctuation(')')
+            . $this->getSpanPunctuation(': ')
+            . $this->getSpan($this->parseType($method->returnType), 'kt')
+        ;
+    }
+
     /**
-     * @param FunctionLike $node
-     * @return void
+     * @param FunctionLike $method
+     * @return string
      */
-    private function parseFunctionLike(FunctionLike $method): string
+    protected function parseFunctionLike(FunctionLike $method): string
     {
         $html = '';
-
         if ($method->getDocComment()) {
             $html .= $this->getIndentLine(
                 $this->getSpan($method->getDocComment()->getText(), 'c1')
             );
         }
-        $params = [];
-        foreach ($method->getParams() as $param) {
-            $pStr = $this->getSpan($this->parseType($param->type), 'kt')
-                . ' '
-                . $this->parseNodeExpr($param->var);
-
-            if ($param->default) {
-                //var_dump('default param = ', $param->default->getType());
-                $pStr .= ' = '.$this->parseNodeExpr($param->default);
-            }
-            $params[] = $pStr;
-        }
-
-        $access = $this->getAccess($method);
-        $pfx = $access ? $this->getSpan($access, 'k') : '';
-        $pfx .= (
-                method_exists($method, 'isStatic')
-                && $method->isStatic()
-                    ? ($pfx ? ' ' : '') . 'static'
-                    : ''
-            );
-        $html .= $this->getIndentLine(
-            $pfx . ($pfx ? ' ' : '')
-            . $this->getSpan('function', 'k')
-            . ' '
-            . $this->getSpan($method->name, 'n')
-            . $this->getSpanPunctuation('(')
-            . join($this->getSpanPunctuation(', '), $params)
-            . $this->getSpanPunctuation('): ')
-            . $this->getSpan($this->parseType($method->returnType), 'kt')
-        );
+        $html .= $this->getIndentLine($this->getFunctionLikeSignature($method));
         $html .= $this->getIndentLine($this->getSpanPunctuation('{'));
-        $this->level++;
-        $html .= $this->parseStmts($method->stmts);
-        $this->level--;
+        $html .= $this->parseIndentedStatements($method->stmts);
         $html .= $this->getIndentLine($this->getSpanPunctuation('}'));
         return $html;
-
     }
-    private function parseFunction(Function_ $node): string
+
+    protected function parseIndentedStatements(array $stmts) {
+        $this->level++;
+        $html = $this->parseStmts($stmts);
+        $this->level--;
+        return $html;
+    }
+
+    protected function parseFunction(Function_ $node): string
     {
         return $this->parseFunctionLike($node)."\n";
     }
@@ -721,7 +743,7 @@ class PHPHighlight
      * @param ClassMethod[] $methods
      * @return string
      */
-    private function parseMethods(array $methods): string
+    protected function parseMethods(array $methods): string
     {
         if (empty($methods)) {
             return '';
@@ -730,7 +752,7 @@ class PHPHighlight
         return join("\n", $html);
     }
 
-    private function parseIf(If_ $node): string
+    protected function parseIf(If_ $node): string
     {
         $html = $this->getIndentLine(
             $this->getSpan('if', 'k')
@@ -770,7 +792,7 @@ class PHPHighlight
         return $html;
     }
 
-    private function parseThrow(Throw_ $node): string
+    protected function parseThrow(Throw_ $node): string
     {
         return
             $this->getIndentLine(
@@ -779,7 +801,7 @@ class PHPHighlight
             );
     }
 
-    private function parseType(Node\Name|Node\Identifier|Node\ComplexType|null $type)
+    protected function parseType(Node\Name|Node\Identifier|Node\ComplexType|null $type): string
     {
         if ($type instanceof Node\UnionType) {
             return join('|', $type->types);
@@ -788,6 +810,50 @@ class PHPHighlight
             return '?'.$type->type;
         }
         return (string) $type;
+    }
+
+    protected function parseVar(Variable $expr): string
+    {
+        return $this->getSpan('$' . $expr->name, 'nv');
+    }
+
+    /**
+     * @param Param $param
+     * @return string
+     */
+    protected function parseParam(Param $param): string
+    {
+        $pStr = $this->getSpan($this->parseType($param->type), 'kt')
+            . ' '
+            . $this->parseNodeExpr($param->var);
+
+        if ($param->default) {
+            //var_dump('default param = ', $param->default->getType());
+            $pStr .= ' = ' . $this->parseNodeExpr($param->default);
+        }
+        return $pStr;
+    }
+
+    /**
+     * @param Property[] $getProperties
+     * @return string
+     */
+    protected function parseProperties(array $properties): string
+    {
+        return join(
+            array_map(fn(Property $property) => $this->parseProperty($property), $properties)
+        );
+    }
+
+    protected  function parseProperty(Property $property): string
+    {
+        $html = '';
+        $html .= $this->getAccess($property);
+        $html .= ' ';
+        $html .= $property->type;
+        $html .= ' $'.$property->props[0]->name;
+        $html .= ';';
+        return $this->getIndentLine($html);
     }
 
 }
