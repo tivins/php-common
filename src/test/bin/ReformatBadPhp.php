@@ -38,8 +38,8 @@ function testNamedParameters()
 
 trait TraitC {}
 trait TraitB {
-    const MY_LETTER = 'B';
-    public function areYouSad(): true {
+    // const MY_LETTER = 'B';
+    public function areYouSad(): bool {
         if (rand() < 100) {
             doSomething();
         } elseif (rand() > 102)

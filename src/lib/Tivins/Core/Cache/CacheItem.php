@@ -10,11 +10,11 @@ namespace Tivins\Core\Cache;
  *
  * @see \Tivins\Core\Cache\Cache
  */
-readonly class CacheItem
+class CacheItem
 {
     public function __construct(
-        public string $data,
-        public mixed  $meta = null,
+        public readonly string $data,
+        public readonly mixed  $meta = null,
     )
     {
     }

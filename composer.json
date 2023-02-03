@@ -10,7 +10,7 @@
     }
   ],
   "require": {
-    "php": ">=8.2",
+    "php": ">=8.1",
     "erusev/parsedown": "v1.7.2",
     "ext-mbstring": "*",
     "ext-curl": "*",

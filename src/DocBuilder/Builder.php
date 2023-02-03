@@ -10,7 +10,7 @@ class Builder
 {
     private string $source = '';
     private string $output = '';
-    public function __construct(private string $sourceFile, private string $destinationFile)
+    public function __construct(private readonly string $sourceFile, private readonly string $destinationFile)
     {
         $tpl = new Tpl(File::load($this->sourceFile));
         $tpl->addFunction('classdoc', function($source, &$encode) {
