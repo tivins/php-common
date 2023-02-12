@@ -55,7 +55,7 @@ class DocParser
                 continue;
             }
             if (($doc_param_ex[0] ?? '') == 'param') {
-                $doc_param_ex[3] = self::clean($doc_param_ex[3]);
+                $doc_param_ex[3] = self::clean($doc_param_ex[3] ?? '');
                 $name = trim($doc_param_ex[2],'$');
                 $paramsDoc['param'][$name] = [
                     'type'=>$doc_param_ex[1],
@@ -64,7 +64,7 @@ class DocParser
                 continue;
             }
             if (($doc_param_ex[0] ?? '') == 'input') {
-                $doc_param_ex[3] = self::clean($doc_param_ex[3]);
+                $doc_param_ex[3] = self::clean($doc_param_ex[3] ?? '');
                 $name = trim($doc_param_ex[2],'$');
                 $paramsDoc['input'][$name] = [
                     'type'=>$doc_param_ex[1],
