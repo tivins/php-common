@@ -23,6 +23,10 @@ class DocParser
                 $paramsDoc['since'] = $doc_param_ex[1];
                 continue;
             }
+            if (($doc_param_ex[0] ?? '') == 'todo') {
+                $paramsDoc['todo'] = array_slice($doc_param_ex,1);
+                continue;
+            }
             if (($doc_var_ex[0] ?? '') == 'var') {
                 $doc_var_ex[2] = self::clean($doc_var_ex[2]);
                 //$name = trim($doc_var_ex[2],'$');

@@ -48,13 +48,22 @@ class StrUtil
         return json_decode('"' . $sequence . '"');
     }
 
-    public static function markdown(string $text): string {
+    public static function markdown(string $text, bool $thin = false): string {
         static $parser;
         if (!isset($parser)) {
             $parser = new Parsedown();
         }
         // $parser->setSafeMode(true);
-        return $parser->text($text);
+        $html = $parser->text($text);
+        if ($thin
+            && str_starts_with($html, '<p>')
+            && str_ends_with($html, '</p>')
+            && substr_count($html, '</p>') == 1
+        )
+        {
+            $html = substr($html, 3,-4);
+        }
+        return $html;
     }
 
     public static function hideIPs(string $s): string
