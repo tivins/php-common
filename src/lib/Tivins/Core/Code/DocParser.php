@@ -74,7 +74,7 @@ class DocParser
             }
 
             if (str_starts_with($doc_param_ex[2] ?? '', '$')) {
-                $docClean = $doc_param_ex[4];
+                $docClean = $doc_param_ex[4] ?? '';
             } else {
                 $docClean     = $doc_param;
                 $doc_param_ex = null;
