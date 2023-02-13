@@ -33,6 +33,10 @@ class Client extends ClientConfig
         }
     }
 
+    /**
+     * This method need to be exposed, to be used by ClientMulti.
+     * @see ClientMulti::addClients()
+     */
     public function prepare(): static
     {
         $this->handle = curl_init($this->url);

@@ -21,6 +21,7 @@ namespace Tivins\Core\Cache;
  * ```
  *
  * @see \Tivins\Core\Cache\CacheItem
+ * @see FileCache
  */
 interface Cache
 {
