@@ -135,5 +135,10 @@ class Client extends ClientConfig
         return $this->duration;
     }
 
+    public function setCookiePath(string $cookiePath): void
+    {
+        $this->set(CURLOPT_COOKIEFILE, $cookiePath)
+            ->set(CURLOPT_COOKIEJAR, $cookiePath);
+    }
 
 }
