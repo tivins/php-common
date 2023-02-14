@@ -44,7 +44,7 @@ class ClientConfig
 
     public function postData($data): static
     {
-        $this->conf[CURLOPT_POST]       = true;
+        $this->conf[CURLOPT_CUSTOMREQUEST] = Method::POST->value;
         $this->conf[CURLOPT_POSTFIELDS] = http_build_query($data);
         return $this;
     }
