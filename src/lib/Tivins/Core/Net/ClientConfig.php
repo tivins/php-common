@@ -36,9 +36,16 @@ class ClientConfig
 
     protected function build(): array
     {
-        $headerArray                    = $this->headers->getHeaders();
-        $value                          = array_map(fn(string $k, string $v) => "$k: $v", array_keys($headerArray), array_values($headerArray));
+        $headerArray = $this->headers->getHeaders();
+
+        $value = array_map(
+            fn(string $k, string $v) => "$k: $v",
+            array_keys($headerArray),
+            array_values($headerArray)
+        );
+
         $this->conf[CURLOPT_HTTPHEADER] = $value;
+
         return $this->conf;
     }
 
@@ -70,6 +77,19 @@ class ClientConfig
     public function setHeaders(Headers $headers): static
     {
         $this->headers = $headers;
+        return $this;
+    }
+
+    public function setCookiePath(string $cookiePath): static
+    {
+        $this->conf[CURLOPT_COOKIEFILE] = $cookiePath;
+        $this->conf[CURLOPT_COOKIEJAR] = $cookiePath;
+        return $this;
+    }
+
+    public function setFollowRedirect(bool $value): static
+    {
+        $this->conf[CURLOPT_FOLLOWLOCATION] = $value;
         return $this;
     }
 }
