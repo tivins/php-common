@@ -27,6 +27,11 @@ class DOM
         return null;
     }
 
+    /**
+     * ````php
+     * DOM::getNodeAttr($content, '//input[@name="fieldName"]', 'value');</pre>
+     * ```
+     */
     public static function getNodeAttr(string $html, string $selector, string $attribute): ?string
     {
         return self::getNode($html,$selector)?->getAttribute($attribute);
