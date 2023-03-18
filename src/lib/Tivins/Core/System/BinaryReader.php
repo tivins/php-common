@@ -49,7 +49,7 @@ class BinaryReader
     public function readChars(int $length): string
     {
         $data = fread($this->fileHandler, $length);
-        if ($data === false) {
+        if ($data === false || strlen($data) !== $length) {
             throw new Exception();
         }
         return $data;
