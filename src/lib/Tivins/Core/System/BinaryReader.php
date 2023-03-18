@@ -56,6 +56,17 @@ class BinaryReader
     }
 
     /**
+     * s : signed short (always 16 bit, machine byte order)
+     * @return int
+     * @throws Exception
+     */
+    public function readSignedShort(): int
+    {
+        $bytes = $this->readChars(2);
+        return unpack('s', $bytes)[1];
+    }
+
+    /**
      * v unsigned short (always 16 bit, little endian byte order)
      * @throws Exception
      */
