@@ -56,6 +56,20 @@ class BinaryReader
     }
 
     /**
+     * @throws Exception
+     */
+    public function readSigned(int $bits): int|false
+    {
+        $bytes = $this->readChars($bits / 8);
+        return match($bits) {
+            8 => unpack('c', $bytes)[1],
+            16 => unpack('s', $bytes)[1],
+            32 => unpack('l', $bytes)[1],
+            default => false
+        };
+    }
+
+    /**
      * s : signed short (always 16 bit, machine byte order)
      * @return int
      * @throws Exception
@@ -64,6 +78,15 @@ class BinaryReader
     {
         $bytes = $this->readChars(2);
         return unpack('s', $bytes)[1];
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function readSignedInt32(): int
+    {
+        $bytes = $this->readChars(4);
+        return unpack('l', $bytes)[1];
     }
 
     /**
